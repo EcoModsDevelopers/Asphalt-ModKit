@@ -9,6 +9,9 @@
 
 namespace Asphalt.api.Event
 {
+    /**
+     * Events are called from HIGHEST to LOWEST.
+     **/
     enum EventPriority
     {
         LOWEST,

@@ -7,10 +7,6 @@
  * ------------------------------------
  **/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Asphalt.api.Event
 {
     public interface ICancellable

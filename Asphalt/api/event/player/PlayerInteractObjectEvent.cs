@@ -11,9 +11,12 @@ using Eco.Gameplay.Interactions;
 
 namespace Asphalt.api.Event.player
 {
+    /**
+     * Called when a player interacts with an object.
+     * */
     public class PlayerInteractObjectEvent : PlayerEvent
     {
-        private InteractionContext context;
+        private readonly InteractionContext context;
 
         public PlayerInteractObjectEvent(InteractionContext context) : base(context.Player)
         {

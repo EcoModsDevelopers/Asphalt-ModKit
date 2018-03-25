@@ -11,8 +11,6 @@ using Asphalt.api.Event;
  **/
 
 using Asphalt.plugin;
-using Eco.Core.Plugins.Interfaces;
-using System;
 
 namespace Asphalt.api
 {

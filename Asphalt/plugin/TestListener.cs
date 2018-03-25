@@ -9,8 +9,6 @@
 
 using Asphalt.api.Event;
 using Asphalt.api.Event.player;
-using Eco.Gameplay.Components;
-using Eco.Gameplay.Objects;
 using System;
 
 namespace Asphalt.plugin

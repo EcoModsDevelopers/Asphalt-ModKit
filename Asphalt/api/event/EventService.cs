@@ -7,13 +7,9 @@
  * ------------------------------------
  **/
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-
 namespace Asphalt.api.Event
 {
     public class EventService
@@ -50,7 +46,6 @@ namespace Asphalt.api.Event
 
             foreach (var list in handlers)
             {
-                Console.WriteLine(list.Key);
                 foreach (EventHandler handler in list.Value)
                 {
                     if (handler.eventName.Equals(_event.GetName()))

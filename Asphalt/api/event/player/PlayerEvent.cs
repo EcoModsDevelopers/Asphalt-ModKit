@@ -9,6 +9,9 @@
 
 using Eco.Gameplay.Players;
 
+/**
+ * Events triggered by a player.
+ **/
 namespace Asphalt.api.Event.player
 {
     public abstract class PlayerEvent : Event
