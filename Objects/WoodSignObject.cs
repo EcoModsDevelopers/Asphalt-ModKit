@@ -8,6 +8,7 @@ namespace Eco.Mods.TechTree
     using Eco.Shared.Serialization;
     using Gameplay.Components;
     using Gameplay.Components.Auth;
+    using Asphalt.api.Event.player;
 
     [RequireComponent(typeof(CustomTextComponent))]
     public partial class WoodSignObject : WorldObject
@@ -16,7 +17,7 @@ namespace Eco.Mods.TechTree
         {
             Eco.Mods.Kronox.AdvancedTeleportation.CallWarpSign(context.Player, GetComponent<CustomTextComponent>().Text);
 
-            Asphalt.api.AsphaltPlugin.Instance.GetEventService().CallEvent(new Asphalt.api.Event.player.PlayerInteractObjectEvent(context));
+            Asphalt.api.AsphaltPlugin.Instance.GetEventService().CallEvent(new PlayerInteractObjectEvent(context));
 
             return base.OnActRight(context);
         }

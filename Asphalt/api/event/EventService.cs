@@ -10,7 +10,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -19,24 +18,24 @@ namespace Asphalt.api.Event
 {
     public class EventService
     {
-        ArrayList listeners = new ArrayList();
-        DataTable handlers = new DataTable("EventHandlers");
+        private bool populated;
+
+        List<IListener> listeners = new List<IListener>();
+        Dictionary<EventPriority, List<EventHandler>> handlers = new Dictionary<EventPriority, List<EventHandler>>();
+
+        struct EventHandler
+        {
+            public IListener listener;
+            public MethodInfo method;
+            public string eventName;
+        }
 
         //Registration
 
         public void RegisterListener(IListener listener)
         {
             this.listeners.Add(listener);
-        }
-
-        public void UnregisterListener(IListener listener)
-        {
-            this.listeners.Remove(listener);
-        }
-
-        public void UnregisterAllListeners()
-        {
-            this.listeners.Clear();
+            this.populated = false;
         }
 
         //Execution
@@ -47,6 +46,31 @@ namespace Asphalt.api.Event
 
         private void ExecuteListeners(string eventName, Event _event)
         {
+            if (!populated) populateHandlerList();
+
+            foreach (var list in handlers)
+            {
+                Console.WriteLine(list.Key);
+                foreach (EventHandler handler in list.Value)
+                {
+                    if (handler.eventName.Equals(_event.GetName()))
+                        handler.method.Invoke(handler.listener, new object[] { _event });
+                }
+            }
+        }
+
+        //Initialization
+
+        public void populateHandlerList()
+        {
+            handlers.Clear();
+
+            handlers.Add(EventPriority.HIGHEST, new List<EventHandler>());
+            handlers.Add(EventPriority.HIGH, new List<EventHandler>());
+            handlers.Add(EventPriority.NORMAL, new List<EventHandler>());
+            handlers.Add(EventPriority.LOW, new List<EventHandler>());
+            handlers.Add(EventPriority.LOWEST, new List<EventHandler>()); 
+
             foreach (IListener listener in listeners)
             {
                 MethodInfo[] methods = listener.GetType().GetMethods();
@@ -55,15 +79,21 @@ namespace Asphalt.api.Event
                 {
                     EventHandlerAttribute[] attributes = ((EventHandlerAttribute[])method.GetCustomAttributes(typeof(EventHandlerAttribute), false));
 
-                    if (attributes.FirstOrDefault() == null) return;
+                    if (attributes.FirstOrDefault() == null) continue;
 
                     foreach (EventHandlerAttribute attribute in attributes)
                     {
-                        if (attribute.GetName().Equals(_event.GetName()))
-                            method.Invoke(listener, new object[] { _event });
+                        EventHandler handler;
+                        handler.listener = listener;
+                        handler.method = method;
+                        handler.eventName = attribute.GetName();
+
+                        handlers[attribute.GetPriority()].Add(handler);
                     }
                 }
             }
+
+            this.populated = true;
         }
     }
 }

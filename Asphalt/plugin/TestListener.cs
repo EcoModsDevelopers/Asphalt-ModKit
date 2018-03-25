@@ -9,11 +9,13 @@
 
 using Asphalt.api.Event;
 using Asphalt.api.Event.player;
+using Eco.Gameplay.Components;
+using Eco.Gameplay.Objects;
 using System;
 
 namespace Asphalt.plugin
 {
-    class TestListener : IListener
+    public class TestListener : IListener
     {
         [EventHandler("PlayerInteractObjectEvent")]
         public void testEvent(PlayerInteractObjectEvent _event) {
