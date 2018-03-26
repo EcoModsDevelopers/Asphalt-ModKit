@@ -14,13 +14,25 @@ namespace Asphalt.api.Event.player
     /**
      * Called when a player interacts with an object.
      * */
-    public class PlayerInteractObjectEvent : PlayerEvent
+    public class PlayerInteractObjectEvent : PlayerEvent, ICancellable
     {
+        private bool cancel;
         private readonly InteractionContext context;
 
         public PlayerInteractObjectEvent(InteractionContext context) : base(context.Player)
         {
+            this.cancel = false;
             this.context = context;
+        }
+
+        public bool IsCancelled()
+        {
+            return this.cancel;
+        }
+
+        public void SetCancelled(bool cancel)
+        {
+            this.cancel = cancel;
         }
 
         public InteractionContext GetContext()

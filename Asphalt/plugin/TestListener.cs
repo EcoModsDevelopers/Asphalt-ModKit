@@ -18,6 +18,7 @@ namespace Asphalt.plugin
         [EventHandler("PlayerInteractObjectEvent")]
         public void testEvent(PlayerInteractObjectEvent _event) {
             Console.WriteLine("PlayerInteractObjectEvent triggered");
+            _event.SetCancelled(true);
         }
 
         [EventHandler("Test2")]

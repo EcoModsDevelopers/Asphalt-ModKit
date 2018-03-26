@@ -9,15 +9,16 @@ namespace Eco.Mods.TechTree
     using Gameplay.Components;
     using Gameplay.Components.Auth;
     using Asphalt.api.Event.player;
+    using System;
 
     [RequireComponent(typeof(CustomTextComponent))]
     public partial class WoodSignObject : WorldObject
     {
         public override InteractResult OnActRight(InteractionContext context)
         {
-            Eco.Mods.Kronox.AdvancedTeleportation.CallWarpSign(context.Player, GetComponent<CustomTextComponent>().Text);
-
-            Asphalt.api.AsphaltPlugin.Instance.GetEventService().CallEvent(new PlayerInteractObjectEvent(context));
+            PlayerInteractObjectEvent _event = new PlayerInteractObjectEvent(context);
+            Asphalt.api.AsphaltPlugin.Instance.GetEventService().CallEvent(_event);
+            if (_event.IsCancelled()) return base.OnActRight(context);
 
             return base.OnActRight(context);
         }

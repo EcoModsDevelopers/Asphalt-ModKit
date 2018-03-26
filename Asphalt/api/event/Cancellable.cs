@@ -11,7 +11,6 @@ namespace Asphalt.api.Event
 {
     public interface ICancellable
     {
-
         bool IsCancelled();
 
         void SetCancelled(bool cancel);
