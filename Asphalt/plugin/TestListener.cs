@@ -17,14 +17,26 @@ namespace Asphalt.plugin
     {
         [EventHandler()]
         public void testEvent(PlayerInteractObjectEvent _event) {
-            Console.WriteLine("PlayerInteractObjectEvent triggered");
+            Console.WriteLine("PlayerInteractObjectEvent 1 triggered");
+        }
+
+        [EventHandler(EventPriority.HIGH)]
+        public void test2Event(PlayerInteractObjectEvent _event)
+        {
+            Console.WriteLine("PlayerInteractObjectEvent 2 triggered");
             _event.SetCancelled(true);
         }
 
-        [EventHandler()]
-        public void test2Event(PlayerSendMessageEvent _event)
+        [EventHandler(EventPriority.HIGHEST)]
+        public void test3Event(PlayerInteractObjectEvent _event)
         {
-            Console.WriteLine("PlayerSendMessageEvent triggered");
+            Console.WriteLine("PlayerInteractObjectEvent 3 triggered");
+        }
+
+        [EventHandler()]
+        public void test4Event(PlayerSendMessageEvent _event)
+        {
+            Console.WriteLine("PlayerSendMessageEvent 1 triggered");
         }
     }
 }

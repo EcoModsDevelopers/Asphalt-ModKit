@@ -9,6 +9,7 @@
 
 using Asphalt.api.exception;
 using Asphalt.plugin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -72,7 +73,7 @@ namespace Asphalt.api.Event
                     handler.method.Invoke(handler.listener, new object[] { _event });
 
                     //Cancel following EventHandlers if event IsCancelled
-                    if (!_event.GetType().Equals(typeof(ICancellable)))
+                    if (!_event.GetType().GetInterfaces().Contains(typeof(ICancellable)))
                         continue;
                     if (((ICancellable)_event).IsCancelled())
                         return;
