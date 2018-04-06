@@ -7,7 +7,9 @@
  * ------------------------------------
  **/
 
+using Asphalt.api.exception;
 using Asphalt.plugin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -71,7 +73,7 @@ namespace Asphalt.api.Event
                     handler.method.Invoke(handler.listener, new object[] { _event });
 
                     //Cancel following EventHandlers if event IsCancelled
-                    if (!_event.GetType().Equals(typeof(ICancellable)))
+                    if (!_event.GetType().GetInterfaces().Contains(typeof(ICancellable)))
                         continue;
                     if (((ICancellable)_event).IsCancelled())
                         return;
@@ -103,10 +105,17 @@ namespace Asphalt.api.Event
 
                     foreach (EventHandlerAttribute attribute in attributes)
                     {
+                        ParameterInfo[] parameters = method.GetParameters();
+                        if (parameters.Length != 1)
+                            throw new EventHandlerArgumentException("Incorrect number of arguments in method with EventHandlerAttribute!");
+
+                        if (!parameters[0].ParameterType.IsSubclassOf(typeof(Event)))
+                            throw new EventHandlerArgumentException("Specified argument is not a valid Event!");
+
                         EventHandler handler;
                         handler.listener = listener;
                         handler.method = method;
-                        handler.eventName = attribute.GetName();
+                        handler.eventName = parameters[0].ParameterType.Name;
 
                         handlers[attribute.GetPriority()].Add(handler);
                     }

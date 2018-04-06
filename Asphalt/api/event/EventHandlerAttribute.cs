@@ -14,24 +14,16 @@ namespace Asphalt.api.Event
     [AttributeUsage(AttributeTargets.Method)]
     class EventHandlerAttribute : Attribute
     {
-        public string name { get; set; }
         public EventPriority priority { get; set; }
 
-        public EventHandlerAttribute(string name)
+        public EventHandlerAttribute()
         {
-            this.name = name;
             this.priority = EventPriority.NORMAL;
         }
 
-        public EventHandlerAttribute(string name, EventPriority priority)
+        public EventHandlerAttribute(EventPriority priority)
         {
-            this.name = name;
             this.priority = priority;
-        }
-
-        public string GetName()
-        {
-            return this.name;
         }
 
         public EventPriority GetPriority()
