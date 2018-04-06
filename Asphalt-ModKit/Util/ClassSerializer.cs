@@ -9,7 +9,7 @@
 
 using Eco.Core.Serialization;
 
-namespace Asphalt.api.util
+namespace Asphalt.Api.Util
 {
     public static class ClassSerializer<T> where T : class, new()
     {

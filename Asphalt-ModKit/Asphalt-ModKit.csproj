@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Asphalt</RootNamespace>
+    <AssemblyName>Asphalt-ModKit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Asphalt.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventHandlerData.cs" />
+    <Compile Include="Events\EventHandlerAttribute.cs" />
+    <Compile Include="Events\EventManager.cs" />
+    <Compile Include="Events\EventPriority.cs" />
+    <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\IListener.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerInteractObjectEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
+    <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
+    <Compile Include="Util\ClassSerializer.cs" />
+    <Compile Include="Util\FileUtil.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Eco\Server\Eco.Core\Eco.Core.csproj">
+      <Project>{be1761ab-69f5-481c-a4bf-9a7251c02596}</Project>
+      <Name>Eco.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Eco\Server\Eco.Gameplay\Eco.Gameplay.csproj">
+      <Project>{5c980505-2974-4b4b-b56a-2be2422e98aa}</Project>
+      <Name>Eco.Gameplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Eco\Server\Eco.Plugins\Eco.Plugins.csproj">
+      <Project>{5e8e63d5-9898-4830-9918-8dad0b995bb3}</Project>
+      <Name>Eco.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Eco\Server\Eco.Shared\Eco.Shared.csproj">
+      <Project>{510558a8-a88e-473f-b07d-918e696c81e1}</Project>
+      <Name>Eco.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

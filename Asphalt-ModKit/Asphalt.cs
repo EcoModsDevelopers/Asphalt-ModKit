@@ -7,26 +7,23 @@
 * ------------------------------------
 **/
 
-using Asphalt.api.Event;
-using Asphalt.plugin;
+using Asphalt.Api.Event;
 using Eco.Core.Plugins.Interfaces;
 
-namespace Asphalt.api
+namespace Asphalt.Api
 {
     public class Asphalt : IModKitPlugin, IServerPlugin
     {
-        bool initialized;
+        bool Initialized;
 
         public Asphalt()
         {
-            EventManager.Instance.RegisterListener(new TestListener());
-
-            this.initialized = true;
+            this.Initialized = true;
         }
 
         public string GetStatus()
         {
-            return initialized ? "Complete!" : "Initializing...";
+            return Initialized ? "Complete!" : "Initializing...";
         }
 
         public override string ToString()

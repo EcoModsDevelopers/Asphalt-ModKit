@@ -7,12 +7,18 @@
  * ------------------------------------
  **/
 
-namespace Asphalt.api.Event
+namespace Asphalt.Api.Event
 {
-    public interface ICancellable
+    /**
+     * Events are called from HIGHEST to LOWEST.
+     **/
+    public enum EventPriority
     {
-        bool IsCancelled();
-
-        void SetCancelled(bool cancel);
-    }
+        Highest = 0,
+        High,
+        Normal,
+        Low,
+        Lowest,
+        Monitor
+    };
 }

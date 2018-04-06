@@ -9,7 +9,7 @@
 
 using System.IO;
 
-namespace Asphalt.api.util
+namespace Asphalt.Api.Util
 {
     public static class FileUtil
     {
