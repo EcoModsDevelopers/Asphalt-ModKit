@@ -15,16 +15,16 @@ namespace Asphalt.plugin
 {
     public class TestListener : IListener
     {
-        [EventHandler("PlayerInteractObjectEvent")]
+        [EventHandler()]
         public void testEvent(PlayerInteractObjectEvent _event) {
             Console.WriteLine("PlayerInteractObjectEvent triggered");
             _event.SetCancelled(true);
         }
 
-        [EventHandler("Test2")]
-        public void test2Event(PlayerInteractObjectEvent _event)
+        [EventHandler()]
+        public void test2Event(PlayerSendMessageEvent _event)
         {
-            Console.WriteLine("Test2 triggered");
+            Console.WriteLine("PlayerSendMessageEvent triggered");
         }
     }
 }

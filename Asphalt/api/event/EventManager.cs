@@ -7,6 +7,7 @@
  * ------------------------------------
  **/
 
+using Asphalt.api.exception;
 using Asphalt.plugin;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,10 +104,17 @@ namespace Asphalt.api.Event
 
                     foreach (EventHandlerAttribute attribute in attributes)
                     {
+                        ParameterInfo[] parameters = method.GetParameters();
+                        if (parameters.Length != 1)
+                            throw new EventHandlerArgumentException("Incorrect number of arguments in method with EventHandlerAttribute!");
+
+                        if (!parameters[0].ParameterType.IsSubclassOf(typeof(Event)))
+                            throw new EventHandlerArgumentException("Specified argument is not a valid Event!");
+
                         EventHandler handler;
                         handler.listener = listener;
                         handler.method = method;
-                        handler.eventName = attribute.GetName();
+                        handler.eventName = parameters[0].ParameterType.Name;
 
                         handlers[attribute.GetPriority()].Add(handler);
                     }
