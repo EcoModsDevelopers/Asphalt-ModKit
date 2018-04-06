@@ -41,12 +41,6 @@ namespace Asphalt.api.Event
             }
         }
 
-        public EventManager()
-        {
-            //For test purposes only. Should later be called in the initialization of the individual mods/plugins
-            RegisterListener(new TestListener());
-        }
-
         //Registration
 
         public void RegisterListener(IListener listener)
@@ -69,8 +63,18 @@ namespace Asphalt.api.Event
             {
                 foreach (EventHandler handler in list.Value)
                 {
-                    if (handler.eventName.Equals(_event.GetName()))
-                        handler.method.Invoke(handler.listener, new object[] { _event });
+                    //Check Event Type
+                    if (!handler.eventName.Equals(_event.GetName()))
+                        continue;
+
+                    //Invoke EventHandler
+                    handler.method.Invoke(handler.listener, new object[] { _event });
+
+                    //Cancel following EventHandlers if event IsCancelled
+                    if (!_event.GetType().Equals(typeof(ICancellable)))
+                        continue;
+                    if (((ICancellable)_event).IsCancelled())
+                        return;
                 }
             }
         }
