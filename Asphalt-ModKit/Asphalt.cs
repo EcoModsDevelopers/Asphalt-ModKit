@@ -49,6 +49,12 @@ namespace Asphalt.Api
                   );
 
             Injection.Install(
+                      typeof(CraftPlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                      typeof(PlayerCraftEventEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                      typeof(PlayerCraftEventEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
+                   );
+
+            Injection.Install(
                     typeof(InteractionExtensions).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
                     typeof(PlayerInteractEventHelper).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
                     typeof(PlayerInteractEventHelper).GetMethod("MakeContext_original", BindingFlags.Static | BindingFlags.Public)
@@ -59,8 +65,6 @@ namespace Asphalt.Api
                     typeof(PlayerLoginEventHelper).GetMethod("Login", BindingFlags.Instance | BindingFlags.Public),
                     typeof(PlayerLoginEventHelper).GetMethod("Login_original", BindingFlags.Instance | BindingFlags.Public)
                   );
-
-
 
             this.Initialized = true;
         }

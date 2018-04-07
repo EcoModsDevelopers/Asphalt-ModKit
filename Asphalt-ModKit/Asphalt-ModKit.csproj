@@ -52,6 +52,7 @@
     <Compile Include="Events\IListener.cs" />
     <Compile Include="Events\PlayerEvents\PlayerLoginEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerInteractEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerCraftEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
