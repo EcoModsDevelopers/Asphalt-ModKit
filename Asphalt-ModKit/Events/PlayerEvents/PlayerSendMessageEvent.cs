@@ -11,7 +11,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     /**
      * Called when a player sends a chat message;
      * */
-    public class PlayerSendMessageEvent : MessageAction, ICancellable, IEvent
+    public class PlayerSendMessageEvent : ICancellable, IEvent
     {
         private bool cancel = false;
 
@@ -36,7 +36,7 @@ namespace Asphalt.Api.Event.PlayerEvents
         }
     }
 
-    public class PlayerSendMessageEventHelper
+    internal class PlayerSendMessageEventHelper
     {
         public IAtomicAction CreateAtomicAction(User user, ChatMessage message)
         {

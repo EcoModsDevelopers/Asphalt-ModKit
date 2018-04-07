@@ -55,6 +55,7 @@
     <Compile Include="Events\PlayerEvents\PlayerCraftEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
+    <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

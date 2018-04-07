@@ -55,6 +55,12 @@ namespace Asphalt.Api
                    );
 
             Injection.Install(
+                      typeof(PolluteAirPlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                      typeof(WorldPolluteEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                      typeof(WorldPolluteEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
+                   );
+
+            Injection.Install(
                     typeof(InteractionExtensions).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
                     typeof(PlayerInteractEventHelper).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
                     typeof(PlayerInteractEventHelper).GetMethod("MakeContext_original", BindingFlags.Static | BindingFlags.Public)

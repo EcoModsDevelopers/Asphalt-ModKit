@@ -39,7 +39,7 @@ namespace Asphalt.Api.Event.PlayerEvents
         }
     }
 
-    public static class PlayerInteractEventHelper
+    internal static class PlayerInteractEventHelper
     {
         /*   var context = info.MakeContext(this);
             if (!context.Authed() && (context.SelectedItem == null || !context.SelectedItem.IgnoreAuth))

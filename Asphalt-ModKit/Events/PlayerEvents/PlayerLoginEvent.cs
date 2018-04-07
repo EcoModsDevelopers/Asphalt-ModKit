@@ -17,7 +17,7 @@ namespace Asphalt.Api.Event.PlayerEvents
         }
     }
 
-    public class PlayerLoginEventHelper
+    internal class PlayerLoginEventHelper
     {
         public void Login(Player player, INetClient client)
         {

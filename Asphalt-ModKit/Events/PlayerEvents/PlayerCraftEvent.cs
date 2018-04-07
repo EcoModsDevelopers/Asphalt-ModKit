@@ -41,7 +41,7 @@ namespace Asphalt.Api.Event.PlayerEvents
         }
     }
 
-    public class PlayerCraftEventEventHelper
+    internal class PlayerCraftEventEventHelper
     {
         public IAtomicAction CreateAtomicAction(Player player, CraftingComponent table, Item item)
         {
