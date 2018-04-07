@@ -1,14 +1,4 @@
-﻿/** 
- * ------------------------------------
- * Copyright (c) 2018 [Kronox]
- * See LICENSE file in the project root for full license information.
- * ------------------------------------
- * Created by Kronox on April 6, 2018
- * ------------------------------------
- **/
-
-using Asphalt.Api.Event.PlayerEvents;
-using Eco.Core.Utils.AtomicAction;
+﻿using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Gameplay.Systems.Chat;
@@ -16,7 +6,7 @@ using Eco.Shared.Localization;
 using Eco.Shared.Services;
 using System;
 
-namespace Asphalt.Api.Event.Player
+namespace Asphalt.Api.Event.PlayerEvents
 {
     /**
      * Called when a player sends a chat message;

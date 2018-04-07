@@ -50,7 +50,8 @@
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
     <Compile Include="Events\IListener.cs" />
-    <Compile Include="Events\PlayerEvents\PlayerInteractObjectEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerLoginEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerInteractEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
@@ -82,6 +83,10 @@
     <ProjectReference Include="E:\Eco\Server\Eco.Stats\Eco.Stats.csproj">
       <Project>{C945E354-36F5-41CB-B7A1-435CA48EC0D2}</Project>
       <Name>Eco.Stats</Name>
+    </ProjectReference>
+    <ProjectReference Include="E:\Eco\Server\Eco.World\Eco.World.csproj">
+      <Project>{08BD87D1-B811-4665-B5CD-52E331932FB8}</Project>
+      <Name>Eco.World</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

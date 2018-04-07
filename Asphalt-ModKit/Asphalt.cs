@@ -8,9 +8,11 @@
 **/
 
 using Asphalt.Api.Event;
-using Asphalt.Api.Event.Player;
+using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Util;
 using Eco.Core.Plugins.Interfaces;
+using Eco.Gameplay.Interactions;
+using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Utils;
@@ -37,17 +39,28 @@ namespace Asphalt.Api
 
             if (!IsAdministrator)
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    Log.WriteError("Asphalt requires, that you run Eco as Administrator!");
-                }
+                Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
             }
 
             Injection.Install(
                      typeof(MessagePlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
                      typeof(PlayerSendMessageEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
                      typeof(PlayerSendMessageEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-                     );
+                  );
+
+            Injection.Install(
+                    typeof(InteractionExtensions).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
+                    typeof(PlayerInteractEventHelper).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
+                    typeof(PlayerInteractEventHelper).GetMethod("MakeContext_original", BindingFlags.Static | BindingFlags.Public)
+                 );
+
+            Injection.Install(
+                    typeof(User).GetMethod("Login", BindingFlags.Instance | BindingFlags.Public),
+                    typeof(PlayerLoginEventHelper).GetMethod("Login", BindingFlags.Instance | BindingFlags.Public),
+                    typeof(PlayerLoginEventHelper).GetMethod("Login_original", BindingFlags.Instance | BindingFlags.Public)
+                  );
+
+
 
             this.Initialized = true;
         }
