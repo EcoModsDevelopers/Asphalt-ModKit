@@ -32,7 +32,7 @@ namespace Asphalt.Api.Event
 
         public static void RegisterListener(IListener pListener)
         {
-            MethodInfo[] methods = pListener.GetType().GetMethods(BindingFlags.Public); //static ?!?
+            MethodInfo[] methods = pListener.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance); //static ?!?
 
             foreach (MethodInfo method in methods)
             {
@@ -47,7 +47,7 @@ namespace Asphalt.Api.Event
 
                 Type parameterType = parameters[0].ParameterType;
 
-                if (!parameterType.IsSubclassOf(typeof(Event)))
+                if (!typeof(IEvent).IsAssignableFrom(parameterType))
                     throw new EventHandlerArgumentException("Specified argument is not a valid Event!");
 
                 if (!handlers.ContainsKey(parameterType))
@@ -58,8 +58,11 @@ namespace Asphalt.Api.Event
             }
         }
 
-        public static void CallEvent(ref Event pEvent)
+        public static void CallEvent(ref IEvent pEvent)
         {
+            if (!handlers.ContainsKey(pEvent.GetType()))
+                return;
+
             bool cancelable = pEvent.GetType().GetInterfaces().Contains(typeof(ICancellable));
 
             foreach (var eventHandlerData in handlers[pEvent.GetType()])

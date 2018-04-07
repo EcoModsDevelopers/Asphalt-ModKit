@@ -9,18 +9,5 @@
 
 namespace Asphalt.Api.Event
 {
-    public abstract class Event
-    {
-        private readonly string Name;
-
-        public Event()
-        {
-            this.Name = this.GetType().Name;
-        }
-
-        public string GetName()
-        {
-            return Name;
-        }
-    }
+    public interface IEvent { }
 }
