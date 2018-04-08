@@ -12,7 +12,6 @@ namespace Asphalt.Api.Util
     //You can also call this class magic ;)
     public class Injection
     {
-
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
             Install(
@@ -22,6 +21,23 @@ namespace Asphalt.Api.Util
                );
         }
 
+        public static void InstallWithOriginalHelperPublicStatic(Type pTypeToReplace, Type pHelperType, string pMethodName)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Static | BindingFlags.Public)
+                 );
+        }
+
+        public static void InstallWithOriginalHelperPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Instance | BindingFlags.Public)
+                 );
+        }
 
         public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
         {

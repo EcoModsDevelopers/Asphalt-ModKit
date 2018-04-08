@@ -29,14 +29,6 @@ namespace Asphalt.Api
 
         public Asphalt()
         {
-            /*
-            Injection.Install(
-                typeof(ChatManager).GetMethod("SendChat", BindingFlags.Instance | BindingFlags.NonPublic),
-                typeof(PlayerSendMessageEventHelper).GetMethod("SendChat", BindingFlags.Instance | BindingFlags.NonPublic),
-                typeof(PlayerSendMessageEventHelper).GetMethod("SendChat_original", BindingFlags.Instance | BindingFlags.NonPublic)
-                );
-                */
-
             if (!IsAdministrator)
                 Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
 
@@ -46,21 +38,11 @@ namespace Asphalt.Api
 
             Injection.InstallCreateAtomicAction(typeof(SellPlayerActionManager), typeof(PlayerSellEventHelper));
             Injection.InstallCreateAtomicAction(typeof(MessagePlayerActionManager), typeof(PlayerSendMessageEventHelper));
-    
+
             Injection.InstallCreateAtomicAction(typeof(PolluteAirPlayerActionManager), typeof(WorldPolluteEventHelper));
-       
 
-            Injection.Install(
-                    typeof(InteractionExtensions).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
-                    typeof(PlayerInteractEventHelper).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
-                    typeof(PlayerInteractEventHelper).GetMethod("MakeContext_original", BindingFlags.Static | BindingFlags.Public)
-                 );
-
-            Injection.Install(
-                    typeof(User).GetMethod("Login", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(PlayerLoginEventHelper).GetMethod("Login", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(PlayerLoginEventHelper).GetMethod("Login_original", BindingFlags.Instance | BindingFlags.Public)
-                  );
+            Injection.InstallWithOriginalHelperPublicStatic(typeof(InteractionExtensions), typeof(PlayerInteractEventHelper), "MakeContext");
+            Injection.InstallWithOriginalHelperPublicInstance(typeof(User), typeof(PlayerLoginEventHelper), "Login");
 
             IsInitialized = true;
         }
