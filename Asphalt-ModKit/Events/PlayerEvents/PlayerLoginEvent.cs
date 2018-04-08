@@ -4,9 +4,9 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /**
-     * Called when a player sends a chat message;
-     * */
+    /// <summary>
+    ///  Called when the loading screen of a user appears
+    /// </summary>
     public class PlayerLoginEvent : IEvent
     {
         public Player Player { get; protected set; }
