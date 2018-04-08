@@ -14,7 +14,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 {
     public class PlayerCompleteContractEvent : CancellableEvent
     {
-        public Player Player { get; protected set; }
+        public Player Player { get; set; }
 
         public PlayerCompleteContractEvent(Player pPlayer) : base()
         {
@@ -32,7 +32,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref iEvent);
 
             if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(player);
+                return CreateAtomicAction_original(cEvent.Player);
 
             return new FailedAtomicAction(new LocString());
         }

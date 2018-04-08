@@ -20,7 +20,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerInteractEvent : CancellableEvent
     {
-        public InteractionContext Context { get; protected set; }
+        public InteractionContext Context { get; set; }
 
         public PlayerInteractEvent(InteractionContext pContext) : base()
         {
@@ -64,9 +64,10 @@ namespace Asphalt.Api.Event.PlayerEvents
                 //Unwanted side effect that we can't change:
                 //  var activity = WorldLayerManager.GetLayer(LayerNames.PlayerActivity)?.FuncAtWorldPos(this.Position.XZi, (pos, val) => val = System.Math.Min(1, val + 0.001f));
 
+                return context;
             }
 
-            return context;
+            return playerInteractEvent.Context;
         }
 
         public static InteractionContext MakeContext_original(this InteractionInfo info, PlayerHandle player)

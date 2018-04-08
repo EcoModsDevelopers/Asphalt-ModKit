@@ -14,9 +14,9 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerSendMessageEvent : CancellableEvent
     {
-        public User User { get; protected set; }
+        public User User { get; set; }
 
-        public ChatMessage Message { get; protected set; }
+        public ChatMessage Message { get; set; }
 
         public PlayerSendMessageEvent(User user, ChatMessage message) : base()
         {
@@ -35,7 +35,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref psmeEvent);
 
             if (!psme.IsCancelled())
-                return CreateAtomicAction_original(user, message);
+                return CreateAtomicAction_original(psme.User, psme.Message);
 
             return new FailedAtomicAction(new LocString());
         }

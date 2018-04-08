@@ -17,9 +17,9 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerUnlearnSkillEvent : CancellableEvent
     {
-        public Player Player { get; protected set; }
+        public Player Player { get; set; }
 
-        public Skill Skill { get; protected set; }
+        public Skill Skill { get; set; }
 
         public PlayerUnlearnSkillEvent(Player pPlayer, Skill pSkill) : base()
         {
@@ -38,7 +38,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref iEvent);
 
             if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(player, skill);
+                return CreateAtomicAction_original(cEvent.Player, cEvent.Skill);
 
             return new FailedAtomicAction(new LocString());
         }

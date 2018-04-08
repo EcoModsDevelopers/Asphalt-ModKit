@@ -9,7 +9,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerLogoutEvent : IEvent
     {
-        public User User { get; protected set; }
+        public User User { get; protected set; }  //protected because we can't change it
 
         public PlayerLogoutEvent(User pUser) : base()
         {

@@ -53,6 +53,7 @@
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerClaimPropertyEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerPickUpEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerReceiveGovernmentFundsEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerCompleteContractEvent.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Events\PlayerEvents\PlayerCraftEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerUnlearnSkillEvent.cs" />
     <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />

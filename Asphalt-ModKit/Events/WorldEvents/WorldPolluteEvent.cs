@@ -15,8 +15,8 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class WorldPolluteEvent : CancellableEvent
     {
-        public User User { get; protected set; }
-        public AirPollutionComponent Component { get; protected set; }
+        public User User { get; set; }
+        public AirPollutionComponent Component { get; set; }
         public float Value { get; set; }
 
         public WorldPolluteEvent(User pUser, AirPollutionComponent pAirPollutionComponent, float pValue) : base()
@@ -37,7 +37,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref wpeEvent);
 
             if (!wpe.IsCancelled())
-                return CreateAtomicAction_original(user, obj, wpe.Value);
+                return CreateAtomicAction_original(wpe.User, wpe.Component, wpe.Value);
 
             return new FailedAtomicAction(new LocString("Asphalt " + nameof(WorldPolluteEvent)));
         }

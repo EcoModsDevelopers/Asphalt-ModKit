@@ -16,11 +16,11 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerSellEvent : CancellableEvent
     {
-        public User User { get; protected set; }
+        public User User { get; set; }
 
-        public StoreComponent Store { get; protected set; }
+        public StoreComponent Store { get; set; }
 
-        public Item Item { get; protected set; }
+        public Item Item { get; set; }
 
         public PlayerSellEvent(User pUser, StoreComponent pStore, Item pItem) : base()
         {
@@ -40,7 +40,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref iEvent);
 
             if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(user, store, item);
+                return CreateAtomicAction_original(cEvent.User, cEvent.Store, cEvent.Item);
 
             return new FailedAtomicAction(new LocString());
         }

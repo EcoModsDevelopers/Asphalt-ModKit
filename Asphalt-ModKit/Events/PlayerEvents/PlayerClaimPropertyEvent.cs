@@ -12,9 +12,9 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerClaimPropertyEvent : CancellableEvent
     {
-        public Player Player { get; protected set; }
+        public Player Player { get; set; }
 
-        public Vector3i Position { get; protected set; }
+        public Vector3i Position { get; set; }
 
         public PlayerClaimPropertyEvent(Player pPlayer, Vector3i pPosition) : base()
         {
@@ -33,7 +33,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref iEvent);
 
             if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(player, position);
+                return CreateAtomicAction_original(cEvent.Player, cEvent.Position);
 
             return new FailedAtomicAction(new LocString());
         }
