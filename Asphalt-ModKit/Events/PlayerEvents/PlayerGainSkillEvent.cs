@@ -13,7 +13,7 @@ using System;
 namespace Asphalt.Api.Event.PlayerEvents
 {
     /// <summary>
-    /// Called when a player press "order" on a craft interface
+    /// Called when a player gains a skill
     /// </summary>
     public class PlayerGainSkillEvent : CancellableEvent
     {
