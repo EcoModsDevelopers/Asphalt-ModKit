@@ -14,11 +14,7 @@ namespace Asphalt.Api.Util
     {
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
-            Install(
-                    pTypeToReplace.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-               );
+            InstallWithOriginalHelperPublicInstance(pTypeToReplace, pHelperType, "CreateAtomicAction");
         }
 
         public static void InstallWithOriginalHelperPublicStatic(Type pTypeToReplace, Type pHelperType, string pMethodName)
