@@ -12,6 +12,17 @@ namespace Asphalt.Api.Util
     //You can also call this class magic ;)
     public class Injection
     {
+
+        public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
+        {
+            Install(
+                    pTypeToReplace.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
+               );
+        }
+
+
         public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
         {
             RuntimeHelpers.PrepareMethod(pMethodToReplace.MethodHandle);
@@ -28,24 +39,24 @@ namespace Asphalt.Api.Util
                     int* tar = (int*)pMethodToReplace.MethodHandle.Value.ToPointer() + 2;
 
 #if DEBUG
-                                  //             Console.WriteLine("\nVersion x86 Debug\n");
+                    //             Console.WriteLine("\nVersion x86 Debug\n");
 
-                                  byte* injInst = (byte*)*inj;
-                                  byte* tarInst = (byte*)*tar;
+                    byte* injInst = (byte*)*inj;
+                    byte* tarInst = (byte*)*tar;
 
-                                  int* injSrc = (int*)(injInst + 1);
-                                  int* tarSrc = (int*)(tarInst + 1);
+                    int* injSrc = (int*)(injInst + 1);
+                    int* tarSrc = (int*)(tarInst + 1);
 
-                                  if (pNewLocationForMethodToReplace != null)
-                                  {
-                                      int* newloc = (int*)pNewLocationForMethodToReplace.MethodHandle.Value.ToPointer() + 2;
-                                      byte* newLocInst = (byte*)*newloc;
-                                      int* newLocSrc = (int*)(newLocInst + 1);
+                    if (pNewLocationForMethodToReplace != null)
+                    {
+                        int* newloc = (int*)pNewLocationForMethodToReplace.MethodHandle.Value.ToPointer() + 2;
+                        byte* newLocInst = (byte*)*newloc;
+                        int* newLocSrc = (int*)(newLocInst + 1);
 
-                                      *newLocSrc = (((int)tarInst + 5) + *tarSrc) - ((int)newLocInst + 5);
-                                  }
+                        *newLocSrc = (((int)tarInst + 5) + *tarSrc) - ((int)newLocInst + 5);
+                    }
 
-                                  *tarSrc = (((int)injInst + 5) + *injSrc) - ((int)tarInst + 5);
+                    *tarSrc = (((int)injInst + 5) + *injSrc) - ((int)tarInst + 5);
 #else
                     //    Console.WriteLine("\nVersion x86 Release\n");
 
@@ -96,8 +107,6 @@ namespace Asphalt.Api.Util
                     *tar = *inj;
 
 #endif
-
-
 
                 }
             }

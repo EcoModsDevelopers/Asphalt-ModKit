@@ -1,4 +1,5 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Components;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
@@ -12,10 +13,8 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when something pollutes
     /// </summary>
-    public class WorldPolluteEvent : ICancellable, IEvent
+    public class WorldPolluteEvent : CancellableEvent
     {
-        private bool cancel = false;
-
         public User User { get; protected set; }
         public AirPollutionComponent Component { get; protected set; }
         public float Value { get; set; }
@@ -25,16 +24,6 @@ namespace Asphalt.Api.Event.PlayerEvents
             User = pUser;
             Component = pAirPollutionComponent;
             Value = pValue;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
         }
     }
 

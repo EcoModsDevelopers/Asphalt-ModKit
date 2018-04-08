@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asphalt.cs" />
+    <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\EventHandlerData.cs" />
     <Compile Include="Events\EventHandlerAttribute.cs" />
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerGainSkillEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerSellEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerLoginEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerInteractEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerCraftEvent.cs" />

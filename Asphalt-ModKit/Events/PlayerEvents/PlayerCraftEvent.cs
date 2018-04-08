@@ -1,4 +1,5 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Components;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Players;
@@ -13,10 +14,8 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when a player press "order" on a craft interface
     /// </summary>
-    public class PlayerCraftEvent : ICancellable, IEvent
-    {
-        private bool cancel = false;
-
+    public class PlayerCraftEvent : CancellableEvent
+    {   
         public Player Player { get; protected set; }
 
         public CraftingComponent Table { get; protected set; }
@@ -28,20 +27,10 @@ namespace Asphalt.Api.Event.PlayerEvents
             this.Player = pPlayer;
             this.Table = pTable;
             this.Item = pItem;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
-        }
+        }       
     }
 
-    internal class PlayerCraftEventEventHelper
+    internal class PlayerCraftEventHelper
     {
         public IAtomicAction CreateAtomicAction(Player player, CraftingComponent table, Item item)
         {
