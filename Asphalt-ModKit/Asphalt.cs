@@ -25,7 +25,7 @@ namespace Asphalt.Api
 {
     public class Asphalt : IModKitPlugin, IServerPlugin
     {
-        bool Initialized;
+        public static bool IsInitialized { get; protected set; }
 
         public Asphalt()
         {
@@ -38,27 +38,17 @@ namespace Asphalt.Api
                 */
 
             if (!IsAdministrator)
-            {
                 Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
-            }
 
-            Injection.Install(
-                     typeof(MessagePlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                     typeof(PlayerSendMessageEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                     typeof(PlayerSendMessageEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-                  );
 
-            Injection.Install(
-                      typeof(CraftPlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                      typeof(PlayerCraftEventEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                      typeof(PlayerCraftEventEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-                   );
+            Injection.InstallCreateAtomicAction(typeof(CraftPlayerActionManager), typeof(PlayerCraftEventHelper));
+            Injection.InstallCreateAtomicAction(typeof(GainSkillPlayerActionManager), typeof(PlayerGainSkillEventHelper));
 
-            Injection.Install(
-                      typeof(PolluteAirPlayerActionManager).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                      typeof(WorldPolluteEventHelper).GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                      typeof(WorldPolluteEventHelper).GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-                   );
+            Injection.InstallCreateAtomicAction(typeof(SellPlayerActionManager), typeof(PlayerSellEventHelper));
+            Injection.InstallCreateAtomicAction(typeof(MessagePlayerActionManager), typeof(PlayerSendMessageEventHelper));
+    
+            Injection.InstallCreateAtomicAction(typeof(PolluteAirPlayerActionManager), typeof(WorldPolluteEventHelper));
+       
 
             Injection.Install(
                     typeof(InteractionExtensions).GetMethod("MakeContext", BindingFlags.Static | BindingFlags.Public),
@@ -72,7 +62,7 @@ namespace Asphalt.Api
                     typeof(PlayerLoginEventHelper).GetMethod("Login_original", BindingFlags.Instance | BindingFlags.Public)
                   );
 
-            this.Initialized = true;
+            IsInitialized = true;
         }
 
 
@@ -80,7 +70,7 @@ namespace Asphalt.Api
 
         public string GetStatus()
         {
-            return Initialized ? "Complete!" : "Initializing...";
+            return IsInitialized ? "Complete!" : "Initializing...";
         }
 
         public override string ToString()

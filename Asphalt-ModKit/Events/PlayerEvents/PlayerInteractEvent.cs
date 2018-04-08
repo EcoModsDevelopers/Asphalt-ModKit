@@ -1,4 +1,5 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
@@ -17,25 +18,13 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when a player interacts with something
     /// </summary>
-    public class PlayerInteractEvent : ICancellable, IEvent
+    public class PlayerInteractEvent : CancellableEvent
     {
-        private bool cancel = false;
-
         public InteractionContext Context { get; protected set; }
 
         public PlayerInteractEvent(InteractionContext pContext) : base()
         {
             this.Context = pContext;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Gameplay.Systems.Chat;
@@ -11,10 +12,8 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when a player sends a chat message
     /// </summary>
-    public class PlayerSendMessageEvent : ICancellable, IEvent
+    public class PlayerSendMessageEvent : CancellableEvent
     {
-        private bool cancel = false;
-
         public User User { get; protected set; }
 
         public ChatMessage Message { get; protected set; }
@@ -23,16 +22,6 @@ namespace Asphalt.Api.Event.PlayerEvents
         {
             this.User = user;
             this.Message = message;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
         }
     }
 
