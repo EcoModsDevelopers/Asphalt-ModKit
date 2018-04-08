@@ -57,6 +57,14 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
+        public void OnPlayerClaimProperty(PlayerClaimPropertyEvent evt)
+        {
+            Console.WriteLine("ClaimProperty " + evt.Player.FriendlyName);
+            Console.WriteLine(evt.Position);
+            // evt.SetCancelled(true);
+        }
+
+        [EventHandler]
         public void OnWorldPollute(WorldPolluteEvent evt)
         {
             Console.WriteLine(evt.Component);
