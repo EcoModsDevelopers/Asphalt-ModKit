@@ -20,7 +20,7 @@ namespace Asphalt.Api.Util
                 Directory.CreateDirectory(filePath);
 
             //create File if not existant
-            if (File.Exists(filePath + fileName)) {
+            if (!File.Exists(filePath + fileName)) {
                 FileStream fs = new FileStream(filePath + fileName, FileMode.OpenOrCreate);
                 fs.Close();
             }
