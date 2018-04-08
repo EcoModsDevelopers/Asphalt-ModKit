@@ -12,16 +12,28 @@ namespace Asphalt.Api.Util
     //You can also call this class magic ;)
     public class Injection
     {
-
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
-            Install(
-                    pTypeToReplace.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod("CreateAtomicAction", BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod("CreateAtomicAction_original", BindingFlags.Instance | BindingFlags.Public)
-               );
+            InstallWithOriginalHelperPublicInstance(pTypeToReplace, pHelperType, "CreateAtomicAction");
         }
 
+        public static void InstallWithOriginalHelperPublicStatic(Type pTypeToReplace, Type pHelperType, string pMethodName)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Static | BindingFlags.Public)
+                 );
+        }
+
+        public static void InstallWithOriginalHelperPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
+                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Instance | BindingFlags.Public)
+                 );
+        }
 
         public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
         {
