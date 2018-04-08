@@ -10,9 +10,9 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /**
-     * Called when a player sends a chat message;
-     * */
+    /// <summary>
+    /// Called when a player press "order" on a craft interface
+    /// </summary>
     public class PlayerCraftEvent : ICancellable, IEvent
     {
         private bool cancel = false;

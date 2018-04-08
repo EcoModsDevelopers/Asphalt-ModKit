@@ -14,11 +14,11 @@ namespace Asphalt.Api.Event
      **/
     public enum EventPriority
     {
-        Highest = 0,
-        High,
-        Normal,
+        Lowest = 0,
         Low,
-        Lowest,
+        Normal,
+        High,
+        Highest,
         Monitor
     };
 }

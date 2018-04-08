@@ -9,9 +9,9 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /**
-     * Called when a player sends a chat message;
-     * */
+    /// <summary>
+    /// Called when something pollutes
+    /// </summary>
     public class WorldPolluteEvent : ICancellable, IEvent
     {
         private bool cancel = false;

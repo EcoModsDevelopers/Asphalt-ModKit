@@ -30,7 +30,7 @@ namespace Asphalt.Api.Event
 
         //Registration
 
-        public static void RegisterListener(IListener pListener)
+        public static void RegisterListener(object pListener)
         {
             MethodInfo[] methods = pListener.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance); //static ?!?
 

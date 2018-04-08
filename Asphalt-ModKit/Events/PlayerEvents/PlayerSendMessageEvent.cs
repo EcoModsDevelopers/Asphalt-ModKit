@@ -8,9 +8,9 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /**
-     * Called when a player sends a chat message;
-     * */
+    /// <summary>
+    /// Called when a player sends a chat message
+    /// </summary>
     public class PlayerSendMessageEvent : ICancellable, IEvent
     {
         private bool cancel = false;
