@@ -33,6 +33,12 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
+        public void OnPlayerLogout(PlayerLogoutEvent evt)
+        {
+            Console.WriteLine("Bye " + evt.User.Name);
+        }
+
+        [EventHandler]
         public void OnPlayerCraft(PlayerCraftEvent evt)
         {
             Console.WriteLine("craft " + evt.Player.FriendlyName);
@@ -43,9 +49,10 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnPlayerCraft(WorldPolluteEvent evt)
         {
-            Console.WriteLine(evt.Component);
-            Console.WriteLine(evt.User);
-            Console.WriteLine(evt.Value);
+
+         //   Console.WriteLine(evt.Component);
+         //   Console.WriteLine(evt.User);
+         //   Console.WriteLine(evt.Value);
             //    evt.SetCancelled(true);
             //     evt.Value = 1;
         }
