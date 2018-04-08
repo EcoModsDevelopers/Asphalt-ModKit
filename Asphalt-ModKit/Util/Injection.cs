@@ -28,27 +28,32 @@ namespace Asphalt.Api.Util
                     int* tar = (int*)pMethodToReplace.MethodHandle.Value.ToPointer() + 2;
 
 #if DEBUG
-                    //             Console.WriteLine("\nVersion x86 Debug\n");
+                                  //             Console.WriteLine("\nVersion x86 Debug\n");
 
-                    byte* injInst = (byte*)*inj;
-                    byte* tarInst = (byte*)*tar;
+                                  byte* injInst = (byte*)*inj;
+                                  byte* tarInst = (byte*)*tar;
 
-                    int* injSrc = (int*)(injInst + 1);
-                    int* tarSrc = (int*)(tarInst + 1);
-                    
+                                  int* injSrc = (int*)(injInst + 1);
+                                  int* tarSrc = (int*)(tarInst + 1);
+
+                                  if (pNewLocationForMethodToReplace != null)
+                                  {
+                                      int* newloc = (int*)pNewLocationForMethodToReplace.MethodHandle.Value.ToPointer() + 2;
+                                      byte* newLocInst = (byte*)*newloc;
+                                      int* newLocSrc = (int*)(newLocInst + 1);
+
+                                      *newLocSrc = (((int)tarInst + 5) + *tarSrc) - ((int)newLocInst + 5);
+                                  }
+
+                                  *tarSrc = (((int)injInst + 5) + *injSrc) - ((int)tarInst + 5);
+#else
+                    //    Console.WriteLine("\nVersion x86 Release\n");
+
                     if (pNewLocationForMethodToReplace != null)
                     {
                         int* newloc = (int*)pNewLocationForMethodToReplace.MethodHandle.Value.ToPointer() + 2;
-                        byte* newLocInst = (byte*)*newloc;
-                        int* newLocSrc = (int*)(newLocInst + 1);
-
-                        *newLocSrc = (((int)tarInst + 5) + *tarSrc) - ((int)newLocInst + 5);
+                        *newloc = *tar;
                     }
-
-                    *tarSrc = (((int)injInst + 5) + *injSrc) - ((int)tarInst + 5);
-#else
-                    Console.WriteLine("\nVersion x86 Release\n");
-                      pNewLocationForMethodToReplace not implemeted!
 
                     *tar = *inj;
 #endif
@@ -80,14 +85,23 @@ namespace Asphalt.Api.Util
                     *tarSrc = (((int)injInst + 5) + *injSrc) - ((int)tarInst + 5);
 #else
 
-                    pNewLocationForMethodToReplace not implemeted!
-                    Console.WriteLine("\nVersion x64 Release\n");
+                    //        Console.WriteLine("\nVersion x64 Release\n");
+
+                    if (pNewLocationForMethodToReplace != null)
+                    {
+                        long* newloc = (long*)pNewLocationForMethodToReplace.MethodHandle.Value.ToPointer() + 1;
+                        *newloc = *tar;
+                    }
+
                     *tar = *inj;
+
 #endif
+
+
+
                 }
             }
         }
 
     }
-
 }
