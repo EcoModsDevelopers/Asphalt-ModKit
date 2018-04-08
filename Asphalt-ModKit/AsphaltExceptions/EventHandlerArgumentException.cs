@@ -9,9 +9,9 @@
 
 using System;
 
-namespace Asphalt.api.exception
+namespace Asphalt.Api.AsphaltExceptions
 {
-    public class EventHandlerArgumentException : Exception
+    public class EventHandlerArgumentException : System.Exception
     {
         public EventHandlerArgumentException()
         { }
@@ -20,7 +20,7 @@ namespace Asphalt.api.exception
             : base(message)
         { }
 
-        public EventHandlerArgumentException(string message, Exception inner)
+        public EventHandlerArgumentException(string message, System.Exception inner)
             : base(message, inner)
         { }
     }
