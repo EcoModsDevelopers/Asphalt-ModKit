@@ -13,26 +13,26 @@ using System;
 namespace Asphalt.Api.Event.PlayerEvents
 {
     /// <summary>
-    /// Called when a player gains a skill
+    /// Called when a player unlearns a skill
     /// </summary>
-    public class PlayerGainSkillEvent : CancellableEvent
+    public class PlayerUnlearnSkillEvent : CancellableEvent
     {
         public Player Player { get; protected set; }
 
         public Skill Skill { get; protected set; }
 
-        public PlayerGainSkillEvent(Player pPlayer, Skill pSkill) : base()
+        public PlayerUnlearnSkillEvent(Player pPlayer, Skill pSkill) : base()
         {
             this.Player = pPlayer;
             this.Skill = pSkill;
         }
     }
 
-    internal class PlayerGainSkillEventHelper
+    internal class PlayerUnlearnSkillEventHelper
     {
         public IAtomicAction CreateAtomicAction(Player player, Skill skill)
         {
-            PlayerGainSkillEvent cEvent = new PlayerGainSkillEvent(player, skill);
+            PlayerUnlearnSkillEvent cEvent = new PlayerUnlearnSkillEvent(player, skill);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
