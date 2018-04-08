@@ -14,11 +14,11 @@ namespace Asphalt.Events
 
         public EventPriority Priority { get; }
 
-        public IListener Listener { get; }
+        public object Listener { get; }
 
         public bool RunIfEventCancelled { get; }
 
-        internal EventHandlerData(IListener listener, MethodInfo method, EventPriority priority, bool runIfEventCancelled = false)
+        internal EventHandlerData(object listener, MethodInfo method, EventPriority priority, bool runIfEventCancelled = false)
         {
             Listener = listener;
             Method = method;
