@@ -57,6 +57,7 @@
     <Compile Include="Events\PlayerEvents\PlayerRunForElectionEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerPayTaxEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerGetElectedEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerTeleportEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerVoteEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerProposeVoteEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerClaimPropertyEvent.cs" />
