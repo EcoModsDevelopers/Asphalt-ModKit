@@ -33,6 +33,14 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
+        public void OnPlayerTeleport(PlayerTeleportEvent evt)
+        {
+            Console.WriteLine("Teleport "+evt.Player.FriendlyName);
+            Console.WriteLine(evt.Position);
+            evt.SetCancelled(true);
+        }
+
+        [EventHandler]
         public void OnPlayerCraft(PlayerCraftEvent evt)
         {
             Console.WriteLine("Craft " + evt.Player.FriendlyName);
