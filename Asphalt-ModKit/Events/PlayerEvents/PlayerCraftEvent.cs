@@ -15,19 +15,19 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// Called when a player press "order" on a craft interface
     /// </summary>
     public class PlayerCraftEvent : CancellableEvent
-    {   
-        public Player Player { get; protected set; }
+    {
+        public Player Player { get; set; }
 
-        public CraftingComponent Table { get; protected set; }
+        public CraftingComponent Table { get; set; }
 
-        public Item Item { get; protected set; }
+        public Item Item { get; set; }
 
         public PlayerCraftEvent(Player pPlayer, CraftingComponent pTable, Item pItem) : base()
         {
             this.Player = pPlayer;
             this.Table = pTable;
             this.Item = pItem;
-        }       
+        }
     }
 
     internal class PlayerCraftEventHelper
@@ -40,7 +40,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref pcfEvent);
 
             if (!pcfe.IsCancelled())
-                return CreateAtomicAction_original(player, table, item);
+                return CreateAtomicAction_original(pcfe.Player, pcfe.Table, pcfe.Item);
 
             return new FailedAtomicAction(new LocString());
         }

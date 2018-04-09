@@ -35,9 +35,15 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnPlayerTeleport(PlayerTeleportEvent evt)
         {
-            Console.WriteLine("Teleport "+evt.Player.FriendlyName);
+            Console.WriteLine("Teleport " + evt.Player.FriendlyName);
             Console.WriteLine(evt.Position);
-            evt.SetCancelled(true);
+            //evt.SetCancelled(true);
+        }
+
+        [EventHandler]
+        public void OnPlayerLogout(PlayerLogoutEvent evt)
+        {
+            Console.WriteLine("Bye " + evt.User.Name);
         }
 
         [EventHandler]
@@ -75,9 +81,10 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnWorldPollute(WorldPolluteEvent evt)
         {
-            Console.WriteLine(evt.Component);
-            Console.WriteLine(evt.User);
-            Console.WriteLine(evt.Value);
+
+         //   Console.WriteLine(evt.Component);
+         //   Console.WriteLine(evt.User);
+         //   Console.WriteLine(evt.Value);
             //    evt.SetCancelled(true);
             //     evt.Value = 1;
         }

@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,13 +54,27 @@
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerRunForElectionEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerPayTaxEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerGetElectedEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerVoteEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerProposeVoteEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerClaimPropertyEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerPlaceEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerPickUpEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerReceiveGovernmentFundsEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerCompleteContractEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerGainSkillEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerLogoutEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerHarvestEvent.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerBuyEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSellEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerLoginEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerInteractEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerCraftEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerUnlearnSkillEvent.cs" />
     <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />

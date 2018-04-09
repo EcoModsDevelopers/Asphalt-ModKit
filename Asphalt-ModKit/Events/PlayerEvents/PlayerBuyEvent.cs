@@ -11,10 +11,7 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /// <summary>
-    /// Called when a player press "order" on a craft interface
-    /// </summary>
-    public class PlayerSellEvent : CancellableEvent
+    public class PlayerBuyEvent : CancellableEvent
     {
         public User User { get; set; }
 
@@ -22,7 +19,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Item Item { get; set; }
 
-        public PlayerSellEvent(User pUser, StoreComponent pStore, Item pItem) : base()
+        public PlayerBuyEvent(User pUser, StoreComponent pStore, Item pItem) : base()
         {
             this.User = pUser;
             this.Store = pStore;
@@ -30,11 +27,11 @@ namespace Asphalt.Api.Event.PlayerEvents
         }
     }
 
-    internal class PlayerSellEventHelper
+    internal class PlayerBuyEventHelper
     {
         public IAtomicAction CreateAtomicAction(User user, StoreComponent store, Item item)
         {
-            PlayerSellEvent cEvent = new PlayerSellEvent(user, store, item);
+            PlayerBuyEvent cEvent = new PlayerBuyEvent(user, store, item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

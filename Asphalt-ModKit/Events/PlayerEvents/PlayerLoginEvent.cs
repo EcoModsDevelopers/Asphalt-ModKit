@@ -9,11 +9,14 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerLoginEvent : IEvent
     {
-        public Player Player { get; protected set; }
+        public Player Player { get; set; }
 
-        public PlayerLoginEvent(Player pPlayer) : base()
+        public INetClient Client { get; set; }
+
+        public PlayerLoginEvent(Player pPlayer, INetClient pClient) : base()
         {
             this.Player = pPlayer;
+            this.Client = pClient;
         }
     }
 
@@ -21,12 +24,12 @@ namespace Asphalt.Api.Event.PlayerEvents
     {
         public void Login(Player player, INetClient client)
         {
-            PlayerLoginEvent pje = new PlayerLoginEvent(player);
+            PlayerLoginEvent pje = new PlayerLoginEvent(player, client);
             IEvent pjeEvent = pje;
 
             EventManager.CallEvent(ref pjeEvent);
 
-            Login_original(player, client);
+            Login_original(pje.Player, pje.Client);
         }
 
         public void Login_original(Player player, INetClient client)

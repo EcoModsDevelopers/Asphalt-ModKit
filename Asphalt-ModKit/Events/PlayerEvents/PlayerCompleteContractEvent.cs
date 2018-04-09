@@ -12,38 +12,32 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /// <summary>
-    /// Called when a player unlearns a skill
-    /// </summary>
-    public class PlayerUnlearnSkillEvent : CancellableEvent
+    public class PlayerCompleteContractEvent : CancellableEvent
     {
         public Player Player { get; set; }
 
-        public Skill Skill { get; set; }
-
-        public PlayerUnlearnSkillEvent(Player pPlayer, Skill pSkill) : base()
+        public PlayerCompleteContractEvent(Player pPlayer) : base()
         {
             this.Player = pPlayer;
-            this.Skill = pSkill;
         }
     }
 
-    internal class PlayerUnlearnSkillEventHelper
+    internal class PlayerCompleteContractEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, Skill skill)
+        public IAtomicAction CreateAtomicAction(Player player)
         {
-            PlayerUnlearnSkillEvent cEvent = new PlayerUnlearnSkillEvent(player, skill);
+            PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(player);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
             if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player, cEvent.Skill);
+                return CreateAtomicAction_original(cEvent.Player);
 
             return new FailedAtomicAction(new LocString());
         }
 
-        public IAtomicAction CreateAtomicAction_original(Player player, Skill skill)
+        public IAtomicAction CreateAtomicAction_original(Player player)
         {
             throw new InvalidOperationException();
         }

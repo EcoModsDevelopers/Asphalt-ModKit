@@ -60,6 +60,8 @@ namespace Asphalt.Api.Event
 
         public static void CallEvent(ref IEvent pEvent)
         {
+            Console.WriteLine(pEvent);
+
             if (!handlers.ContainsKey(pEvent.GetType()))
                 return;
 
