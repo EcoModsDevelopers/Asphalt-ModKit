@@ -12,6 +12,9 @@ namespace Asphalt.Api.Util
     //You can also call this class magic ;)
     public class Injection
     {
+        private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
+        private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
+
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
             InstallWithOriginalHelperPublicInstance(pTypeToReplace, pHelperType, "CreateAtomicAction");
@@ -20,18 +23,18 @@ namespace Asphalt.Api.Util
         public static void InstallWithOriginalHelperPublicStatic(Type pTypeToReplace, Type pHelperType, string pMethodName)
         {
             Install(
-                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
-                    pHelperType.GetMethod(pMethodName, BindingFlags.Static | BindingFlags.Public),
-                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Static | BindingFlags.Public)
+                    pTypeToReplace.GetMethod(pMethodName, PUBLIC_STATC),
+                    pHelperType.GetMethod(pMethodName, PUBLIC_STATC),
+                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
                  );
         }
 
         public static void InstallWithOriginalHelperPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
         {
             Install(
-                    pTypeToReplace.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod(pMethodName, BindingFlags.Instance | BindingFlags.Public),
-                    pHelperType.GetMethod(pMethodName + "_original", BindingFlags.Instance | BindingFlags.Public)
+                    pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE),
+                    pHelperType.GetMethod(pMethodName, PUBLIC_INSTANCE),
+                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
                  );
         }
 
