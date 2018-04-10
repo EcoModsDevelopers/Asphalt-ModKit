@@ -18,8 +18,6 @@ namespace Asphalt.Api.Event
 {
     public static class EventManager
     {
-
-
         //  List<IListener> listeners = new List<IListener>();
         //  Dictionary<EventPriority, List<EventHandler>> handlers = new Dictionary<EventPriority, List<EventHandler>>();
 
@@ -27,6 +25,9 @@ namespace Asphalt.Api.Event
 
         //<type of parameter from registered event, List<registered event>>
         private static readonly Dictionary<Type, List<EventHandlerData>> handlers = new Dictionary<Type, List<EventHandlerData>>();
+
+        private static object locker = new object();
+
 
         //Registration
 
@@ -50,17 +51,20 @@ namespace Asphalt.Api.Event
                 if (!typeof(IEvent).IsAssignableFrom(parameterType))
                     throw new EventHandlerArgumentException("Specified argument is not a valid Event!");
 
-                if (!handlers.ContainsKey(parameterType))
-                    handlers.Add(parameterType, new List<EventHandlerData>());
+                lock (locker)
+                {
+                    if (!handlers.ContainsKey(parameterType))
+                        handlers.Add(parameterType, new List<EventHandlerData>());
 
-                handlers[parameterType].Add(new EventHandlerData(pListener, method, attribute.Priority, attribute.RunIfEventCancelled));
-                handlers[parameterType].Sort(eventHandlerComparer);
+                    handlers[parameterType].Add(new EventHandlerData(pListener, method, attribute.Priority, attribute.RunIfEventCancelled));
+                    handlers[parameterType].Sort(eventHandlerComparer);
+                }
             }
         }
 
         public static void CallEvent(ref IEvent pEvent)
         {
-            Console.WriteLine(pEvent);
+    //        Console.WriteLine(pEvent);
 
             if (!handlers.ContainsKey(pEvent.GetType()))
                 return;
