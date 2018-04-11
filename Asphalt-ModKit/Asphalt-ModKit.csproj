@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asphalt.cs" />
+    <Compile Include="Events\AsphaltThreadSafeAction.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\EventHandlerData.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
     <Compile Include="Events\PlayerEvents\PlayerUnlearnSkillEvent.cs" />
     <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,10 +3,7 @@ using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Components;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Players;
-using Eco.Gameplay.Stats.ConcretePlayerActions;
-using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Localization;
-using Eco.Shared.Services;
 using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
