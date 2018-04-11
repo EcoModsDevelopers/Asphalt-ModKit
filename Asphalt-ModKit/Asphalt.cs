@@ -7,33 +7,14 @@
 * ------------------------------------
 **/
 
-using Asphalt.Api.Event;
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Util;
-using Asphalt.Events;
 using Eco.Core.Plugins.Interfaces;
-using Eco.Core.Utils;
 using Eco.Gameplay.Interactions;
-using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
-using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Utils;
-using System;
-using System.Reflection;
 using System.Security.Principal;
-using System.Threading;
-
-namespace Eco.Shared
-{
-    public static class Test
-    {
-        static Test()
-        {
-            new Asphalt.Api.Asphalt();
-        }
-    }
-}
 
 namespace Asphalt.Api
 {
@@ -48,17 +29,17 @@ namespace Asphalt.Api
 
             //<OnNameChanged>k__BackingField
 
-            Injection.Install(
-                typeof(ThreadSafeAction).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public),
-                typeof(AsphaltThreadSafeAction).GetMethod("AsphaltInvoke", BindingFlags.Instance | BindingFlags.Public),
-                typeof(AsphaltThreadSafeAction).GetMethod("Invoke_original", BindingFlags.Instance | BindingFlags.Public));
+            /*    Injection.Install(
+                    typeof(ThreadSafeAction).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public),
+                    typeof(AsphaltThreadSafeAction).GetMethod("AsphaltInvoke", BindingFlags.Instance | BindingFlags.Public),
+                    typeof(AsphaltThreadSafeAction).GetMethod("Invoke_original", BindingFlags.Instance | BindingFlags.Public));
 
 
-            FieldInfo fi = typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                FieldInfo fi = typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
-            foreach (WorldObject wo in WorldObjectManager.All)
-                fi.SetValue(wo, new AsphaltThreadSafeAction());
-
+                foreach (WorldObject wo in WorldObjectManager.All)
+                    fi.SetValue(wo, new AsphaltThreadSafeAction());
+                    */
 
             // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
 

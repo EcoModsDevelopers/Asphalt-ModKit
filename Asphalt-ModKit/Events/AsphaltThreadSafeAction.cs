@@ -1,15 +1,5 @@
-﻿using Asphalt.Api.Event;
-using Asphalt.Api.Event.PlayerEvents;
-using Eco.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Asphalt.Events
-{
+﻿namespace Asphalt.Events
+{/*
     public class AsphaltThreadSafeAction : ThreadSafeAction
     {
         public AsphaltThreadSafeAction()
@@ -43,5 +33,5 @@ namespace Asphalt.Events
         {
             throw new InvalidOperationException();
         }
-    }
+    }*/
 }
