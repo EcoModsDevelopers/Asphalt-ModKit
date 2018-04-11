@@ -1,11 +1,9 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Components;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Players;
-using Eco.Gameplay.Stats.ConcretePlayerActions;
-using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Localization;
-using Eco.Shared.Services;
 using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
@@ -13,15 +11,13 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when a player press "order" on a craft interface
     /// </summary>
-    public class PlayerCraftEvent : ICancellable, IEvent
+    public class PlayerCraftEvent : CancellableEvent
     {
-        private bool cancel = false;
+        public Player Player { get; set; }
 
-        public Player Player { get; protected set; }
+        public CraftingComponent Table { get; set; }
 
-        public CraftingComponent Table { get; protected set; }
-
-        public Item Item { get; protected set; }
+        public Item Item { get; set; }
 
         public PlayerCraftEvent(Player pPlayer, CraftingComponent pTable, Item pItem) : base()
         {
@@ -29,19 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
             this.Table = pTable;
             this.Item = pItem;
         }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
-        }
     }
 
-    internal class PlayerCraftEventEventHelper
+    internal class PlayerCraftEventHelper
     {
         public IAtomicAction CreateAtomicAction(Player player, CraftingComponent table, Item item)
         {
@@ -51,7 +37,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref pcfEvent);
 
             if (!pcfe.IsCancelled())
-                return CreateAtomicAction_original(player, table, item);
+                return CreateAtomicAction_original(pcfe.Player, pcfe.Table, pcfe.Item);
 
             return new FailedAtomicAction(new LocString());
         }

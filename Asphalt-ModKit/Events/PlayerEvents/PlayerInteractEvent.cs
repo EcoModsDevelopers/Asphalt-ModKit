@@ -1,41 +1,21 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Players;
-using Eco.Gameplay.Stats.ConcretePlayerActions;
-using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Items;
-using Eco.Shared.Localization;
-using Eco.Shared.Services;
-using Eco.Shared.Utils;
-using Eco.Shared.Voxel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
     /// <summary>
     /// Called when a player interacts with something
     /// </summary>
-    public class PlayerInteractEvent : ICancellable, IEvent
+    public class PlayerInteractEvent : CancellableEvent
     {
-        private bool cancel = false;
-
-        public InteractionContext Context { get; protected set; }
+        public InteractionContext Context { get; set; }
 
         public PlayerInteractEvent(InteractionContext pContext) : base()
         {
             this.Context = pContext;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
         }
     }
 
@@ -75,9 +55,10 @@ namespace Asphalt.Api.Event.PlayerEvents
                 //Unwanted side effect that we can't change:
                 //  var activity = WorldLayerManager.GetLayer(LayerNames.PlayerActivity)?.FuncAtWorldPos(this.Position.XZi, (pos, val) => val = System.Math.Min(1, val + 0.001f));
 
+                return context;
             }
 
-            return context;
+            return playerInteractEvent.Context;
         }
 
         public static InteractionContext MakeContext_original(this InteractionInfo info, PlayerHandle player)

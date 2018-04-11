@@ -1,10 +1,8 @@
-﻿using Eco.Core.Utils.AtomicAction;
+﻿using Asphalt.Events;
+using Eco.Core.Utils.AtomicAction;
 using Eco.Gameplay.Components;
 using Eco.Gameplay.Players;
-using Eco.Gameplay.Stats.ConcretePlayerActions;
-using Eco.Gameplay.Systems.Chat;
 using Eco.Shared.Localization;
-using Eco.Shared.Services;
 using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
@@ -12,12 +10,10 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// <summary>
     /// Called when something pollutes
     /// </summary>
-    public class WorldPolluteEvent : ICancellable, IEvent
+    public class WorldPolluteEvent : CancellableEvent
     {
-        private bool cancel = false;
-
-        public User User { get; protected set; }
-        public AirPollutionComponent Component { get; protected set; }
+        public User User { get; set; }
+        public AirPollutionComponent Component { get; set; }
         public float Value { get; set; }
 
         public WorldPolluteEvent(User pUser, AirPollutionComponent pAirPollutionComponent, float pValue) : base()
@@ -25,16 +21,6 @@ namespace Asphalt.Api.Event.PlayerEvents
             User = pUser;
             Component = pAirPollutionComponent;
             Value = pValue;
-        }
-
-        public bool IsCancelled()
-        {
-            return this.cancel;
-        }
-
-        public void SetCancelled(bool cancel)
-        {
-            this.cancel = cancel;
         }
     }
 
@@ -48,7 +34,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             EventManager.CallEvent(ref wpeEvent);
 
             if (!wpe.IsCancelled())
-                return CreateAtomicAction_original(user, obj, wpe.Value);
+                return CreateAtomicAction_original(wpe.User, wpe.Component, wpe.Value);
 
             return new FailedAtomicAction(new LocString("Asphalt " + nameof(WorldPolluteEvent)));
         }

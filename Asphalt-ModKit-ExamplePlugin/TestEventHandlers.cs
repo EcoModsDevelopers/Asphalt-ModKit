@@ -33,19 +33,58 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
+        public void OnPlayerTeleport(PlayerTeleportEvent evt)
+        {
+            Console.WriteLine("Teleport " + evt.Player.FriendlyName);
+            Console.WriteLine(evt.Position);
+            //evt.SetCancelled(true);
+        }
+
+        [EventHandler]
+        public void OnPlayerLogout(PlayerLogoutEvent evt)
+        {
+            Console.WriteLine("Bye " + evt.User.Name);
+        }
+
+        [EventHandler]
         public void OnPlayerCraft(PlayerCraftEvent evt)
         {
-            Console.WriteLine("craft " + evt.Player.FriendlyName);
+            Console.WriteLine("Craft " + evt.Player.FriendlyName);
             Console.WriteLine(evt.Table);
             // evt.SetCancelled(true);
         }
 
         [EventHandler]
-        public void OnPlayerCraft(WorldPolluteEvent evt)
+        public void OnPlayerGainSkill(PlayerGainSkillEvent evt)
         {
-            Console.WriteLine(evt.Component);
-            Console.WriteLine(evt.User);
-            Console.WriteLine(evt.Value);
+            Console.WriteLine("GainSkill " + evt.Player.FriendlyName);
+            Console.WriteLine(evt.Skill.FriendlyName);
+            // evt.SetCancelled(true);
+        }
+
+        [EventHandler]
+        public void OnPlayerUnlearnSkill(PlayerUnlearnSkillEvent evt)
+        {
+            Console.WriteLine("UnlearnSkill " + evt.Player.FriendlyName);
+            Console.WriteLine(evt.Skill.FriendlyName);
+            // evt.SetCancelled(true);
+        }
+
+        [EventHandler]
+        public void OnPlayerClaimProperty(PlayerClaimPropertyEvent evt)
+        {
+            Console.WriteLine("ClaimProperty " + evt.Player.FriendlyName);
+            Console.WriteLine(evt.Position);
+            // evt.SetCancelled(true);
+        }
+
+        [EventHandler]
+        public void OnWorldPollute(WorldPolluteEvent evt)
+        {
+
+         //   Console.WriteLine(evt.Component);
+         //   Console.WriteLine(evt.User);
+         //   Console.WriteLine(evt.Value);
             //    evt.SetCancelled(true);
             //     evt.Value = 1;
         }
