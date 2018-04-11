@@ -18,8 +18,6 @@ namespace Asphalt.Api.Event
 {
     public static class EventManager
     {
-        //  List<IListener> listeners = new List<IListener>();
-        //  Dictionary<EventPriority, List<EventHandler>> handlers = new Dictionary<EventPriority, List<EventHandler>>();
 
         private static readonly EventHandlerComparer eventHandlerComparer = new EventHandlerComparer();
 
@@ -62,6 +60,8 @@ namespace Asphalt.Api.Event
             }
         }
 
+        //Execution
+
         public static void CallEvent(ref IEvent pEvent)
         {
     //        Console.WriteLine(pEvent);
@@ -86,15 +86,6 @@ namespace Asphalt.Api.Event
                     Console.WriteLine(e.ToString());
                 }
             }
-
-            /*
-                 //Cancel following EventHandlers if event IsCancelled
-                if (!_event.GetType().GetInterfaces().Contains(typeof(ICancellable)))
-                    continue;
-                if (((ICancellable)_event).IsCancelled())
-                    return;
-
-             */
         }
 
     }
