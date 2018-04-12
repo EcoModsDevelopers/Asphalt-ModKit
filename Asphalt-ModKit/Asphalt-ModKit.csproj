@@ -49,12 +49,14 @@
     <Compile Include="Asphalt.cs" />
     <Compile Include="Events\AsphaltThreadSafeAction.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
+    <Compile Include="Events\EventManagerHelper.cs" />
     <Compile Include="Events\IEvent.cs" />
     <Compile Include="Events\EventHandlerData.cs" />
     <Compile Include="Events\EventHandlerAttribute.cs" />
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\PlayerEvents\PlayerEatEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerRunForElectionEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerPayTaxEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerGetElectedEvent.cs" />
@@ -78,7 +80,9 @@
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
     <Compile Include="Events\PlayerEvents\PlayerUnlearnSkillEvent.cs" />
     <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

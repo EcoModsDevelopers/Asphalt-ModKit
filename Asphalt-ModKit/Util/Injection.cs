@@ -11,6 +11,7 @@ namespace Asphalt.Api.Util
     {
         private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
         private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
+        private const BindingFlags NON_PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.NonPublic;
 
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
@@ -32,6 +33,15 @@ namespace Asphalt.Api.Util
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE),
                     pHelperType.GetMethod(pMethodName, PUBLIC_INSTANCE),
                     pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
+                 );
+        }
+
+        public static void InstallWithOriginalHelperNonPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
+                    pHelperType.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
+                    pHelperType.GetMethod(pMethodName + "_original", NON_PUBLIC_INSTANCE)
                  );
         }
 

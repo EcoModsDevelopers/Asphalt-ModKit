@@ -79,14 +79,35 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
-        public void OnWorldPollute(WorldPolluteEvent evt)
+        public void OnWorldObjectEnabled(WorldObjectEnabledChangedEvent evt)
         {
-
-         //   Console.WriteLine(evt.Component);
-         //   Console.WriteLine(evt.User);
-         //   Console.WriteLine(evt.Value);
+            Console.WriteLine(evt.WorldObject.ToString());
+            //   Console.WriteLine(evt.User);
+            //   Console.WriteLine(evt.Value);
             //    evt.SetCancelled(true);
             //     evt.Value = 1;
         }
+
+        [EventHandler]
+        public void OnWorldObjectNameChanged(WorldObjectNameChangedEvent evt)
+        {
+            Console.WriteLine(evt.WorldObject.ToString());
+        }
+
+        [EventHandler]
+        public void OnWorldObjectOperatingChanged(WorldObjectOperatingChangedEvent evt)
+        {
+            Console.WriteLine(evt.WorldObject.ToString());
+        }
+
+        [EventHandler]
+        public void OnPlayerEatEvent(PlayerEatEvent evt)
+        {
+            Console.WriteLine(evt.FoodItem);
+        }
+
+
+
+
     }
 }

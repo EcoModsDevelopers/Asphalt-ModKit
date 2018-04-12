@@ -5,35 +5,35 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    public class WorldObjectNameChangedEvent : IEvent
+    public class WorldObjectOperatingChangedEvent : IEvent
     {
         public WorldObject WorldObject { get; set; }
 
-        public WorldObjectNameChangedEvent(WorldObject pWorldObject) : base()
+        public WorldObjectOperatingChangedEvent(WorldObject pWorldObject) : base()
         {
             WorldObject = pWorldObject;
         }
     }
 
-    internal class WorldObjectNameChangedEventHelper
+    internal class WorldObjectOperatingChangedEventHelper
     {
-        public void SetName(string newName)
+        private void set_Operating(bool pOperating)
         {
             WorldObject _this = (WorldObject)((object)this);
-            string before = _this.Name;
+            bool before = _this.Operating;
 
-            SetName_original(newName);
+            set_Operating_original(pOperating);
 
-            if (before == _this.Name)
+            if (before == _this.Operating)
                 return;
 
-            WorldObjectNameChangedEvent cEvent = new WorldObjectNameChangedEvent(_this);
+            WorldObjectOperatingChangedEvent cEvent = new WorldObjectOperatingChangedEvent(_this);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
         }
 
-        public void SetName_original(string newName)
+        private void set_Operating_original(bool pOperating)
         {
             throw new InvalidOperationException();
         }

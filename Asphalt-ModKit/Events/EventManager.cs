@@ -9,6 +9,7 @@
 
 using Asphalt.Api.AsphaltExceptions;
 using Asphalt.Events;
+using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,19 @@ namespace Asphalt.Api.Event
                 lock (locker)
                 {
                     if (!handlers.ContainsKey(parameterType))
+                    {
+                        try
+                        {
+                            EventManagerHelper.injectEvent(parameterType);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.WriteError(e.ToStringPretty());
+                            throw;
+                        }
+
                         handlers.Add(parameterType, new List<EventHandlerData>());
+                    }
 
                     handlers[parameterType].Add(new EventHandlerData(pListener, method, attribute.Priority, attribute.RunIfEventCancelled));
                     handlers[parameterType].Sort(eventHandlerComparer);
@@ -64,7 +77,7 @@ namespace Asphalt.Api.Event
 
         public static void CallEvent(ref IEvent pEvent)
         {
-    //        Console.WriteLine(pEvent);
+            //        Console.WriteLine(pEvent);
 
             if (!handlers.ContainsKey(pEvent.GetType()))
                 return;

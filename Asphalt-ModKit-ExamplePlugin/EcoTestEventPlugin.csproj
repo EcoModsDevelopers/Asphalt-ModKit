@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37796F9C-1137-4A74-860B-10DFEACDAA30}</ProjectGuid>
+    <ProjectGuid>{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EcoTestEventPlugin</RootNamespace>
