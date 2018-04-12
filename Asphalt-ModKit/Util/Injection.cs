@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -36,6 +37,9 @@ namespace Asphalt.Api.Util
 
         public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
         {
+            if (!pMethodToReplace.GetParameters().Select(p => p.ParameterType).SequenceEqual(pMethodToInject.GetParameters().Select(p => p.ParameterType)))
+                throw new ArgumentException("MethodInfos doesn't have the same parameters");
+
             RuntimeHelpers.PrepareMethod(pMethodToReplace.MethodHandle);
             RuntimeHelpers.PrepareMethod(pMethodToInject.MethodHandle);
 

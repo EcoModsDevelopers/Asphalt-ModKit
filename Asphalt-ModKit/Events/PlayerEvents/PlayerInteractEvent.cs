@@ -26,7 +26,7 @@ namespace Asphalt.Api.Event.PlayerEvents
                 return;                
          */
 
-        public static InteractionContext MakeContext(this InteractionInfo info, PlayerHandle player)
+        public static InteractionContext MakeContext(this InteractionInfo info, Player player)
         {
             InteractionContext context = MakeContext_original(info, player);
 
@@ -61,7 +61,7 @@ namespace Asphalt.Api.Event.PlayerEvents
             return playerInteractEvent.Context;
         }
 
-        public static InteractionContext MakeContext_original(this InteractionInfo info, PlayerHandle player)
+        public static InteractionContext MakeContext_original(this InteractionInfo info, Player player)
         {
             throw new InvalidOperationException();
         }
