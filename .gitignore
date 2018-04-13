@@ -242,6 +242,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-
 *.cache
-
+*.cache
