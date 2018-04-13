@@ -73,6 +73,12 @@ namespace Asphalt.Api.Event
             }
         }
 
+        public static void UnregisterListener(object pListener)
+        {
+            foreach (KeyValuePair<Type, List<EventHandlerData>> entry in handlers)
+                entry.Value.RemoveAll(x => x.Listener.Equals(pListener));
+        }
+
         //Execution
 
         public static void CallEvent(ref IEvent pEvent)
