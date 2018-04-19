@@ -1,6 +1,7 @@
 ﻿using Asphalt.Api.Util;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Gameplay.Players;
+using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -131,6 +132,8 @@ namespace Asphalt.Service.Settings
 
                 if (settings == null)
                     return null;
+
+                this.userSettings.Add(slgId, settings);
 
                 return RegisterSettings(settings);
             }
