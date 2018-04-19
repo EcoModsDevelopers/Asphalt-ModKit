@@ -1,7 +1,4 @@
-﻿using Asphalt.Api.Util;
-using Eco.Core.Plugins.Interfaces;
-using Eco.Gameplay.Players;
-using Eco.Shared.Utils;
+﻿using Eco.Core.Plugins.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +10,6 @@ namespace Asphalt.Service.Settings
         private AsphaltMod mod;
         private Type type;
         public string Name { get; private set; }
-        private string settingsdir;
 
         private CustomSettingsFile defaultFile;
         private Dictionary<string, CustomSettingsFile> userSettings;

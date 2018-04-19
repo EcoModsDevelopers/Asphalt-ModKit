@@ -29,12 +29,8 @@ namespace Asphalt
 
             //initialize service manager
             this.serviceManager = new ServiceManager(this);
-
             try {
-
-                //register settings service
-                this.serviceManager.RegisterService<SettingsService>();
-
+                this.serviceManager.RegisterServices();
             } catch (Exception e) {
                 Disable(e, "Initialization");
                 return;
