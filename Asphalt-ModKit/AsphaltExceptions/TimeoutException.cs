@@ -7,19 +7,20 @@
  * ------------------------------------
  **/
 
+using System;
 
 namespace Asphalt.AsphaltExceptions
 {
-    public class EventHandlerArgumentException : System.Exception
+    public class TimeoutException : Exception
     {
-        public EventHandlerArgumentException()
+        public TimeoutException()
         { }
 
-        public EventHandlerArgumentException(string message)
+        public TimeoutException(string message)
             : base(message)
         { }
 
-        public EventHandlerArgumentException(string message, System.Exception inner)
+        public TimeoutException(string message, Exception inner)
             : base(message, inner)
         { }
     }

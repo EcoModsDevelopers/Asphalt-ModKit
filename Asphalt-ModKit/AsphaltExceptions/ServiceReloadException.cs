@@ -3,23 +3,24 @@
  * Copyright (c) 2018 [Kronox]
  * See LICENSE file in the project root for full license information.
  * ------------------------------------
- * Created by Kronox on March 30, 2018
+ * Created by Kronox on March 27, 2018
  * ------------------------------------
  **/
 
+using System;
 
 namespace Asphalt.AsphaltExceptions
 {
-    public class EventHandlerArgumentException : System.Exception
+    public class ServiceReloadException : Exception
     {
-        public EventHandlerArgumentException()
+        public ServiceReloadException()
         { }
 
-        public EventHandlerArgumentException(string message)
+        public ServiceReloadException(string message)
             : base(message)
         { }
 
-        public EventHandlerArgumentException(string message, System.Exception inner)
+        public ServiceReloadException(string message, Exception inner)
             : base(message, inner)
         { }
     }
