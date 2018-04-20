@@ -1,4 +1,5 @@
 ﻿using Asphalt.Service;
+using Asphalt.Service.Config;
 using Asphalt.Service.Permissions;
 using Asphalt.Service.Settings;
 using Eco.Core.Plugins.Interfaces;
@@ -98,6 +99,11 @@ namespace Asphalt
         }
 
         public virtual List<Permission> GetPermissions()
+        {
+            return null;
+        }
+
+        public virtual List<ConfigField> GetConfigFields()
         {
             return null;
         }
