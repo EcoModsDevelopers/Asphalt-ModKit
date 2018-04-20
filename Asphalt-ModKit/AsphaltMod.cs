@@ -1,4 +1,5 @@
 ﻿using Asphalt.Service;
+using Asphalt.Service.Permissions;
 using Asphalt.Service.Settings;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
@@ -85,9 +86,18 @@ namespace Asphalt
             Log.WriteError("");
             Log.WriteError("Caught exception in "+phase+" phase of "+this.ToString()+"!  Disabling...\n"+e.ToString()+"");
             Log.WriteError("");
+            throw e;
+#if Debug
+            throw e;
+#endif
         }
 
         public virtual List<Type> GetCustomSettings()
+        {
+            return null;
+        }
+
+        public virtual List<Permission> GetPermissions()
         {
             return null;
         }
@@ -97,6 +107,20 @@ namespace Asphalt
             try
             {
                 return (SettingsService) this.serviceManager.GetService<SettingsService>();
+            }
+            catch
+            {
+                //TODO: Log smth...
+            }
+
+            return null;
+        }
+
+        public PermissionsService GetPermissionsService()
+        {
+            try
+            {
+                return (PermissionsService)this.serviceManager.GetService<PermissionsService>();
             }
             catch
             {

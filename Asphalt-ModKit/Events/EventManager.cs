@@ -7,7 +7,7 @@
  * ------------------------------------
  **/
 
-using Asphalt.Api.AsphaltExceptions;
+using Asphalt.AsphaltExceptions;
 using Asphalt.Events;
 using Eco.Shared.Utils;
 using System;

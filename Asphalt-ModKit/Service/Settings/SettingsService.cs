@@ -50,10 +50,10 @@ namespace Asphalt.Service.Settings
         }
 
         /**
-         * external getters ServiceManager
+         * external getters SettingsManager
          **/
 
-        public SettingsManager GetServiceManager(Type type)
+        public SettingsManager GetSettingsManager(Type type)
         {
             return this.settingsManagers[type];
         }

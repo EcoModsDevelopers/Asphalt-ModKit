@@ -8,6 +8,7 @@
  **/
 
 using Asphalt.AsphaltExceptions;
+using Asphalt.Service.Permissions;
 using Asphalt.Service.Settings;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ namespace Asphalt.Service
                 //register Asphalt services
                 if(this.Mod.GetCustomSettings() != null)
                     RegisterService<SettingsService>();
+
+                if (this.Mod.GetPermissions() != null)
+                    RegisterService<PermissionsService>();
 
                 //find and register custom services
                 //TODO
