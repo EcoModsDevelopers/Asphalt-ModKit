@@ -74,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Asphalt.cs" />
+    <Compile Include="AsphaltExceptions\ServiceAlreadyExistingException.cs" />
+    <Compile Include="AsphaltExceptions\ServiceInitException.cs" />
+    <Compile Include="AsphaltExceptions\ServiceNotKnownException.cs" />
+    <Compile Include="AsphaltExceptions\ServiceReloadException.cs" />
+    <Compile Include="AsphaltExceptions\TimeoutException.cs" />
+    <Compile Include="AsphaltMod.cs" />
     <Compile Include="Events\AsphaltThreadSafeAction.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\EventManagerHelper.cs" />
@@ -110,6 +116,23 @@
     <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
+    <Compile Include="Service\AbstractService.cs" />
+    <Compile Include="Service\Config\ConfigField.cs" />
+    <Compile Include="Service\Config\ConfigService.cs" />
+    <Compile Include="Service\Config\CustomConfigFile.cs" />
+    <Compile Include="Service\Confirm\AbstractConfirmService.cs" />
+    <Compile Include="Service\Confirm\ConfirmRegistry.cs" />
+    <Compile Include="Service\Confirm\IConfirmable.cs" />
+    <Compile Include="Service\Permissions\Permission.cs" />
+    <Compile Include="Service\Permissions\PermissionGroup.cs" />
+    <Compile Include="Service\Permissions\PermissionsFile.cs" />
+    <Compile Include="Service\Permissions\PermissionsService.cs" />
+    <Compile Include="Service\ServiceManager.cs" />
+    <Compile Include="Service\Settings\CustomSettingsFile.cs" />
+    <Compile Include="Service\Settings\SettingsManager.cs" />
+    <Compile Include="Service\Settings\SettingsService.cs" />
+    <Compile Include="Storeable\GenericStoreable.cs" />
+    <Compile Include="Storeable\JSON\CustomJSONFile.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

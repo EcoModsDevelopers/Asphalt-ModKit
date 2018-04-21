@@ -53,7 +53,7 @@ namespace Asphalt.Api.Util
             File.WriteAllText(filePath + fileName, content);
         }
 
-        public static string GetModFolder(object mod) //TODO
+        public static string GetModFolder(AsphaltMod mod)
         {
             return MODS_DIR + "/" + mod.ToString() + "/";
         }
