@@ -65,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -133,10 +134,15 @@
     <Compile Include="Service\Settings\SettingsService.cs" />
     <Compile Include="Storeable\GenericStoreable.cs" />
     <Compile Include="Storeable\JSON\CustomJSONFile.cs" />
+    <Compile Include="Util\AffineTransform.cs" />
+    <Compile Include="Util\BlockUtils.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
+    <Compile Include="Util\DirectionUtils.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Injection.cs" />
+    <Compile Include="Util\SkillsUtil.cs" />
+    <Compile Include="Util\WorldUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
