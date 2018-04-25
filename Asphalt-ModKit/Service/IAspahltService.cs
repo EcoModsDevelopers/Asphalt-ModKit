@@ -9,17 +9,10 @@
 
 namespace Asphalt.Service
 {
-    public abstract class AbstractService
+    public interface IAspahltService
     {
-        public AsphaltMod Mod { get; private set; }
+        void Init();
 
-        public AbstractService(AsphaltMod mod)
-        {
-            this.Mod = mod;
-        }
-
-        public abstract void Init();
-
-        public abstract void Reload();
+        void Reload();
     }
 }

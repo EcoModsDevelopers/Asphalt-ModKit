@@ -117,10 +117,11 @@
     <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
-    <Compile Include="Service\AbstractService.cs" />
-    <Compile Include="Service\Config\ConfigField.cs" />
+    <Compile Include="Service\IAspahltService.cs" />
+    <Compile Include="Service\KeyDefaultValue.cs" />
     <Compile Include="Service\Config\ConfigService.cs" />
     <Compile Include="Service\Config\CustomConfigFile.cs" />
+    <Compile Include="Service\Config\IConfigurableMod.cs" />
     <Compile Include="Service\Confirm\AbstractConfirmService.cs" />
     <Compile Include="Service\Confirm\ConfirmRegistry.cs" />
     <Compile Include="Service\Confirm\IConfirmable.cs" />
@@ -130,11 +131,16 @@
     <Compile Include="Service\Permissions\PermissionsService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Service\Settings\CustomSettingsFile.cs" />
+    <Compile Include="Service\Settings\ISettingsMod.cs" />
     <Compile Include="Service\Settings\SettingsManager.cs" />
     <Compile Include="Service\Settings\SettingsService.cs" />
     <Compile Include="Storeable\GenericStoreable.cs" />
+    <Compile Include="Storeable\IStorageCollection.cs" />
     <Compile Include="Storeable\JSON\CustomJSONFile.cs" />
+    <Compile Include="Storeable\IStorage.cs" />
+    <Compile Include="Storeable\StorageCollection.cs" />
     <Compile Include="Util\AffineTransform.cs" />
+    <Compile Include="Util\AsphaltDependencyInjectionHelper.cs" />
     <Compile Include="Util\BlockUtils.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\DirectionUtils.cs" />
@@ -146,6 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="E:\Eco\Server\Eco.Server\Eco.Server.csproj">
+      <Project>{72534CEF-6417-4905-BDEA-3E827114AFD8}</Project>
+      <Name>Eco.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

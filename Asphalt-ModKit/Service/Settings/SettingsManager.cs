@@ -5,6 +5,7 @@ using System.IO;
 
 namespace Asphalt.Service.Settings
 {
+    /*
     public class SettingsManager
     {
         private AsphaltMod mod;
@@ -43,7 +44,7 @@ namespace Asphalt.Service.Settings
         {
             this.userSettings = new Dictionary<string, CustomSettingsFile>();
 
-            string[] files = Directory.GetFiles(this.defaultFile.GetFilepath());
+            string[] files = Directory.GetFiles(Path.GetDirectoryName(this.defaultFile.GetFilename()));
 
             if (files == null || files.Length < 1)
                 return;
@@ -138,5 +139,5 @@ namespace Asphalt.Service.Settings
                 return null;
             }
         }
-    }
+    } */
 }

@@ -14,7 +14,8 @@ using System.Threading.Tasks;
 
 namespace Asphalt.Service.Confirm
 {
-    public abstract class AbstractConfirmService : AbstractService, IConfirmable
+    /*
+    public abstract class AbstractConfirmService : IAspahltService, IConfirmable
     {
         private double timeout;
         private DateTime created = DateTime.Now;
@@ -60,10 +61,9 @@ namespace Asphalt.Service.Confirm
             //TODO: Log msg
         }
 
-        /*
-         * Storage
-         */
-
+        
+         // Storage
+         
         public void Store(string key, object cs)
         {
             if (this.storage.ContainsKey(key))
@@ -78,9 +78,9 @@ namespace Asphalt.Service.Confirm
             return this.storage.TryGetValue(key, out value) ? value : null;
         }
 
-        /*
-         * Timeout
-         */
+        
+        // Timeout
+         
 
         public void SetTimeout(double timeout)
         {
@@ -101,5 +101,5 @@ namespace Asphalt.Service.Confirm
                 throw new TimeoutException();
             }
         }
-    }
+    } */
 }

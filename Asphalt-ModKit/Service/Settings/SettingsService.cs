@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace Asphalt.Service.Settings
 {
-    public class SettingsService : AbstractService
+    /*
+    public class SettingsService : IAspahltService
     {
 
         public static readonly string SETTINGS_DIR = "settings";
@@ -49,18 +50,18 @@ namespace Asphalt.Service.Settings
             }
         }
 
-        /**
-         * external getters SettingsManager
-         **/
+        
+        //  external getters SettingsManager
+        
 
         public SettingsManager GetSettingsManager(Type type)
         {
             return this.settingsManagers[type];
         }
 
-        /**
-         * external getters Settings
-         **/
+        
+        // external getters Settings
+         
 
         //READ-AND-WRITE
 
@@ -98,9 +99,9 @@ namespace Asphalt.Service.Settings
             return GetReadOnlySettings(type, player.User.SlgId);
         }
 
-        /**
-         * internall getters Settings
-         **/
+       
+        // internal getters Settings
+       
 
         private CustomSettingsFile GetOrCreateSettingsForUser(SettingsManager manager, string slgId)
         {
@@ -125,5 +126,6 @@ namespace Asphalt.Service.Settings
 
             return settings;
         }
-    }
+        
+}*/
 }

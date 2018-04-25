@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 namespace Asphalt.Service.Permissions
-{
-    public class PermissionsService : AbstractService
+{/*
+    public class PermissionsService : IAspahltService
     {
         private PermissionsFile file;
 
@@ -97,6 +97,6 @@ namespace Asphalt.Service.Permissions
 
             user.Player.SendTemporaryErrorAlreadyLocalized("Sorry, but you don't have the permission to do this!");
             return false;
-        }
-    }
+        } 
+    } */
 }

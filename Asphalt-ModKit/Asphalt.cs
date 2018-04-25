@@ -9,6 +9,7 @@
 
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Util;
+using Asphalt.Util;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Objects;
@@ -44,7 +45,9 @@ namespace Asphalt.Api
                     */
 
             // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
-                      
+
+            AsphaltDependencyInjectionHelper.init();
+
             IsInitialized = true;
         }
 

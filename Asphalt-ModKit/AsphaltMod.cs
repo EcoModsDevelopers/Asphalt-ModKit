@@ -22,39 +22,54 @@ namespace Asphalt
         {
             Status = "Initializing...";
 
-            try {
+            try
+            {
                 this.OnPreEnable();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Disable(e, "PreInitialization");
                 return;
             }
 
             //initialize service manager
             this.serviceManager = new ServiceManager(this);
-            try {
-                this.serviceManager.RegisterServices();
-            } catch (Exception e) {
+            try
+            {
+
+
+
+            }
+            catch (Exception e)
+            {
                 Disable(e, "Initialization");
                 return;
             }
 
-            try {
+            try
+            {
                 this.OnEnable();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Disable(e, "Initialization");
                 return;
             }
 
 
-            try {
+            try
+            {
                 this.OnPostEnable();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Disable(e, "PostInitialization");
                 return;
             }
 
             Status = "Complete!";
         }
+
 
         public virtual string GetStatus()
         {
@@ -85,55 +100,25 @@ namespace Asphalt
                 e = ((TargetInvocationException)e).InnerException;
             //blanks just to prevent overlayed text...
             Log.WriteError("");
-            Log.WriteError("Caught exception in "+phase+" phase of "+this.ToString()+"!  Disabling...\n"+e.ToString()+"");
+            Log.WriteError("Caught exception in " + phase + " phase of " + this.ToString() + "!  Disabling...\n" + e.ToString() + "");
             Log.WriteError("");
             throw e;
-#if Debug
-            throw e;
-#endif
         }
 
-        public virtual List<Type> GetCustomSettings()
+        public List<KeyDefaultValue> GetCustomSettings()
         {
             return null;
         }
 
-        public virtual List<Permission> GetPermissions()
+        public List<KeyDefaultValue> GetPermissions()
         {
             return null;
         }
 
-        public virtual List<ConfigField> GetConfigFields()
+        public List<KeyDefaultValue> GetConfig()
         {
             return null;
         }
 
-        public SettingsService GetSettingsService()
-        {
-            try
-            {
-                return (SettingsService) this.serviceManager.GetService<SettingsService>();
-            }
-            catch
-            {
-                //TODO: Log smth...
-            }
-
-            return null;
-        }
-
-        public PermissionsService GetPermissionsService()
-        {
-            try
-            {
-                return (PermissionsService)this.serviceManager.GetService<PermissionsService>();
-            }
-            catch
-            {
-                //TODO: Log smth...
-            }
-
-            return null;
-        }
     }
 }

@@ -4,26 +4,26 @@ using System.Collections.Generic;
 
 namespace Asphalt.Storeable.JSON
 {
-    public abstract class CustomJSONFile
+    public class CustomJSONFile : IStorage
     {
-        protected CustomJSONFileContent content;
+        protected Dictionary<string, object> content;
 
-        public CustomJSONFile()
+        public string FileName { get; protected set; }
+
+        public CustomJSONFile(string pFileName)
         {
+            FileName = pFileName;
+            content = new Dictionary<string, object>();
         }
-
-        public abstract string GetFilepath();
-
-        public abstract string GetFilename();
 
         public virtual void Reload()
         {
-            this.content = ClassSerializer<CustomJSONFileContent>.Deserialize(GetFilepath(), GetFilename());
+            this.content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
         }
 
         public virtual void Save()
         {
-            ClassSerializer<CustomJSONFileContent>.Serialize(GetFilepath(), GetFilename(), this.content);
+            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.content);
         }
 
         public virtual void Store()
@@ -44,23 +44,23 @@ namespace Asphalt.Storeable.JSON
 
         public virtual object GetObject(string key)
         {
-            if (!this.content.Content.ContainsKey(key))
+            if (!this.content.ContainsKey(key))
                 return null;
 
-            return this.content.Content[key];
+            return this.content[key];
         }
 
         public virtual void SetObject(string key, object obj)
         {
-            if (this.content.Content.ContainsKey(key))
-                this.content.Content.Remove(key);
+            if (this.content.ContainsKey(key))
+                this.content.Remove(key);
 
-            this.content.Content.Add(key, obj);
+            this.content.Add(key, obj);
         }
 
         public virtual string GetString(string key)
         {
-            return (string) GetObject(key);
+            return (string)GetObject(key);
         }
 
         public virtual void SetString(string key, string value)
@@ -77,8 +77,14 @@ namespace Asphalt.Storeable.JSON
         {
             SetObject(key, value);
         }
+
+        public K Get<K>(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 
+    /*
     public class CustomJSONFileContent
     {
         public Dictionary<string, object> Content { get; set; }
@@ -87,5 +93,5 @@ namespace Asphalt.Storeable.JSON
         {
             this.Content = new Dictionary<string, object>();
         }
-    }
+    }*/
 }

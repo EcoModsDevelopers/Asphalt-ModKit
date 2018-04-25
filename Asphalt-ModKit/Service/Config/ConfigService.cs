@@ -1,27 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Asphalt.Storeable;
+using System.Collections.Generic;
 
 namespace Asphalt.Service.Config
-{
-    public class ConfigService : AbstractService
+{/*
+    public class ConfigService : IAspahltService
     {
         private CustomConfigFile file;
 
         private Dictionary<string, object> configFiels;
 
-        public ConfigService(AsphaltMod mod) : base(mod) { }
-
-        public override void Init()
+        public void Init()
         {
-            file = new CustomConfigFile(Mod);
-            configFiels = new Dictionary<string, object>();
-
-            LoadDefaultPermissions();
-            LoadPermissionsFromFile();
+            file = new CustomConfigFile();
+            Reload();
         }
 
-        public override void Reload()
+        public void Reload()
         {
-            configFiels.Clear();
+            configFiels = new Dictionary<string, object>();
 
             LoadDefaultPermissions();
             LoadPermissionsFromFile();
@@ -29,7 +25,7 @@ namespace Asphalt.Service.Config
 
         private void LoadDefaultPermissions()
         {
-            foreach(ConfigField field in Mod.GetConfigFields())
+            foreach (KeyDefaultValue field in Mod.GetConfigFields())
             {
                 if (configFiels.ContainsKey(field.Key))
                     configFiels.Remove(field.Key);
@@ -45,7 +41,7 @@ namespace Asphalt.Service.Config
             foreach (KeyValuePair<string, object> pair in file.GetValues())
             {
                 try
-                { 
+                {
                     configFiels[pair.Key] = pair.Value;
                 }
                 catch
@@ -58,9 +54,9 @@ namespace Asphalt.Service.Config
             file.Save();
         }
 
-        public CustomConfigFile GetConfig()
+        public IStorage GetConfig()
         {
             return file;
         }
-    }
+    }*/
 }

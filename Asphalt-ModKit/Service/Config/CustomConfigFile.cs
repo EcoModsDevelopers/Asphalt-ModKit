@@ -1,36 +1,24 @@
 ﻿using Asphalt.Api.Util;
 using Asphalt.Storeable.JSON;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Asphalt.Service.Config
 {
     public class CustomConfigFile : CustomJSONFile
     {
-        private AsphaltMod mod;
-
-        public CustomConfigFile(AsphaltMod mod)
+        public CustomConfigFile(string pFilePath) : base(Path.Combine(pFilePath, "config.json"))
         {
-            this.mod = mod;
-        }
-
-        public override string GetFilename()
-        {
-            return "config.json";
-        }
-
-        public override string GetFilepath()
-        {
-            return FileUtil.GetModFolder(mod);
         }
 
         public Dictionary<string, object> GetValues()
         {
-            return this.content.Content;
+            return this.content;
         }
 
         public void SetValues(Dictionary<string, object> values)
         {
-            this.content.Content = values;
+            this.content = values;
         }
     }
 }

@@ -20,43 +20,20 @@ namespace Asphalt.Service
     {
         public AsphaltMod Mod { get; private set; }
 
-        private Dictionary<Type, AbstractService> services = new Dictionary<Type, AbstractService>();
+        private Dictionary<Type, IAspahltService> services = new Dictionary<Type, IAspahltService>();
 
         public ServiceManager(AsphaltMod mod)
         {
             this.Mod = mod;
         }
 
-        public void RegisterServices()
-        {
-            try
-            {
-                //register Asphalt services
-                if(this.Mod.GetCustomSettings() != null)
-                    RegisterService<SettingsService>();
 
-                if (this.Mod.GetPermissions() != null)
-                    RegisterService<PermissionsService>();
-
-                if (this.Mod.GetConfigFields() != null)
-                    RegisterService<ConfigService>();
-
-                //find and register custom services
-                //TODO
-            } 
-            catch(ServiceAlreadyExistingException e)
-            {
-                throw new ServiceInitException(e.Message);
-            }
-
-        }
-
-        public void RegisterService<TService>() where TService : AbstractService
+        public void RegisterService<TService>() where TService : IAspahltService
         {
             if (this.Exists<TService>())
                 throw new ServiceAlreadyExistingException(typeof(TService).ToString());
 
-            AbstractService service;
+            IAspahltService service;
             try
             {
                 service = (TService)Activator.CreateInstance(typeof(TService), this.Mod);
@@ -69,12 +46,12 @@ namespace Asphalt.Service
             }
         }
 
-        public bool Exists<TService>() where TService : AbstractService
+        public bool Exists<TService>() where TService : IAspahltService
         {
             return services.ContainsKey(typeof(TService));
         }
 
-        public AbstractService GetService<TService>() where TService : AbstractService
+        public IAspahltService GetService<TService>() where TService : IAspahltService
         {
             if (!this.Exists<TService>())
                 return null;
@@ -82,7 +59,7 @@ namespace Asphalt.Service
             return this.services[typeof(TService)];
         }
 
-        public void reload<TService>() where TService : AbstractService
+        public void Reload<TService>() where TService : IAspahltService
         {
             if (!this.Exists<TService>())
                 throw new ServiceNotKnownException(typeof(TService).ToString());
@@ -90,13 +67,13 @@ namespace Asphalt.Service
             this.services[typeof(TService)].Reload();
         }
 
-        public void reload()
+        public void Reload()
         {
             try
             {
-                foreach (KeyValuePair<Type, AbstractService> pair in services)
+                foreach (KeyValuePair<Type, IAspahltService> pair in services)
                     pair.Value.Reload();
-            } 
+            }
             catch
             {
                 throw new ServiceReloadException();

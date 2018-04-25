@@ -39,18 +39,19 @@ namespace Asphalt.Api.Util
             }
         }
 
-        public static string ReadFromFile(string filePath, string fileName)
+        public static string ReadFromFile(string fileName)
         {
-            CreateDirectoryAndFile(filePath, fileName);
+            if (!File.Exists(fileName))
+                return null;
 
-            return File.ReadAllText(filePath + fileName);
+            return File.ReadAllText(fileName);
         }
 
-        public static void WriteToFile(string filePath, string fileName, string content)
+        public static void WriteToFile(string fileName, string content)
         {
-            CreateDirectoryAndFile(filePath, fileName);
+            CreateDirectoryAndFile(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
 
-            File.WriteAllText(filePath + fileName, content);
+            File.WriteAllText(fileName, content);
         }
 
         public static string GetModFolder(AsphaltMod mod)
