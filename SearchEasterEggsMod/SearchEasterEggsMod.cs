@@ -1,24 +1,28 @@
-﻿using Asphalt.Service.Config;
-using Eco.Core.Plugins.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Eco.Core.Plugins.Interfaces;
 using Asphalt.Service;
 using Asphalt.Storeable;
-using Eco.ModKit;
+using Asphalt;
+using Asphalt.Service.Permissions;
 
 namespace SearchEasterEggsMod
 {
     public class SearchEasterEggsMod : IModKitPlugin
     {
 
+        [Inject]
         public IStorage ConfigStorage { get; set; }
 
+        [Inject]
         public IStorageCollection SettingsCollection { get; set; }
+        
+        [Inject]
+        public IPermissionChecker PermissionChecker { get; set; }
 
         //   public IStorage<EasterEggConfigValues> ConfigStorage2 { get; set; }
+
+        [Inject]
+        [StorageName("customConfig")]
+        public IStorage CustomConfig { get; set; }
 
 
         public SearchEasterEggsMod()
@@ -30,14 +34,15 @@ namespace SearchEasterEggsMod
         {
             // SettingsCollection.setDirectory("dfg");
 
-            int maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
+            int? maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
+            int maximumEggsInWorld2 = ConfigStorage.Get<int>("MaximumEggsInWorld");
 
 
             IStorage hStorage = SettingsCollection.GetStorage("hansi");
 
             hStorage.GetInt("CollectedEggs");
 
-
+            PermissionChecker.CheckPermission(null, "ff");
 
             //   int maximumEggsInWorld2 = ConfigStorage2.GetInt(EasterEggConfigValues.MaximumEggsInWorld);
 

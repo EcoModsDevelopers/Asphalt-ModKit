@@ -1,16 +1,9 @@
 ﻿using Asphalt.Service;
-using Asphalt.Service.Config;
-using Asphalt.Storeable;
-using Asphalt.Storeable.JSON;
+using Asphalt.Storeable.Json;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Server;
 using Eco.Shared.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asphalt.Util
 {
@@ -32,18 +25,17 @@ namespace Asphalt.Util
             if (pi == null)
                 return;
 
-            CustomConfigFile storage = new CustomConfigFile(pServerPlugin.ToString());
-
-
+            JsonFileStorage storage = new JsonFileStorage(pServerPlugin.ToString(), configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            
             //public KeyDefaultValue<string>[] GetConfig()
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod("GetConfig");
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
-                  
+
             storage.Reload();
-            storage.SetValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            storage.SetValues();
             storage.Save();
 
             pi.SetValue(pServerPlugin, storage);

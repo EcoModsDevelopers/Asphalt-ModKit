@@ -1,11 +1,11 @@
 ﻿using Asphalt.Api.Util;
-using Asphalt.Storeable.JSON;
+using Asphalt.Storeable.Json;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Asphalt.Service.Permissions
 {
-    public class PermissionsFile : CustomJSONFile
+    public class PermissionsFile : JsonFileStorage
     {
         public PermissionsFile() : base("permissions.json")
         {

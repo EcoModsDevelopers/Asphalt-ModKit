@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asphalt.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Asphalt.Storeable
     /// Collection of IStorage.
     /// Contains a IStorage as default file
     /// </summary>
-    public interface IStorageCollection
+    public interface IStorageCollection : IReloadable
     {
         IStorage GetDefaultStorage();
 

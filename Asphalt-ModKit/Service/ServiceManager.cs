@@ -8,9 +8,6 @@
  **/
 
 using Asphalt.AsphaltExceptions;
-using Asphalt.Service.Config;
-using Asphalt.Service.Permissions;
-using Asphalt.Service.Settings;
 using System;
 using System.Collections.Generic;
 

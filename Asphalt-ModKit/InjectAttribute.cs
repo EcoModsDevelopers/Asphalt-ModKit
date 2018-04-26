@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asphalt.Service.Settings
+namespace Asphalt
 {
-    interface ISettingsMod
+    public class InjectAttribute : Attribute
     {
     }
 }

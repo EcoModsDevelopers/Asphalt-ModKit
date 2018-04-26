@@ -1,13 +1,12 @@
-﻿using Asphalt.Storeable.JSON;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asphalt.Storeable
+namespace Asphalt.Storeable.Json
 {
-    public class JsonStorageCollection : IStorageCollection
+    public class JsonFileStorageCollection : IStorageCollection
     {
         private static IDictionary<string, IStorage> mStorageCache = new Dictionary<string, IStorage>();
 
@@ -16,7 +15,7 @@ namespace Asphalt.Storeable
         public IStorage GetDefaultStorage()
         {
             if (mDefaultStorage == null)
-                mDefaultStorage = new CustomJSONFile("_default.json");
+                mDefaultStorage = new JsonFileStorage("_default.json");
             return mDefaultStorage;
         }
 
@@ -24,13 +23,18 @@ namespace Asphalt.Storeable
         {
             if (!mStorageCache.ContainsKey(pStorageName))
             {
-                CustomJSONFile file = new CustomJSONFile(pStorageName + ".json");
+                JsonFileStorage file = new JsonFileStorage(pStorageName + ".json", GetDefaultStorage());
                 //init file
                 mStorageCache.Add(pStorageName, file);
                 return file;
             }
 
             return mStorageCache[pStorageName];
+        }
+
+        public void Reload()
+        {
+            mStorageCache.Clear();
         }
     }
 }
