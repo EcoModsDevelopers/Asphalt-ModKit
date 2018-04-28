@@ -17,6 +17,7 @@ using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Utils;
 using Harmony;
+using System;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -49,9 +50,16 @@ namespace Asphalt.Api
 
             // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
 
-            Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
-            Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            try
+            {
+                Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            }
+            catch (Exception e)
+            {
 
+                throw;
+            }
             IsInitialized = true;
         }
 

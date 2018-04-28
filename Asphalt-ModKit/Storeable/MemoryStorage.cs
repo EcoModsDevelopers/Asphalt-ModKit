@@ -30,9 +30,9 @@ namespace Asphalt.Storeable
             Set(key, value);
         }
 
-        public virtual int? GetInt(string key)
+        public virtual int GetInt(string key)
         {
-            return Get<int?>(key);
+            return Convert.ToInt32(GetString(key));
         }
 
         public virtual void SetInt(string key, int value)

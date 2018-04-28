@@ -34,8 +34,7 @@ namespace Asphalt.Util
 
             if (pi == null)
                 return;
-
-
+            
             //public KeyDefaultValue<string>[] GetConfig()
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod("GetConfig");
@@ -52,8 +51,6 @@ namespace Asphalt.Util
             storage.Save();
 
             pi.SetValue(pServerPlugin, storage);
-
-            pServerPlugin.GetType().GetMethod("OnEnable")?.Invoke(pServerPlugin, new object[] { });
         }
     }
 }

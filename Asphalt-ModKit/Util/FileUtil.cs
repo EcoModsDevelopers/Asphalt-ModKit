@@ -38,7 +38,7 @@ namespace Asphalt.Api.Util
                 fs.Close();
             }
         }
-
+        
         public static string ReadFromFile(string fileName)
         {
             if (!File.Exists(fileName))

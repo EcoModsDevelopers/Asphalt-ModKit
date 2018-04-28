@@ -29,7 +29,8 @@ namespace Asphalt.Storeable.Json
         {
             if (content.Count == 0)
             {
-                File.Delete(FileName);
+                if (File.Exists(FileName))
+                    File.Delete(FileName);
                 return;
             }
 
@@ -46,9 +47,9 @@ namespace Asphalt.Storeable.Json
             Set(key, value);
         }
 
-        public virtual int? GetInt(string key)
+        public virtual int GetInt(string key)
         {
-            return Get<int?>(key);
+            return Convert.ToInt32(GetString(key));
         }
 
         public virtual void SetInt(string key, int value)
