@@ -17,26 +17,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldObjectOperatingChangedEventHelper
     {
-        private void set_Operating(bool pOperating)
+        public static void Prefix(WorldObject __instance, ref bool __state)
         {
-            WorldObject _this = (WorldObject)((object)this);
-            bool before = _this.Operating;
+            __state = __instance.Operating;
+        }
 
-            set_Operating_original(pOperating);
-
-            if (before == _this.Operating)
+        public static void Postfix(WorldObject __instance, ref bool __state)
+        {
+            if (__state == __instance.Operating)
                 return;
 
-            WorldObjectOperatingChangedEvent cEvent = new WorldObjectOperatingChangedEvent(_this);
+            WorldObjectOperatingChangedEvent cEvent = new WorldObjectOperatingChangedEvent(__instance);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
         }
-
-        private void set_Operating_original(bool pOperating)
-        {
-            throw new InvalidOperationException();
-        }
-
     }
 }

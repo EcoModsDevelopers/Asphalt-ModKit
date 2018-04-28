@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Eco.Shared.Utils;
+using Harmony;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -22,8 +24,8 @@ namespace Asphalt.Api.Util
         {
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_STATC),
-                    pHelperType.GetMethod(pMethodName, PUBLIC_STATC),
-                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
+                    pHelperType
+                 //            pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
                  );
         }
 
@@ -31,8 +33,8 @@ namespace Asphalt.Api.Util
         {
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName, PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
+                    pHelperType
+                 //                pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
                  );
         }
 
@@ -40,14 +42,18 @@ namespace Asphalt.Api.Util
         {
             Install(
                     pTypeToReplace.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName + "_original", NON_PUBLIC_INSTANCE)
+                    pHelperType
+                 //               pHelperType.GetMethod(pMethodName + "_original", NON_PUBLIC_INSTANCE)
                  );
         }
 
-        public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
+        public static void Install(MethodInfo pMethodToReplace, Type pHelperType)
         {
-            if (!pMethodToReplace.GetParameters().Select(p => p.ParameterType).SequenceEqual(pMethodToInject.GetParameters().Select(p => p.ParameterType)))
+            Asphalt.Harmony.Patch(pMethodToReplace, new HarmonyMethod(FindMethod(pHelperType, "Prefix")), new HarmonyMethod(FindMethod(pHelperType, "Postfix")));
+
+            /*
+             * 
+            if (!pMethodToReplace.GetParameters().Select(p => p.ParameterType).SequenceEqual(pPrefix.GetParameters().Select(p => p.ParameterType)))
                 throw new ArgumentException("MethodInfos doesn't have the same parameters");
 
             RuntimeHelpers.PrepareMethod(pMethodToReplace.MethodHandle);
@@ -138,7 +144,7 @@ namespace Asphalt.Api.Util
                         *tar = *inj;
                     }
                 }
-            }
+            }*/
         }
 
 
@@ -153,6 +159,12 @@ namespace Asphalt.Api.Util
                 }
             }
             return false;
+        }
+
+
+        public static MethodInfo FindMethod(Type pType, string pName)
+        {
+            return pType.GetMethod(pName, NON_PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_STATC);
         }
 
     }

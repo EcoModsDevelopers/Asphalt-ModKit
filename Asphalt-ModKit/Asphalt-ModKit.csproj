@@ -36,6 +36,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.0.9.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>E:\Eco\Server\packages\Harmony.1.0.9.1\lib\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\EcoServer.0.7.3.2\lib\Eco.Core.dll</HintPath>
     </Reference>
@@ -81,6 +84,7 @@
     <Compile Include="AsphaltExceptions\ServiceReloadException.cs" />
     <Compile Include="AsphaltExceptions\TimeoutException.cs" />
     <Compile Include="AsphaltMod.cs" />
+    <Compile Include="BoolContainer.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\EventManagerHelper.cs" />
     <Compile Include="Events\IEvent.cs" />
@@ -128,15 +132,17 @@
     <Compile Include="Service\Permissions\PermissionGroup.cs" />
     <Compile Include="Service\Permissions\PermissionsFile.cs" />
     <Compile Include="Service\Permissions\PermissionsService.cs" />
+    <Compile Include="Service\ServicePatches.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Storeable\GenericStoreable.cs" />
     <Compile Include="Storeable\IStorageCollection.cs" />
     <Compile Include="Storeable\Json\JsonFileStorage.cs" />
     <Compile Include="Storeable\IStorage.cs" />
     <Compile Include="Storeable\Json\JsonFileStorageCollection.cs" />
+    <Compile Include="Storeable\MemoryStorage.cs" />
     <Compile Include="Storeable\StorageName.cs" />
     <Compile Include="Util\AffineTransform.cs" />
-    <Compile Include="Util\AsphaltDependencyInjectionHelper.cs" />
+    <Compile Include="Service\ServiceHelper.cs" />
     <Compile Include="Util\BlockUtils.cs" />
     <Compile Include="Util\ClassSerializer.cs" />
     <Compile Include="Util\DirectionUtils.cs" />
@@ -147,6 +153,7 @@
     <Compile Include="Util\WorldUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

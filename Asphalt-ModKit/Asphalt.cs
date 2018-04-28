@@ -16,6 +16,7 @@ using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Utils;
+using Harmony;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -24,6 +25,8 @@ namespace Asphalt.Api
     public class Asphalt : IModKitPlugin, IServerPlugin
     {
         public static bool IsInitialized { get; protected set; }
+
+        public static HarmonyInstance Harmony { get; protected set; }
 
         static Asphalt()
         {
@@ -46,11 +49,11 @@ namespace Asphalt.Api
 
             // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
 
-            AsphaltDependencyInjectionHelper.init();
+            Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             IsInitialized = true;
         }
-
 
         public static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 

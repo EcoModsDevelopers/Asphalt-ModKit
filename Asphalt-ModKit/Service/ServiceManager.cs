@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace Asphalt.Service
 {
     public class ServiceManager
-    {
+    {/*
         public AsphaltMod Mod { get; private set; }
 
         private Dictionary<Type, IAspahltService> services = new Dictionary<Type, IAspahltService>();
@@ -75,6 +75,6 @@ namespace Asphalt.Service
             {
                 throw new ServiceReloadException();
             }
-        }
+        }*/
     }
 }

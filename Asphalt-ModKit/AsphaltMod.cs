@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 namespace Asphalt
-{
+{/*
     public abstract class AsphaltMod : IModKitPlugin, IServerPlugin
     {
 
@@ -117,5 +117,5 @@ namespace Asphalt
             return null;
         }
 
-    }
+    }*/
 }

@@ -8,9 +8,9 @@
  **/
 
 namespace Asphalt.Service
-{
+{/*
     public interface IAspahltService : IReloadable
     {
         void Init();
-    }
+    } */
 }
