@@ -29,22 +29,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCraftEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, CraftingComponent table, Item item)
+        public static bool Prefix(Player player, CraftingComponent table, Item item, ref IAtomicAction __result)
         {
-            PlayerCraftEvent pcfe = new PlayerCraftEvent(player, table, item);
-            IEvent pcfEvent = pcfe;
+            PlayerCraftEvent cEvent = new PlayerCraftEvent(player, table, item);
+            IEvent iEvent = cEvent;
 
-            EventManager.CallEvent(ref pcfEvent);
+            EventManager.CallEvent(ref iEvent);
 
-            if (!pcfe.IsCancelled())
-                return CreateAtomicAction_original(pcfe.Player, pcfe.Table, pcfe.Item);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player, CraftingComponent table, Item item)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

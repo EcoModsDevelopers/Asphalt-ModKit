@@ -25,22 +25,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerSendMessageEventHelper
     {
-        public IAtomicAction CreateAtomicAction(User user, ChatMessage message)
+        public static bool Prefix(User user, ChatMessage message, ref IAtomicAction __result)
         {
-            PlayerSendMessageEvent psme = new PlayerSendMessageEvent(user, message);
-            IEvent psmeEvent = psme;
+            PlayerSendMessageEvent cEvent = new PlayerSendMessageEvent(user, message);
+            IEvent iEvent = cEvent;
 
-            EventManager.CallEvent(ref psmeEvent);
+            EventManager.CallEvent(ref iEvent);
 
-            if (!psme.IsCancelled())
-                return CreateAtomicAction_original(psme.User, psme.Message);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(User user, ChatMessage message)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

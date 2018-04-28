@@ -23,22 +23,14 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerEatEventHelper
     {
-        public bool Eat(Player player, FoodItem food)
+        public static bool Prefix(Player player, FoodItem food, Stomach __instance)
         {
-            PlayerEatEvent cEvent = new PlayerEatEvent(player, food, (Stomach)((object)this));
+            PlayerEatEvent cEvent = new PlayerEatEvent(player, food, __instance);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return Eat_original(cEvent.Player, cEvent.FoodItem);
-
-            return false;
-        }
-
-        public bool Eat_original(Player player, FoodItem food)
-        {
-            throw new InvalidOperationException();
+            return cEvent.IsCancelled();
         }
     }
 }

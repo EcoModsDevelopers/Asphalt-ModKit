@@ -22,20 +22,14 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerTeleportEventHelper
     {
-        public void SetPosition(Vector3 position)
+        public static bool Prefix(Vector3 position, Player __instance)
         {
-            PlayerTeleportEvent pte = new PlayerTeleportEvent((Player)((object)this), position);
-            IEvent pteEvent = pte;
+            PlayerTeleportEvent cEvent = new PlayerTeleportEvent(__instance, position);
+            IEvent iEvent = cEvent;
 
-            EventManager.CallEvent(ref pteEvent);
+            EventManager.CallEvent(ref iEvent);
 
-            if(!pte.IsCancelled())
-                SetPosition_original(position);
-        }
-
-        public void SetPosition_original(Vector3 position)
-        {
-            throw new InvalidOperationException();
+            return cEvent.IsCancelled();
         }
     }
 }

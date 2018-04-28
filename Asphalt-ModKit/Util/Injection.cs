@@ -146,7 +146,7 @@ namespace Asphalt.Api.Util
                 }
             }*/
         }
-
+        /*
 
         private static bool IsAssemblyDebugBuild(Assembly assembly)
         {
@@ -159,7 +159,7 @@ namespace Asphalt.Api.Util
                 }
             }
             return false;
-        }
+        }*/
 
 
         public static MethodInfo FindMethod(Type pType, string pName)
