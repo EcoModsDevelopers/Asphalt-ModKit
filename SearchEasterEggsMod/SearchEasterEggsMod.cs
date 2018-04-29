@@ -34,29 +34,23 @@ namespace SearchEasterEggsMod
         {
             // SettingsCollection.setDirectory("dfg");
 
-            try
-            {
-                int maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
+            int maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
 
-                //    int? maximumEggsInWorld2 = ConfigStorage.Get<int?>("MaximumEggsInWorld");
+            //       ConfigStorage.SetInt("MaximumEggsInWorld", 22);
 
-                /*
-                                IStorage hStorage = SettingsCollection.GetStorage("hansi");
+            //    int? maximumEggsInWorld2 = ConfigStorage.Get<int?>("MaximumEggsInWorld");
 
-                                hStorage.GetInt("CollectedEggs");
+            /*
+                            IStorage hStorage = SettingsCollection.GetStorage("hansi");
 
-                                PermissionChecker.CheckPermission(null, "ff");*/
+                            hStorage.GetInt("CollectedEggs");
 
-                //   int maximumEggsInWorld2 = ConfigStorage2.GetInt(EasterEggConfigValues.MaximumEggsInWorld);
+                            PermissionChecker.CheckPermission(null, "ff");*/
+
+            //   int maximumEggsInWorld2 = ConfigStorage2.GetInt(EasterEggConfigValues.MaximumEggsInWorld);
 
 
-                //   Uri test = ConfigStorage2.Get<Uri>(EasterEggConfigValues.MaximumEggsInWorld);
-            }
-            catch (Exception e)
-            {
-
-            }
-
+            //   Uri test = ConfigStorage2.Get<Uri>(EasterEggConfigValues.MaximumEggsInWorld);
         }
 
         public KeyDefaultValue[] GetConfig()
@@ -66,7 +60,6 @@ namespace SearchEasterEggsMod
                 new KeyDefaultValue("MaximumEggsInWorld","42"),
             };
         }
-
 
         public string GetStatus()
         {

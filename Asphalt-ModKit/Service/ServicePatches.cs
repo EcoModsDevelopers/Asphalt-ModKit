@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace Asphalt.Service
 {
-
-
     [HarmonyPatch(typeof(EcoSerializer), "FinishDeserialization")]
     internal static class PreEnablePatch
     {
@@ -31,7 +29,6 @@ namespace Asphalt.Service
         }
     }
 
-    /*
     [HarmonyPatch(typeof(DataStore), "Unlock")]
     internal static class PostEnablePatch
     {
@@ -39,6 +36,5 @@ namespace Asphalt.Service
         {
             ServiceHelper.CallMethod("OnPostEnable");
         }
-    }*/
-
+    }
 }

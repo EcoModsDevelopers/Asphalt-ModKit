@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Asphalt.Storeable.Json
 {
@@ -9,7 +10,9 @@ namespace Asphalt.Storeable.Json
     {
         public IStorage DefaultStorage { get; protected set; }
 
-        protected Dictionary<string, object> content = new Dictionary<string, object>();
+        protected Dictionary<string, object> mContent = new Dictionary<string, object>();
+        private object path;
+        private string v;
 
         public string FileName { get; protected set; }
 
@@ -20,26 +23,37 @@ namespace Asphalt.Storeable.Json
             Reload();
         }
 
+        public JsonFileStorage(object path, string v)
+        {
+            this.path = path;
+            this.v = v;
+        }
+
         public virtual void Reload()
         {
-            this.content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+            this.mContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
         }
 
         public virtual void Save()
         {
-            if (content.Count == 0)
+            if (mContent.Count == 0)
             {
                 if (File.Exists(FileName))
                     File.Delete(FileName);
                 return;
             }
 
-            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.content);
+            ForceSave();
+        }
+
+        public virtual void ForceSave()
+        {
+            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.mContent);
         }
 
         public virtual string GetString(string key)
         {
-            return Get<string>(key);
+            return Get(key)?.ToString();
         }
 
         public virtual void SetString(string key, string value)
@@ -57,15 +71,15 @@ namespace Asphalt.Storeable.Json
             Set(key, value);
         }
 
-        public K Get<K>(string key)
+        public object Get(string key)
         {
-            if (content.ContainsKey(key))
-                return (K)content[key];
+            if (mContent.ContainsKey(key))
+                return mContent[key];
 
             if (DefaultStorage == null)
-                return default(K);
+                return null;
 
-            K ret = DefaultStorage.Get<K>(key);
+            object ret = DefaultStorage.Get(key);
             if (ret == null)
                 throw new InvalidOperationException($"DefaultStorage does not contain value with key: {key}");
 
@@ -74,26 +88,30 @@ namespace Asphalt.Storeable.Json
 
         public void Set<K>(string key, K value)
         {
-            content.Remove(key);
-            content.Add(key, value);
+            mContent.Remove(key);
+            mContent.Add(key, value);
             Save();
         }
 
         public void Remove(string key)
         {
-            content.Remove(key);
+            mContent.Remove(key);
             Save();
         }
-    }
 
-    /*
-    public class CustomJSONFileContent
-    {
-        public Dictionary<string, object> Content { get; set; }
-
-        public CustomJSONFileContent()
+        internal void MergeWithDefaultValues(Dictionary<string, object> pContent)
         {
-            this.Content = new Dictionary<string, object>();
+            foreach (var key in mContent.Keys.ToArray())
+            {
+                if (!pContent.ContainsKey(key))
+                    mContent.Remove(key);
+            }
+
+            foreach (var key in pContent.Keys)
+            {
+                if (!mContent.ContainsKey(key))
+                    mContent.Add(key, pContent[key]);
+            }
         }
-    }*/
+    }
 }

@@ -34,32 +34,9 @@ namespace Asphalt.Api
             if (!IsAdministrator)
                 Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
 
-            //<OnNameChanged>k__BackingField
+            Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
 
-            /*    Injection.Install(
-                    typeof(ThreadSafeAction).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(AsphaltThreadSafeAction).GetMethod("AsphaltInvoke", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(AsphaltThreadSafeAction).GetMethod("Invoke_original", BindingFlags.Instance | BindingFlags.Public));
-
-
-                FieldInfo fi = typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                foreach (WorldObject wo in WorldObjectManager.All)
-                    fi.SetValue(wo, new AsphaltThreadSafeAction());
-                    */
-
-            // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
-
-            try
-            {
-                Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
-                Harmony.PatchAll(Assembly.GetExecutingAssembly());
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
             IsInitialized = true;
         }
 

@@ -15,14 +15,14 @@ namespace Asphalt.Storeable
             mValues = pValues;
         }
 
-        public K Get<K>(string key)
+        public object Get(string key)
         {
-            return (K)mValues[key];
+            return mValues[key];
         }
 
         public virtual string GetString(string key)
         {
-            return Get<string>(key);
+            return Get(key)?.ToString();
         }
 
         public virtual void SetString(string key, string value)

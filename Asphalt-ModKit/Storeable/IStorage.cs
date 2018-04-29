@@ -9,7 +9,7 @@ namespace Asphalt.Storeable
         void Save();
         void SetInt(string key, int value);
         void SetString(string key, string value);
-        K Get<K>(string key);
+        object Get(string key);
         void Set<K>(string key, K value);
         void Remove(string key);
     }

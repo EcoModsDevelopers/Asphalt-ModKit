@@ -14,12 +14,12 @@ namespace Asphalt.Service.Permissions
 
         public Dictionary<string, object> GetPermissions()
         {
-            return this.content;
+            return this.mContent;
         }
 
         public void SetPermissions(Dictionary<string, PermissionGroup> permissions)
         {
-            this.content = permissions.ToDictionary(item => item.Key, item => (object)PermissionGroupMethods.GetString(item.Value));
+            this.mContent = permissions.ToDictionary(item => item.Key, item => (object)PermissionGroupMethods.GetString(item.Value));
         }
     }
 }

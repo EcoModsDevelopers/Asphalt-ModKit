@@ -1,9 +1,11 @@
-﻿using Asphalt.Service;
+﻿using Asphalt.Api.Util;
+using Asphalt.Service;
 using Asphalt.Storeable;
 using Asphalt.Storeable.Json;
 using Eco.Core.Plugins.Interfaces;
-using Eco.Server;
 using Eco.Shared.Utils;
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace Asphalt.Util
@@ -30,27 +32,45 @@ namespace Asphalt.Util
 
         private static void InjectValues(IServerPlugin pServerPlugin)
         {
+            InjectConfig(pServerPlugin);
+        }
+
+        private static void InjectConfig(IServerPlugin pServerPlugin)
+        {
             PropertyInfo pi = pServerPlugin.GetType().GetProperty("ConfigStorage");
 
-            if (pi == null)
+            if (pi == null || !Injection.HasInjectAttribute(pi))
                 return;
-            
+
             //public KeyDefaultValue<string>[] GetConfig()
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod("GetConfig");
+
+            if (mi == null)
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method GetConfig()");
+
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
 
-            MemoryStorage memStorage = new MemoryStorage(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            if (configs == null)
+                throw new Exception($"{pServerPlugin.GetType()}.GetConfig() does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
 
-            JsonFileStorage storage = new JsonFileStorage(pServerPlugin.ToString(), memStorage);
-
-            storage.Reload();
-
-            storage.Save();
+            JsonFileStorage storage = new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "config.json"));
+            storage.MergeWithDefaultValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            storage.ForceSave();
 
             pi.SetValue(pServerPlugin, storage);
+        }
+
+        private static string GetServerPluginFolder(IServerPlugin pServerPlugin)
+        {
+            string folder = pServerPlugin.ToString();
+
+            if (folder.Contains("."))
+                folder = folder.Substring(folder.IndexOf(".") + 1);
+
+            return Path.Combine("Mods", folder);
         }
     }
 }

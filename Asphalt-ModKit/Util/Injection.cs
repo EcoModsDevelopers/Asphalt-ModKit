@@ -167,5 +167,10 @@ namespace Asphalt.Api.Util
             return pType.GetMethod(pName, NON_PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_STATC);
         }
 
+        public static bool HasInjectAttribute(PropertyInfo pPropertyInfo)
+        {
+            return pPropertyInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
+        }
+
     }
 }
