@@ -8,7 +8,7 @@ node {
 
 	stage 'Archive'
 	    bat "for /R packages %%a in (0Harmony.dll) do xcopy \"%%a\" Mods"
-		bat "7z a Asphalt-ModKit.zip Mods/"
-		archiveArtifacts 'Asphalt-ModKit.zip'
+		bat "7z a Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip Mods/"
+		archiveArtifacts 'Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip'
 		cleanWs()
 }
