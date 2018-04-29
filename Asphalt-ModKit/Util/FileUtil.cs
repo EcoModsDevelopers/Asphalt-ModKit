@@ -31,14 +31,15 @@ namespace Asphalt.Api.Util
 
         public static void CreateFile(string filePath, string fileName)
         {
-            //create File if not existant
-            if (!File.Exists(filePath + fileName))
+            string file = Path.Combine(filePath, fileName);
+
+            if (!File.Exists(file))
             {
-                FileStream fs = new FileStream(filePath + fileName, FileMode.OpenOrCreate);
+                FileStream fs = new FileStream(file, FileMode.OpenOrCreate);
                 fs.Close();
             }
         }
-        
+
         public static string ReadFromFile(string fileName)
         {
             if (!File.Exists(fileName))
@@ -53,10 +54,5 @@ namespace Asphalt.Api.Util
 
             File.WriteAllText(fileName, content);
         }
-
-    /*    public static string GetModFolder(AsphaltMod mod)
-        {
-            return MODS_DIR + "/" + mod.ToString() + "/";
-        } */
     }
 }
