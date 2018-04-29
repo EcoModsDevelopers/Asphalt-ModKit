@@ -7,9 +7,6 @@ using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
-    /// <summary>
-    /// Called when a player press "order" on a craft interface
-    /// </summary>
     public class PlayerHarvestEvent : CancellableEvent
     {
         public Player Player { get; set; }
@@ -25,22 +22,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerHarvestEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, Organism target)
+        public static bool Prefix(Player player, Organism target, ref IAtomicAction __result)
         {
             PlayerHarvestEvent cEvent = new PlayerHarvestEvent(player, target);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player, cEvent.Target);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player, Organism target)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

@@ -25,22 +25,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerUnlearnSkillEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, Skill skill)
+        public static bool Prefix(Player player, Skill skill, ref IAtomicAction __result)
         {
             PlayerUnlearnSkillEvent cEvent = new PlayerUnlearnSkillEvent(player, skill);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player, cEvent.Skill);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player, Skill skill)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

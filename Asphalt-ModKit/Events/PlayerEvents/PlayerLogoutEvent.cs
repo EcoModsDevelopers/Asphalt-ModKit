@@ -18,19 +18,12 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerLogoutEventHelper
     {
-        public void Logout()
+        public static void Prefix(User __instance)
         {
-            PlayerLogoutEvent cEvent = new PlayerLogoutEvent((User)((object)this));
+            PlayerLogoutEvent cEvent = new PlayerLogoutEvent(__instance);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
-
-            Logout_original();
-        }
-
-        public void Logout_original()
-        {
-            throw new InvalidOperationException();
         }
     }
 }

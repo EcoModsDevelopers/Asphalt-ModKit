@@ -21,9 +21,13 @@ namespace EcoTestEventPlugin
 {
     public class EcoTestEventPlugin : IModKitPlugin, IServerPlugin
     {
+        public static TestEventHandlers TestListener { get; protected set; }
+
         public EcoTestEventPlugin()
         {
-            EventManager.RegisterListener(new TestEventHandlers());
+            TestListener = new TestEventHandlers();
+
+            EventManager.RegisterListener(TestListener);
         }
 
         public string GetStatus()

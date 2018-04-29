@@ -18,22 +18,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCompleteContractEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player)
+        public static bool Prefix(Player player, ref IAtomicAction __result)
         {
             PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(player);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

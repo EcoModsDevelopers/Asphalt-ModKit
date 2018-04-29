@@ -25,22 +25,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPayTaxEventHelper
     {
-        public IAtomicAction CreateAtomicAction(User user, Currency currency, float amount)
+        public static bool Prefix(User user, Currency currency, float amount, ref IAtomicAction __result)
         {
             PlayerPayTaxEvent cEvent = new PlayerPayTaxEvent(user, currency, amount);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.User, cEvent.Currency, cEvent.Amount);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(User user, Currency currency, float amount)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

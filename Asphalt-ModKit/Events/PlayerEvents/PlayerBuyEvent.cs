@@ -26,22 +26,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerBuyEventHelper
     {
-        public IAtomicAction CreateAtomicAction(User user, StoreComponent store, Item item)
+        public static bool Prefix(User user, StoreComponent store, Item item, ref IAtomicAction __result)
         {
             PlayerBuyEvent cEvent = new PlayerBuyEvent(user, store, item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.User, cEvent.Store, cEvent.Item);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(User user, StoreComponent store, Item item)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Eco.Shared.Utils;
+using Harmony;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -10,6 +13,7 @@ namespace Asphalt.Api.Util
     {
         private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
         private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
+        private const BindingFlags NON_PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.NonPublic;
 
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
@@ -20,8 +24,8 @@ namespace Asphalt.Api.Util
         {
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_STATC),
-                    pHelperType.GetMethod(pMethodName, PUBLIC_STATC),
-                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
+                    pHelperType
+                 //            pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
                  );
         }
 
@@ -29,13 +33,29 @@ namespace Asphalt.Api.Util
         {
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName, PUBLIC_INSTANCE),
-                    pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
+                    pHelperType
+                 //                pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
                  );
         }
 
-        public static void Install(MethodInfo pMethodToReplace, MethodInfo pMethodToInject, MethodInfo pNewLocationForMethodToReplace = null)
+        public static void InstallWithOriginalHelperNonPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
         {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
+                    pHelperType
+                 //               pHelperType.GetMethod(pMethodName + "_original", NON_PUBLIC_INSTANCE)
+                 );
+        }
+
+        public static void Install(MethodInfo pMethodToReplace, Type pHelperType)
+        {
+            Asphalt.Harmony.Patch(pMethodToReplace, new HarmonyMethod(FindMethod(pHelperType, "Prefix")), new HarmonyMethod(FindMethod(pHelperType, "Postfix")));
+
+            /*
+             * 
+            if (!pMethodToReplace.GetParameters().Select(p => p.ParameterType).SequenceEqual(pPrefix.GetParameters().Select(p => p.ParameterType)))
+                throw new ArgumentException("MethodInfos doesn't have the same parameters");
+
             RuntimeHelpers.PrepareMethod(pMethodToReplace.MethodHandle);
             RuntimeHelpers.PrepareMethod(pMethodToInject.MethodHandle);
 
@@ -124,9 +144,9 @@ namespace Asphalt.Api.Util
                         *tar = *inj;
                     }
                 }
-            }
+            }*/
         }
-
+        /*
 
         private static bool IsAssemblyDebugBuild(Assembly assembly)
         {
@@ -139,6 +159,17 @@ namespace Asphalt.Api.Util
                 }
             }
             return false;
+        }*/
+
+
+        public static MethodInfo FindMethod(Type pType, string pName)
+        {
+            return pType.GetMethod(pName, NON_PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_STATC);
+        }
+
+        public static bool HasInjectAttribute(PropertyInfo pPropertyInfo)
+        {
+            return pPropertyInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
         }
 
     }

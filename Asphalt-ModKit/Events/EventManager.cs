@@ -7,8 +7,9 @@
  * ------------------------------------
  **/
 
-using Asphalt.Api.AsphaltExceptions;
+using Asphalt.AsphaltExceptions;
 using Asphalt.Events;
+using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,6 @@ namespace Asphalt.Api.Event
 {
     public static class EventManager
     {
-        //  List<IListener> listeners = new List<IListener>();
-        //  Dictionary<EventPriority, List<EventHandler>> handlers = new Dictionary<EventPriority, List<EventHandler>>();
 
         private static readonly EventHandlerComparer eventHandlerComparer = new EventHandlerComparer();
 
@@ -54,7 +53,19 @@ namespace Asphalt.Api.Event
                 lock (locker)
                 {
                     if (!handlers.ContainsKey(parameterType))
+                    {
+                        try
+                        {
+                            EventManagerHelper.injectEvent(parameterType);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.WriteError(e.ToStringPretty());
+                            throw;
+                        }
+
                         handlers.Add(parameterType, new List<EventHandlerData>());
+                    }
 
                     handlers[parameterType].Add(new EventHandlerData(pListener, method, attribute.Priority, attribute.RunIfEventCancelled));
                     handlers[parameterType].Sort(eventHandlerComparer);
@@ -62,9 +73,17 @@ namespace Asphalt.Api.Event
             }
         }
 
+        public static void UnregisterListener(object pListener)
+        {
+            foreach (KeyValuePair<Type, List<EventHandlerData>> entry in handlers)
+                entry.Value.RemoveAll(x => x.Listener.Equals(pListener));
+        }
+
+        //Execution
+
         public static void CallEvent(ref IEvent pEvent)
         {
-    //        Console.WriteLine(pEvent);
+            //        Console.WriteLine(pEvent);
 
             if (!handlers.ContainsKey(pEvent.GetType()))
                 return;
@@ -86,15 +105,6 @@ namespace Asphalt.Api.Event
                     Console.WriteLine(e.ToString());
                 }
             }
-
-            /*
-                 //Cancel following EventHandlers if event IsCancelled
-                if (!_event.GetType().GetInterfaces().Contains(typeof(ICancellable)))
-                    continue;
-                if (((ICancellable)_event).IsCancelled())
-                    return;
-
-             */
         }
 
     }

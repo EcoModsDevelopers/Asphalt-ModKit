@@ -13,9 +13,9 @@ namespace Asphalt.Api.Util
 {
     public static class ClassSerializer<T> where T : class, new()
     {
-        public static T Deserialize(string filePath, string fileName)
+        public static T Deserialize(string fileName)
         {
-            string content = FileUtil.ReadFromFile(filePath, fileName);
+            string content = FileUtil.ReadFromFile(fileName);
 
             if (string.IsNullOrWhiteSpace(content))
                 return new T();
@@ -23,10 +23,10 @@ namespace Asphalt.Api.Util
             return SerializationUtils.DeserializeJson<T>(content);
         }
 
-        public static void Serialize(string filePath, string fileName, T clazz)
+        public static void Serialize(string fileName, T clazz)
         {
             string content = SerializationUtils.SerializeRawJsonIndented(clazz);
-            FileUtil.WriteToFile(filePath, fileName, content);
+            FileUtil.WriteToFile(fileName, content);
         }
     }
 }
