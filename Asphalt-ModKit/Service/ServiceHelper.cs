@@ -1,5 +1,6 @@
 ﻿using Asphalt.Api.Util;
 using Asphalt.Service;
+using Asphalt.Service.Permissions;
 using Asphalt.Storeable;
 using Asphalt.Storeable.Json;
 using Eco.Core.Plugins.Interfaces;
@@ -19,10 +20,12 @@ namespace Asphalt.Util
 
         private static void CallMethod(IServerPlugin pServerPlugin, string pName)
         {
-            MethodInfo pi = pServerPlugin.GetType().GetMethod(pName);
-            if (pi == null)
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(pName);
+
+            if (mi == null || !Injection.HasInjectAttribute(mi))
                 return;
-            pi.Invoke(pServerPlugin, new object[] { });
+
+            mi.Invoke(pServerPlugin, new object[] { });
         }
 
         internal static void InjectValues()
@@ -33,6 +36,7 @@ namespace Asphalt.Util
         private static void InjectValues(IServerPlugin pServerPlugin)
         {
             InjectConfig(pServerPlugin);
+            InjectPermissions(pServerPlugin);
         }
 
         private static void InjectConfig(IServerPlugin pServerPlugin)
@@ -58,6 +62,32 @@ namespace Asphalt.Util
 
             JsonFileStorage storage = new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "config.json"));
             storage.MergeWithDefaultValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            storage.ForceSave();
+
+            pi.SetValue(pServerPlugin, storage);
+        }
+
+        private static void InjectPermissions(IServerPlugin pServerPlugin)
+        {
+            PropertyInfo pi = pServerPlugin.GetType().GetProperty("PermissionService");
+
+            if (pi == null || !Injection.HasInjectAttribute(pi))
+                return;
+
+            MethodInfo mi = pServerPlugin.GetType().GetMethod("GetDefaultPermissions");
+
+            if (mi == null)
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method GetDefaultPermission()");
+
+            object permissionList = mi.Invoke(pServerPlugin, new object[] { });
+
+            DefaultPermission[] permissions = permissionList as DefaultPermission[];
+
+            if (permissions == null)
+                throw new Exception($"{pServerPlugin.GetType()}.GetDefaultPermission() does not have the corrent return type {nameof(DefaultPermission)}[] ");
+
+            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "permissions.json"));
+            storage.MergeWithDefaultValues(permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
             storage.ForceSave();
 
             pi.SetValue(pServerPlugin, storage);

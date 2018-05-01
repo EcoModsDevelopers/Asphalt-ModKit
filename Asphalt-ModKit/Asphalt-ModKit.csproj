@@ -57,34 +57,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
+      <HintPath>..\..\Eco\Server\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Core.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.Core\bin\x64\Debug\Eco.Core.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Gameplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Gameplay.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.Gameplay\bin\x64\Debug\Eco.Gameplay.dll</HintPath>
     </Reference>
     <Reference Include="Eco.ModKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.ModKit.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.ModKit\bin\x64\Debug\Eco.ModKit.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Mods, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Mods.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.Mods\bin\x64\Debug\Eco.Mods.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Shared, Version=0.7.3.3, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Shared.dll</HintPath>
+      <HintPath>..\..\Eco\Client\Assets\Plugins\Eco.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Simulation, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Simulation.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.Simulation\bin\x64\Debug\Eco.Simulation.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Stats, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Stats.dll</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.Stats\bin\x64\Debug\Eco.Stats.dll</HintPath>
     </Reference>
     <Reference Include="Eco.World, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.World.dll</HintPath>
-    </Reference>
-    <Reference Include="EcoServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\EcoServer.exe</HintPath>
+      <HintPath>..\..\Eco\Server\Eco.World\bin\x64\Debug\Eco.World.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\EcoServer.0.7.3.3\lib\LiteDB.dll</HintPath>
@@ -149,15 +146,14 @@
     <Compile Include="Service\Confirm\AbstractConfirmService.cs" />
     <Compile Include="Service\Confirm\ConfirmRegistry.cs" />
     <Compile Include="Service\Confirm\IConfirmable.cs" />
-    <Compile Include="Service\Permissions\IPermissionChecker.cs" />
-    <Compile Include="Service\Permissions\Permission.cs" />
+    <Compile Include="Service\Permissions\IPermissionService.cs" />
+    <Compile Include="Service\Permissions\DefaultPermission.cs" />
     <Compile Include="Service\Permissions\PermissionGroup.cs" />
-    <Compile Include="Service\Permissions\PermissionsFile.cs" />
-    <Compile Include="Service\Permissions\PermissionsService.cs" />
     <Compile Include="Service\ServicePatches.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Storeable\GenericStoreable.cs" />
     <Compile Include="Storeable\IStorageCollection.cs" />
+    <Compile Include="Storeable\Json\JsonFilePermissionStorage.cs" />
     <Compile Include="Storeable\Json\JsonFileStorage.cs" />
     <Compile Include="Storeable\IStorage.cs" />
     <Compile Include="Storeable\Json\JsonFileStorageCollection.cs" />
@@ -177,6 +173,20 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Plugins\Eco.Plugins.csproj">
+      <Project>{5e8e63d5-9898-4830-9918-8dad0b995bb3}</Project>
+      <Name>Eco.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Server\Eco.Server.csproj">
+      <Project>{72534cef-6417-4905-bdea-3e827114afd8}</Project>
+      <Name>Eco.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Tests\Eco.Tests.csproj">
+      <Project>{7f353c23-c53a-41cc-9e3e-4162ac5441cf}</Project>
+      <Name>Eco.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -2,12 +2,12 @@
 {
     public enum PermissionGroup
     {
-        Null,
         Nobody,
         User,
         Admin
     }
 
+    /**
     static class PermissionGroupMethods
     {
         public static string GetString(PermissionGroup group)
@@ -40,4 +40,5 @@
             return PermissionGroup.Null;
         }
     }
+    **/
 }

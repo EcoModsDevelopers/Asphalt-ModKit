@@ -172,5 +172,9 @@ namespace Asphalt.Api.Util
             return pPropertyInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
         }
 
+        public static bool HasInjectAttribute(MethodInfo pMethodInfo)
+        {
+            return pMethodInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
+        }
     }
 }
