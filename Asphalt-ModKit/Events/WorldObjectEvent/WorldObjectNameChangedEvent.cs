@@ -17,26 +17,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldObjectNameChangedEventHelper
     {
-        public void SetName(string newName)
+        public static void Prefix(WorldObject __instance, ref string __state)
         {
-            WorldObject _this = (WorldObject)((object)this);
-            string before = _this.Name;
+            __state = __instance.Name;
+        }
 
-            SetName_original(newName);
-
-            if (before == _this.Name)
+        public static void Postfix(WorldObject __instance, ref string __state)
+        {
+            if (__state == __instance.Name)
                 return;
 
-            WorldObjectNameChangedEvent cEvent = new WorldObjectNameChangedEvent(_this);
+            WorldObjectNameChangedEvent cEvent = new WorldObjectNameChangedEvent(__instance);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
         }
-
-        public void SetName_original(string newName)
-        {
-            throw new InvalidOperationException();
-        }
-
     }
 }

@@ -21,16 +21,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal static class PlayerInteractEventHelper
     {
-        /*   var context = info.MakeContext(this);
-            if (!context.Authed() && (context.SelectedItem == null || !context.SelectedItem.IgnoreAuth))
-                return;                
-         */
-
-        public static InteractionContext MakeContext(this InteractionInfo info, Player player)
+        public static void Postfix(this InteractionInfo info, Player player, InteractionContext __result)
         {
-            InteractionContext context = MakeContext_original(info, player);
-
-            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(context);
+            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(__result);
             IEvent playerInteractIEvent = playerInteractEvent;
 
             EventManager.CallEvent(ref playerInteractIEvent);
@@ -41,29 +34,23 @@ namespace Asphalt.Api.Event.PlayerEvents
 
                 //context.Target, context.SelectedItem, context.InteractableBlock, context.CarriedItem                    
 
-                context.Target = null;
-                context.SelectedItem = null;
-                context.Block = null;  // InteractableBlock
-                context.CarriedItem = null;
+                __result.Target = null;
+                __result.SelectedItem = null;
+                __result.Block = null;  // InteractableBlock
+                __result.CarriedItem = null;
 
                 if (info.BlockPosition.HasValue)
-                    context.Player.SendCorrection(info);
+                    __result.Player.SendCorrection(info);
 
                 //remove exp because eco will add it
-                context.Player.User.XP -= DifficultySettings.Obj.Config.SkillPointsPerAction * (context.Player.User.SkillRate / DifficultySettings.BaselineSkillpoints);
+                __result.Player.User.XP -= DifficultySettings.Obj.Config.SkillPointsPerAction * (__result.Player.User.SkillRate / DifficultySettings.BaselineSkillpoints);
 
                 //Unwanted side effect that we can't change:
                 //  var activity = WorldLayerManager.GetLayer(LayerNames.PlayerActivity)?.FuncAtWorldPos(this.Position.XZi, (pos, val) => val = System.Math.Min(1, val + 0.001f));
 
-                return context;
             }
-
-            return playerInteractEvent.Context;
         }
 
-        public static InteractionContext MakeContext_original(this InteractionInfo info, Player player)
-        {
-            throw new InvalidOperationException();
-        }
+
     }
 }

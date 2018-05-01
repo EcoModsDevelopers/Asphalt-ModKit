@@ -78,6 +78,7 @@ namespace EcoTestEventPlugin
             // evt.SetCancelled(true);
         }
 
+
         [EventHandler]
         public void OnWorldObjectEnabled(WorldObjectEnabledChangedEvent evt)
         {
@@ -99,6 +100,15 @@ namespace EcoTestEventPlugin
         {
             Console.WriteLine(evt.WorldObject.ToString());
         }
+
+        /*
+        [EventHandler]
+        public void OnWorldPollute(WorldPolluteEvent evt)
+        {
+            evt.SetCancelled(true);
+            Console.WriteLine(evt.User.ToString());
+        }*/
+
 
         [EventHandler]
         public void OnPlayerEatEvent(PlayerEatEvent evt)

@@ -20,7 +20,7 @@ namespace EcoTestEventPlugin
         [ChatCommand("unregisterevents", "Unregisters all Asphalt TestEvents", ChatAuthorizationLevel.Admin)]
         public static void UnregisterTestEvents()
         {
-            EventManager.UnregisterListener(EcoTestEventPlugin.TestListener);
+     //       EventManager.UnregisterListener(EcoTestEventPlugin.TestListener);
         }
     }
 }

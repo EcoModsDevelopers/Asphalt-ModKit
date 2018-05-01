@@ -9,12 +9,15 @@
 
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Util;
+using Asphalt.Util;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Utils;
+using Harmony;
+using System;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -24,30 +27,18 @@ namespace Asphalt.Api
     {
         public static bool IsInitialized { get; protected set; }
 
+        public static HarmonyInstance Harmony { get; protected set; }
+
         static Asphalt()
         {
             if (!IsAdministrator)
                 Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
 
-            //<OnNameChanged>k__BackingField
+            Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
 
-            /*    Injection.Install(
-                    typeof(ThreadSafeAction).GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(AsphaltThreadSafeAction).GetMethod("AsphaltInvoke", BindingFlags.Instance | BindingFlags.Public),
-                    typeof(AsphaltThreadSafeAction).GetMethod("Invoke_original", BindingFlags.Instance | BindingFlags.Public));
-
-
-                FieldInfo fi = typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                foreach (WorldObject wo in WorldObjectManager.All)
-                    fi.SetValue(wo, new AsphaltThreadSafeAction());
-                    */
-
-            // Injection.Install(typeof(WorldObject).GetField("<OnNameChanged>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic),           )
-                      
             IsInitialized = true;
         }
-
 
         public static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 

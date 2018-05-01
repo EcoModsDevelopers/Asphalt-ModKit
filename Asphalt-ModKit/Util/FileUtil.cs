@@ -7,37 +7,52 @@
  * ------------------------------------
  **/
 
+using Eco.Core.Plugins.Interfaces;
 using System.IO;
 
 namespace Asphalt.Api.Util
 {
     public static class FileUtil
     {
+        public static readonly string MODS_DIR = "Mods";
+
         public static void CreateDirectoryAndFile(string filePath, string fileName)
+        {
+            CreateDirectory(filePath);
+            CreateFile(filePath, fileName);
+        }
+
+        public static void CreateDirectory(string filePath)
         {
             //create Directory if not existant
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
+        }
 
-            //create File if not existant
-            if (!File.Exists(filePath + fileName)) {
-                FileStream fs = new FileStream(filePath + fileName, FileMode.OpenOrCreate);
+        public static void CreateFile(string filePath, string fileName)
+        {
+            string file = Path.Combine(filePath, fileName);
+
+            if (!File.Exists(file))
+            {
+                FileStream fs = new FileStream(file, FileMode.OpenOrCreate);
                 fs.Close();
             }
         }
 
-        public static string ReadFromFile(string filePath, string fileName)
+        public static string ReadFromFile(string fileName)
         {
-            CreateDirectoryAndFile(filePath, fileName);
+            if (!File.Exists(fileName))
+                return null;
 
-            return File.ReadAllText(filePath + fileName);
+            return File.ReadAllText(fileName);
         }
 
-        public static void WriteToFile(string filePath, string fileName, string content)
+        public static void WriteToFile(string fileName, string content)
         {
-            CreateDirectoryAndFile(filePath, fileName);
+            CreateDirectoryAndFile(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
 
-            File.WriteAllText(filePath + fileName, content);
+            File.WriteAllText(fileName, content);
         }
     }
 }

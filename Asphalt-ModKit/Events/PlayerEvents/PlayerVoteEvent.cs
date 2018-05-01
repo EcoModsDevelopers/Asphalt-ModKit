@@ -18,22 +18,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerVoteEventHelper
     {
-        public IAtomicAction CreateAtomicAction(User user)
+        public static bool Prefix(User user, ref IAtomicAction __result)
         {
             PlayerVoteEvent cEvent = new PlayerVoteEvent(user);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.User);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(User user)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

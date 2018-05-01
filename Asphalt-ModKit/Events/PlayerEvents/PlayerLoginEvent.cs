@@ -22,19 +22,12 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerLoginEventHelper
     {
-        public void Login(Player player, INetClient client)
+        public static void Prefix(Player player, INetClient client)
         {
-            PlayerLoginEvent pje = new PlayerLoginEvent(player, client);
-            IEvent pjeEvent = pje;
+            PlayerLoginEvent cEvent = new PlayerLoginEvent(player, client);
+            IEvent iEvent = cEvent;
 
-            EventManager.CallEvent(ref pjeEvent);
-
-            Login_original(pje.Player, pje.Client);
-        }
-
-        public void Login_original(Player player, INetClient client)
-        {
-            throw new InvalidOperationException();
+            EventManager.CallEvent(ref iEvent);
         }
     }
 }

@@ -26,22 +26,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPlaceEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, BlockItem placedItem, Vector3i position)
+        public static bool Prefix(Player player, BlockItem placedItem, Vector3i position, ref IAtomicAction __result)
         {
             PlayerPlaceEvent cEvent = new PlayerPlaceEvent(player, placedItem, position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player, cEvent.Item, cEvent.Position);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player, BlockItem placedItem, Vector3i position)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

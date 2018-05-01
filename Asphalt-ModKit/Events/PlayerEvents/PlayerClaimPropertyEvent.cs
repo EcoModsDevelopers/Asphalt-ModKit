@@ -25,22 +25,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerClaimPropertyEventHelper
     {
-        public IAtomicAction CreateAtomicAction(Player player, Vector3i position)
+        public static bool Prefix(Player player, Vector3i position, ref IAtomicAction __result)
         {
             PlayerClaimPropertyEvent cEvent = new PlayerClaimPropertyEvent(player, position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
 
-            if (!cEvent.IsCancelled())
-                return CreateAtomicAction_original(cEvent.Player, cEvent.Position);
+            if (cEvent.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString());
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString());
-        }
-
-        public IAtomicAction CreateAtomicAction_original(Player player, Vector3i position)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }

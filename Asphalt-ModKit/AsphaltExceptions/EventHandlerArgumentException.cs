@@ -8,7 +8,7 @@
  **/
 
 
-namespace Asphalt.Api.AsphaltExceptions
+namespace Asphalt.AsphaltExceptions
 {
     public class EventHandlerArgumentException : System.Exception
     {

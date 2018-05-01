@@ -26,22 +26,20 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldPolluteEventHelper
     {
-        public IAtomicAction CreateAtomicAction(User user, AirPollutionComponent obj, float value)
+        public static bool Prefix(User user, AirPollutionComponent obj, float value, ref IAtomicAction __result)
         {
             WorldPolluteEvent wpe = new WorldPolluteEvent(user, obj, value);
             IEvent wpeEvent = wpe;
 
             EventManager.CallEvent(ref wpeEvent);
 
-            if (!wpe.IsCancelled())
-                return CreateAtomicAction_original(wpe.User, wpe.Component, wpe.Value);
+            if (wpe.IsCancelled())
+            {
+                __result = new FailedAtomicAction(new LocString("Asphalt " + nameof(WorldPolluteEvent)));
+                return false;
+            }
 
-            return new FailedAtomicAction(new LocString("Asphalt " + nameof(WorldPolluteEvent)));
-        }
-
-        public IAtomicAction CreateAtomicAction_original(User user, AirPollutionComponent obj, float value)
-        {
-            throw new InvalidOperationException();
+            return true;
         }
     }
 }
