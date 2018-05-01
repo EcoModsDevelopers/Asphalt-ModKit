@@ -29,7 +29,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
             EventManager.CallEvent(ref iEvent);
 
-            return cEvent.IsCancelled();
+            return !cEvent.IsCancelled();
         }
     }
 }
