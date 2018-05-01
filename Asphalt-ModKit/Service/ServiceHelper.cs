@@ -42,8 +42,10 @@ namespace Asphalt.Util
         private static void InjectConfig(IServerPlugin pServerPlugin)
         {
             PropertyInfo pi = pServerPlugin.GetType().GetProperty("ConfigStorage");
+            FieldInfo fi = pServerPlugin.GetType().GetField("ConfigStorage");
 
-            if (pi == null || !Injection.HasInjectAttribute(pi))
+            if (!(pi != null && Injection.HasInjectAttribute(pi)) &&
+                !(fi != null && Injection.HasInjectAttribute(fi)))
                 return;
 
             //public KeyDefaultValue<string>[] GetConfig()
@@ -64,14 +66,17 @@ namespace Asphalt.Util
             storage.MergeWithDefaultValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
             storage.ForceSave();
 
-            pi.SetValue(pServerPlugin, storage);
+            pi?.SetValue(pServerPlugin, storage);
+            fi?.SetValue(pServerPlugin, storage);
         }
 
         private static void InjectPermissions(IServerPlugin pServerPlugin)
         {
             PropertyInfo pi = pServerPlugin.GetType().GetProperty("PermissionService");
+            FieldInfo fi = pServerPlugin.GetType().GetField("PermissionService");
 
-            if (pi == null || !Injection.HasInjectAttribute(pi))
+            if (!(pi != null && Injection.HasInjectAttribute(pi)) &&
+                !(fi != null && Injection.HasInjectAttribute(fi)))
                 return;
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod("GetDefaultPermissions");
@@ -90,7 +95,8 @@ namespace Asphalt.Util
             storage.MergeWithDefaultValues(permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
             storage.ForceSave();
 
-            pi.SetValue(pServerPlugin, storage);
+            pi?.SetValue(pServerPlugin, storage);
+            fi?.SetValue(pServerPlugin, storage);
         }
 
         private static string GetServerPluginFolder(IServerPlugin pServerPlugin)

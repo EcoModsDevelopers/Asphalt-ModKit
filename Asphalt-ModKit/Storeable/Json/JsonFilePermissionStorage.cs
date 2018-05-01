@@ -48,7 +48,7 @@ namespace Asphalt.Storeable.Json
             if (HasPermission(user, permission))
                 return true;
 
-            user.Player.SendTemporaryErrorAlreadyLocalized($"You don't have the permission to do this! {permission}");
+            user.Player.SendTemporaryErrorAlreadyLocalized($"You don't have the permission to do this! <color=#DCDCDC>Permission needed: {permission}</color>");
             return false;
         }
 
