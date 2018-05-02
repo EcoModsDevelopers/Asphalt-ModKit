@@ -10,7 +10,7 @@ namespace Asphalt.Storeable.Json
     {
         public IStorage DefaultStorage { get; protected set; }
 
-        protected Dictionary<string, object> mContent = new Dictionary<string, object>();
+        public Dictionary<string, object> Content { get; protected set; }
         private object path;
         private string v;
 
@@ -18,6 +18,8 @@ namespace Asphalt.Storeable.Json
 
         public JsonFileStorage(string pFileName, IStorage pDefaultValues = null)
         {
+            Content = new Dictionary<string, object>();
+
             FileName = pFileName;
             DefaultStorage = pDefaultValues;
 
@@ -27,18 +29,20 @@ namespace Asphalt.Storeable.Json
 
         public JsonFileStorage(object path, string v)
         {
+            Content = new Dictionary<string, object>();
+
             this.path = path;
             this.v = v;
         }
 
         public virtual void Reload()
         {
-            this.mContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+            this.Content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
         }
 
         public virtual void Save()
         {
-            if (mContent.Count == 0)
+            if (Content.Count == 0)
             {
                 if (File.Exists(FileName))
                     File.Delete(FileName);
@@ -50,7 +54,7 @@ namespace Asphalt.Storeable.Json
 
         public virtual void ForceSave()
         {
-            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.mContent);
+            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.Content);
         }
 
         public virtual string GetString(string key)
@@ -75,8 +79,8 @@ namespace Asphalt.Storeable.Json
 
         public object Get(string key)
         {
-            if (mContent.ContainsKey(key))
-                return mContent[key];
+            if (Content.ContainsKey(key))
+                return Content[key];
 
             if (DefaultStorage == null)
                 return null;
@@ -90,29 +94,29 @@ namespace Asphalt.Storeable.Json
 
         public void Set<K>(string key, K value)
         {
-            mContent.Remove(key);
-            mContent.Add(key, value);
+            Content.Remove(key);
+            Content.Add(key, value);
             Save();
         }
 
         public void Remove(string key)
         {
-            mContent.Remove(key);
+            Content.Remove(key);
             Save();
         }
 
         internal void MergeWithDefaultValues(Dictionary<string, object> pContent)
         {
-            foreach (var key in mContent.Keys.ToArray())
+            foreach (var key in Content.Keys.ToArray())
             {
                 if (!pContent.ContainsKey(key))
-                    mContent.Remove(key);
+                    Content.Remove(key);
             }
 
             foreach (var key in pContent.Keys)
             {
-                if (!mContent.ContainsKey(key))
-                    mContent.Add(key, pContent[key]);
+                if (!Content.ContainsKey(key))
+                    Content.Add(key, pContent[key]);
             }
         }
     }

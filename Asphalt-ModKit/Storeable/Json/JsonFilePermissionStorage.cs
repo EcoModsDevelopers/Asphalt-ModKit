@@ -19,9 +19,9 @@ namespace Asphalt.Storeable.Json
         {
             Dictionary<string, object> tmpContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
 
-            this.mContent = tmpContent.ToDictionary(k => k.Key, v => Enum.Parse(typeof(PermissionGroup), (string) v.Value));
+            this.Content = tmpContent.ToDictionary(k => k.Key, v => Enum.Parse(typeof(PermissionGroup), (string) v.Value));
 
-            this.mContent.Clear();
+            this.Content.Clear();
 
             foreach(KeyValuePair<string, object> pair in tmpContent)
             {
@@ -34,13 +34,13 @@ namespace Asphalt.Storeable.Json
                 {
                     throw new Exception($"Value '{pair.Value}' of permission '{pair.Key}' is not valid");
                 }
-                this.mContent.Add(pair.Key, value);
+                this.Content.Add(pair.Key, value);
             }
         }
 
         public override void ForceSave()
         {
-            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.mContent.ToDictionary(k => k.Key, v => (object) v.Value.ToString()));
+            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.Content.ToDictionary(k => k.Key, v => (object) v.Value.ToString()));
         }
 
         public bool CheckPermission(User user, string permission)
