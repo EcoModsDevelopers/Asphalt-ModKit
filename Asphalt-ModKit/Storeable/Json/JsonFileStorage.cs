@@ -20,7 +20,9 @@ namespace Asphalt.Storeable.Json
         {
             FileName = pFileName;
             DefaultStorage = pDefaultValues;
-            Reload();
+
+            if(File.Exists(FileName))
+                Reload();
         }
 
         public JsonFileStorage(object path, string v)

@@ -99,7 +99,7 @@ namespace Asphalt.Util
             fi?.SetValue(pServerPlugin, storage);
         }
 
-        private static string GetServerPluginFolder(IServerPlugin pServerPlugin)
+        public static string GetServerPluginFolder(IServerPlugin pServerPlugin)
         {
             string folder = pServerPlugin.ToString();
 
