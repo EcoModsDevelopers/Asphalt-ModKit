@@ -48,13 +48,8 @@ namespace Asphalt.Storeable.Json
             if (HasPermission(user, permission))
                 return true;
 
-            user.Player.SendTemporaryErrorAlreadyLocalized($"You don't have the permission to do this! <color=#DCDCDC>Permission needed: {permission}</color>");
+            user.Player.SendTemporaryErrorAlreadyLocalized($"You don't have the permission to do this! <color=#595959>Permission needed: {permission}</color>");
             return false;
-        }
-
-        public bool Contains(string permission)
-        {
-            throw new NotImplementedException();
         }
 
         public bool HasPermission(User user, string permission)
