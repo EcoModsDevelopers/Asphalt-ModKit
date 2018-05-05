@@ -11,16 +11,16 @@ namespace Asphalt.Storeable.Json
 
         private IDictionary<string, IStorage> mStorageCache = new Dictionary<string, IStorage>();
         private IStorage mDefaultStorage;
-        private KeyDefaultValue[] defaultValues;
+        private Dictionary<string, object> defaultValues;
 
-        public JsonFileStorageCollection(string dir, KeyDefaultValue[] defaultValues = null)
+        public JsonFileStorageCollection(string dir, Dictionary<string, object> defaultValues = null)
         {
             this.dir = dir;
             this.defaultValues = defaultValues;
 
             //create DefaultFile
             if (mDefaultStorage == null && defaultValues != null)
-                mDefaultStorage = new JsonFileStorage(GetFilePath("_default"), defaultValues.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue), true);
+                mDefaultStorage = new JsonFileStorage(GetFilePath("_default"), defaultValues, true);
         }
 
         public virtual IStorage GetDefaultStorage()

@@ -1,13 +1,14 @@
 ﻿using Asphalt.Service;
 using Eco.Gameplay.Players;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Asphalt.Storeable.Json
 {
     public class JsonFileUserStorageCollection : JsonFileStorageCollection, IUserStorageCollection
     {
-        public JsonFileUserStorageCollection(string dir, KeyDefaultValue[] defaultValues = null) : base(dir, defaultValues)
+        public JsonFileUserStorageCollection(string dir, Dictionary<string, object> defaultValues = null) : base(dir, defaultValues)
         {
 
         }
