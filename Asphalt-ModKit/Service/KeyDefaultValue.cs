@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Asphalt.Service
+﻿namespace Asphalt.Service
 {
     public class KeyDefaultValue
     {

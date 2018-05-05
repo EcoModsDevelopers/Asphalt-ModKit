@@ -4,7 +4,6 @@ using Eco.Gameplay.Items;
 using Eco.Gameplay.Players;
 using Eco.Shared.Localization;
 using Eco.Shared.Math;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

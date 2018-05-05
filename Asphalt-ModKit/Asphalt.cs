@@ -7,17 +7,9 @@
 * ------------------------------------
 **/
 
-using Asphalt.Api.Event.PlayerEvents;
-using Asphalt.Api.Util;
-using Asphalt.Util;
 using Eco.Core.Plugins.Interfaces;
-using Eco.Gameplay.Interactions;
-using Eco.Gameplay.Objects;
-using Eco.Gameplay.Players;
-using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Utils;
 using Harmony;
-using System;
 using System.Reflection;
 using System.Security.Principal;
 

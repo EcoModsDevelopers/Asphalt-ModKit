@@ -1,7 +1,4 @@
-﻿using Asphalt.Events;
-using Eco.Gameplay.Objects;
-using Eco.Gameplay.Players;
-using System;
+﻿using Eco.Gameplay.Objects;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

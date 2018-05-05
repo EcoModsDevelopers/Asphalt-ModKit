@@ -1,7 +1,6 @@
 ﻿using Asphalt.Events;
 using Eco.Gameplay.Players;
 using Eco.Shared.Math;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

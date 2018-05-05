@@ -7,10 +7,6 @@
  * ------------------------------------
  **/
 
-using Asphalt.AsphaltExceptions;
-using System;
-using System.Collections.Generic;
-
 namespace Asphalt.Service
 {
     public class ServiceManager

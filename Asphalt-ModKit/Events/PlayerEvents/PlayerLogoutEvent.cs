@@ -1,5 +1,4 @@
 ﻿using Eco.Gameplay.Players;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

@@ -2,7 +2,7 @@
 
 namespace Asphalt.Service.Permissions
 {
-    public interface IPermissionService
+    public interface IPermissionService : IReloadable
     {        
         bool HasPermission(User user, string permission);
 

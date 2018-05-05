@@ -4,8 +4,6 @@ using Eco.Gameplay.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asphalt.Storeable.Json
 {
@@ -17,6 +15,8 @@ namespace Asphalt.Storeable.Json
 
         public override void Reload()
         {
+            this.Content.Clear();
+
             Dictionary<string, object> tmpContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
 
             //cast string values from file to PermissionGroup enum
