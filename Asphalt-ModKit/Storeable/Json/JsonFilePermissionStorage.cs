@@ -11,7 +11,7 @@ namespace Asphalt.Storeable.Json
 {
     public class JsonFilePermissionStorage : JsonFileStorage, IPermissionService
     {
-        public JsonFilePermissionStorage(string pFileName, IStorage pDefaultValues = null) : base(pFileName, pDefaultValues)
+        public JsonFilePermissionStorage(string pFileName, Dictionary<string, object> pDefaultValues) : base(pFileName, pDefaultValues, true)
         {
         }
 
@@ -19,10 +19,7 @@ namespace Asphalt.Storeable.Json
         {
             Dictionary<string, object> tmpContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
 
-            this.Content = tmpContent.ToDictionary(k => k.Key, v => Enum.Parse(typeof(PermissionGroup), (string) v.Value));
-
-            this.Content.Clear();
-
+            //cast string values from file to PermissionGroup enum
             foreach(KeyValuePair<string, object> pair in tmpContent)
             {
                 PermissionGroup value;
@@ -35,6 +32,13 @@ namespace Asphalt.Storeable.Json
                     throw new Exception($"Value '{pair.Value}' of permission '{pair.Key}' is not valid");
                 }
                 this.Content.Add(pair.Key, value);
+            }
+
+            if (saveDefaultValues && DefaultValues != null)
+            {
+                Content = MergeWithDefaultValues(Content, DefaultValues);
+                //save the file even if it's empty to show that there are no default values
+                ForceSave();
             }
         }
 

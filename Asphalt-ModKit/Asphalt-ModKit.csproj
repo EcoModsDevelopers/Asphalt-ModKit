@@ -141,6 +141,7 @@
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
     <Compile Include="InjectAttribute.cs" />
     <Compile Include="Service\IAspahltService.cs" />
+    <Compile Include="Service\IDisableable.cs" />
     <Compile Include="Service\IReloadable.cs" />
     <Compile Include="Service\KeyDefaultValue.cs" />
     <Compile Include="Service\Confirm\AbstractConfirmService.cs" />
@@ -153,11 +154,12 @@
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Storeable\GenericStoreable.cs" />
     <Compile Include="Storeable\IStorageCollection.cs" />
+    <Compile Include="Storeable\IUserStorageCollection.cs" />
     <Compile Include="Storeable\Json\JsonFilePermissionStorage.cs" />
     <Compile Include="Storeable\Json\JsonFileStorage.cs" />
     <Compile Include="Storeable\IStorage.cs" />
     <Compile Include="Storeable\Json\JsonFileStorageCollection.cs" />
-    <Compile Include="Storeable\MemoryStorage.cs" />
+    <Compile Include="Storeable\Json\JsonFileUserStorageCollection.cs" />
     <Compile Include="Storeable\StorageName.cs" />
     <Compile Include="Util\AffineTransform.cs" />
     <Compile Include="Service\ServiceHelper.cs" />

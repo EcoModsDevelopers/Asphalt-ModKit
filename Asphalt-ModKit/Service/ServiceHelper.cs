@@ -62,9 +62,7 @@ namespace Asphalt.Util
             if (configs == null)
                 throw new Exception($"{pServerPlugin.GetType()}.GetConfig() does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
 
-            JsonFileStorage storage = new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "config.json"));
-            storage.MergeWithDefaultValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
-            storage.ForceSave();
+            JsonFileStorage storage = new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "config.json"), configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue), true);
 
             pi?.SetValue(pServerPlugin, storage);
             fi?.SetValue(pServerPlugin, storage);
@@ -91,9 +89,7 @@ namespace Asphalt.Util
             if (permissions == null)
                 throw new Exception($"{pServerPlugin.GetType()}.GetDefaultPermission() does not have the corrent return type {nameof(DefaultPermission)}[] ");
 
-            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "permissions.json"));
-            storage.MergeWithDefaultValues(permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
-            storage.ForceSave();
+            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "permissions.json"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
 
             pi?.SetValue(pServerPlugin, storage);
             fi?.SetValue(pServerPlugin, storage);

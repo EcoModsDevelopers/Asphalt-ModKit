@@ -8,7 +8,8 @@ namespace Asphalt.Storeable.Json
 {
     public class JsonFileStorage : IStorage
     {
-        public IStorage DefaultStorage { get; protected set; }
+        public Dictionary<string, object> DefaultValues { get; protected set; }
+        protected bool saveDefaultValues;
 
         public Dictionary<string, object> Content { get; protected set; }
         private object path;
@@ -16,15 +17,15 @@ namespace Asphalt.Storeable.Json
 
         public string FileName { get; protected set; }
 
-        public JsonFileStorage(string pFileName, IStorage pDefaultValues = null)
+        public JsonFileStorage(string pFileName, Dictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
         {
             Content = new Dictionary<string, object>();
 
             FileName = pFileName;
-            DefaultStorage = pDefaultValues;
+            DefaultValues = pDefaultValues;
+            saveDefaultValues = pSaveDefaultValues;
 
-            if(File.Exists(FileName))
-                Reload();
+            Reload();
         }
 
         public JsonFileStorage(object path, string v)
@@ -37,7 +38,15 @@ namespace Asphalt.Storeable.Json
 
         public virtual void Reload()
         {
-            this.Content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+            if (File.Exists(FileName))
+                this.Content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+
+            if (saveDefaultValues && DefaultValues != null)
+            {
+                Content = MergeWithDefaultValues(Content, DefaultValues);
+                //save the file even if it's empty to show that there are no default values
+                ForceSave();
+            }
         }
 
         public virtual void Save()
@@ -82,14 +91,14 @@ namespace Asphalt.Storeable.Json
             if (Content.ContainsKey(key))
                 return Content[key];
 
-            if (DefaultStorage == null)
+            //if saveDefaultValues is set to true the defaultvalues are already contained in the Content
+            if (saveDefaultValues || DefaultValues == null)
                 return null;
 
-            object ret = DefaultStorage.Get(key);
-            if (ret == null)
-                throw new InvalidOperationException($"DefaultStorage does not contain value with key: {key}");
+            if (!DefaultValues.ContainsKey(key))
+                throw new InvalidOperationException($"DefaultValues do not contain value with key: {key}");
 
-            return ret;
+            return DefaultValues[key];
         }
 
         public void Set<K>(string key, K value)
@@ -102,22 +111,36 @@ namespace Asphalt.Storeable.Json
         public void Remove(string key)
         {
             Content.Remove(key);
+
+            //if it's a default value and saveDefaultValues is set to true just reset the value
+            if (saveDefaultValues && DefaultValues.ContainsKey(key))
+                Content.Add(key, DefaultValues[key]);
+
             Save();
         }
 
-        internal void MergeWithDefaultValues(Dictionary<string, object> pContent)
+        protected Dictionary<string, object> MergeWithDefaultValues(Dictionary<string, object> pContent, Dictionary<string, object> pDefaultValues)
         {
-            foreach (var key in Content.Keys.ToArray())
+            Dictionary<string, object> tmpDic = pContent;
+
+            foreach (var key in tmpDic.Keys.ToArray())
             {
-                if (!pContent.ContainsKey(key))
-                    Content.Remove(key);
+                if (!pDefaultValues.ContainsKey(key))
+                    tmpDic.Remove(key);
             }
 
-            foreach (var key in pContent.Keys)
+            foreach (var key in pDefaultValues.Keys)
             {
-                if (!Content.ContainsKey(key))
-                    Content.Add(key, pContent[key]);
+                if (!tmpDic.ContainsKey(key))
+                    tmpDic.Add(key, pDefaultValues[key]);
             }
+
+            return tmpDic;
+        }
+
+        public Dictionary<string, object> GetContent()
+        {
+            return Content;
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using Asphalt.Util;
+﻿using Asphalt.Service;
+using Asphalt.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Eco.Shared.Utils;
 
 namespace Asphalt.Storeable.Json
 {
@@ -12,31 +11,30 @@ namespace Asphalt.Storeable.Json
     {
         private string dir;
 
-        private static IDictionary<string, IStorage> mStorageCache = new Dictionary<string, IStorage>();
-        private static IStorage mDefaultStorage;
+        private IDictionary<string, IStorage> mStorageCache = new Dictionary<string, IStorage>();
+        private IStorage mDefaultStorage;
+        private KeyDefaultValue[] defaultValues;
 
-        public JsonFileStorageCollection(string dir)
+        public JsonFileStorageCollection(string dir, KeyDefaultValue[] defaultValues = null)
         {
             this.dir = dir;
+            this.defaultValues = defaultValues;
+
+            //create DefaultFile
+            if (mDefaultStorage == null && defaultValues != null)
+                mDefaultStorage = new JsonFileStorage(GetFilePath("_default"), defaultValues.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue), true);
         }
 
-        public IStorage GetDefaultStorage()
+        public virtual IStorage GetDefaultStorage()
         {
-            if (mDefaultStorage == null)
-            {
-                if (!File.Exists(GetFilePath("_default")))
-                    throw new FileNotFoundException($"Default settings file '{GetFilePath("_default")}' not found!");
-
-                mDefaultStorage = new JsonFileStorage(GetFilePath("_default"));
-            }
             return mDefaultStorage;
         }
 
-        public IStorage GetStorage(string pStorageName)
+        public virtual IStorage GetStorage(string pStorageName)
         {
             if (!mStorageCache.ContainsKey(pStorageName))
             {
-                JsonFileStorage file = new JsonFileStorage(GetFilePath(pStorageName), GetDefaultStorage());
+                JsonFileStorage file = new JsonFileStorage(GetFilePath(pStorageName), GetDefaultStorage()?.GetContent());
                 mStorageCache.Add(pStorageName, file);
                 return file;
             }
@@ -44,12 +42,12 @@ namespace Asphalt.Storeable.Json
             return mStorageCache[pStorageName];
         }
 
-        public void Reload()
+        public virtual void Reload()
         {
             mStorageCache.Clear();
         }
 
-        private string GetFilePath(string fileName)
+        public string GetFilePath(string fileName)
         {
             return Path.Combine(dir, fileName+".json");
         }

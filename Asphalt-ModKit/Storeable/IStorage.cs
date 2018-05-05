@@ -1,4 +1,5 @@
 ﻿using Asphalt.Service;
+using System.Collections.Generic;
 
 namespace Asphalt.Storeable
 {
@@ -12,5 +13,6 @@ namespace Asphalt.Storeable
         object Get(string key);
         void Set<K>(string key, K value);
         void Remove(string key);
+        Dictionary<string, object> GetContent();
     }
 }
