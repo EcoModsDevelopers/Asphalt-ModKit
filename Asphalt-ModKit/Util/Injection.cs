@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Asphalt.Api.Util
 {
     //You can also call this class magic ;)
-    public class Injection
+    public static class Injection
     {
         private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
         private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;

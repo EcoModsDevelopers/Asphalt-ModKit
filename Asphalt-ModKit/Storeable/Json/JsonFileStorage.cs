@@ -8,7 +8,7 @@ namespace Asphalt.Storeable.Json
 {
     public class JsonFileStorage : IStorage
     {
-        public Dictionary<string, object> DefaultValues { get; protected set; }
+        public IDictionary<string, object> DefaultValues { get; protected set; }
         protected bool saveDefaultValues;
 
         public Dictionary<string, object> Content { get; protected set; }
@@ -17,7 +17,7 @@ namespace Asphalt.Storeable.Json
 
         public string FileName { get; protected set; }
 
-        public JsonFileStorage(string pFileName, Dictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
+        public JsonFileStorage(string pFileName, IDictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
         {
             Content = new Dictionary<string, object>();
 
@@ -119,7 +119,7 @@ namespace Asphalt.Storeable.Json
             Save();
         }
 
-        protected Dictionary<string, object> MergeWithDefaultValues(Dictionary<string, object> pContent, Dictionary<string, object> pDefaultValues)
+        protected Dictionary<string, object> MergeWithDefaultValues(Dictionary<string, object> pContent, IDictionary<string, object> pDefaultValues)
         {
             Dictionary<string, object> tmpDic = pContent;
 
@@ -138,7 +138,7 @@ namespace Asphalt.Storeable.Json
             return tmpDic;
         }
 
-        public Dictionary<string, object> GetContent()
+        public IDictionary<string, object> GetContent()
         {
             return Content;
         }

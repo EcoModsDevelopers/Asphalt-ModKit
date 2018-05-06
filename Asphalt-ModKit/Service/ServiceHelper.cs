@@ -1,5 +1,4 @@
 ﻿using Asphalt.Api.Util;
-using Asphalt.Service;
 using Asphalt.Service.Permissions;
 using Asphalt.Storeable;
 using Asphalt.Storeable.Json;
@@ -11,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Asphalt.Util
+namespace Asphalt.Service
 {
     public class ServiceHelper
     {
@@ -39,7 +38,7 @@ namespace Asphalt.Util
         {
             InjectPermissions(pServerPlugin);
 
-            foreach(PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues, true), pfi);
 
             foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))

@@ -13,6 +13,6 @@ namespace Asphalt.Storeable
         object Get(string key);
         void Set<K>(string key, K value);
         void Remove(string key);
-        Dictionary<string, object> GetContent();
+        IDictionary<string, object> GetContent();
     }
 }
