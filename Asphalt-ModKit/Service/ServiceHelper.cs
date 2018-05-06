@@ -83,7 +83,7 @@ namespace Asphalt.Util
 
             Dictionary<string, object> defaultValues = null;
             if (pfi.HasDefaultValuesAttribute())
-                defaultValues = GetDefaultValues(pServerPlugin);
+                defaultValues = GetDefaultValues(pServerPlugin, pfi.GetDefaultValuesAttribute().MethodName);
 
             if (!pfi.HasStorageLocationAttribute())
                 throw new Exception($"No LocationAttribute defined for Storage {pfi.GetName()}");
@@ -91,19 +91,19 @@ namespace Asphalt.Util
             pfi.SetValue(pServerPlugin, pFactory.Invoke(pfi, defaultValues));
         }
 
-        private static Dictionary<string, object> GetDefaultValues(IServerPlugin pServerPlugin)
+        private static Dictionary<string, object> GetDefaultValues(IServerPlugin pServerPlugin, string pMethodName)
         {
-            MethodInfo mi = pServerPlugin.GetType().GetMethod("GetConfig");
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(pMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method GetConfig()");
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method '{pMethodName}'");
 
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
 
             if (configs == null)
-                throw new Exception($"{pServerPlugin.GetType()}.GetConfig() does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
+                throw new Exception($"{pServerPlugin.GetType()}.{pMethodName} does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
 
             return configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue);
         }
@@ -120,7 +120,7 @@ namespace Asphalt.Util
 
         public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(IServerPlugin pServerPlugin, Type pType)
         {
-            return pServerPlugin.GetType().GetProperties().Where(x => x.GetType() == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetType().GetFields().Where(x => x.GetType() == pType).Select(x => new PropertyFieldInfo(x)));
+            return pServerPlugin.GetType().GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetType().GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
         }
     }
 }
