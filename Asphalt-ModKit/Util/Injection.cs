@@ -158,25 +158,9 @@ namespace Asphalt.Api.Util
             return false;
         }*/
 
-
         public static MethodInfo FindMethod(Type pType, string pName)
         {
             return pType.GetMethod(pName, NON_PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_STATC);
-        }
-
-        public static bool HasInjectAttribute(PropertyInfo pPropertyInfo)
-        {
-            return pPropertyInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
-        }
-
-        public static bool HasInjectAttribute(MethodInfo pMethodInfo)
-        {
-            return pMethodInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
-        }
-
-        public static bool HasInjectAttribute(FieldInfo pFieldInfo)
-        {
-            return pFieldInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
         }
     }
 }

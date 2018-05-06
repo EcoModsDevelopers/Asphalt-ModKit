@@ -106,6 +106,7 @@
     <Compile Include="AsphaltExceptions\ServiceNotKnownException.cs" />
     <Compile Include="AsphaltExceptions\ServiceReloadException.cs" />
     <Compile Include="AsphaltExceptions\TimeoutException.cs" />
+    <Compile Include="AsphaltPluginAttribute.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\EventManagerHelper.cs" />
     <Compile Include="Events\IEvent.cs" />

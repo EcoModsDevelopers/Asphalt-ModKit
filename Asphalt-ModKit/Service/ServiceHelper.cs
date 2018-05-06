@@ -21,11 +21,10 @@ namespace Asphalt.Service
 
         private static void CallMethod(IServerPlugin pServerPlugin, string pName)
         {
-            MethodInfo mi = pServerPlugin.GetType().GetMethod(pName);
-
-            if (mi == null || !Injection.HasInjectAttribute(mi))
+            if (!IsAsphaltPlugin(pServerPlugin.GetType()))
                 return;
 
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(pName);
             mi.Invoke(pServerPlugin, new object[] { });
         }
 
@@ -36,6 +35,9 @@ namespace Asphalt.Service
 
         private static void InjectValues(IServerPlugin pServerPlugin)
         {
+            if (!IsAsphaltPlugin(pServerPlugin.GetType()))
+                return;
+
             InjectPermissions(pServerPlugin);
 
             foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
@@ -50,11 +52,9 @@ namespace Asphalt.Service
 
         private static void InjectPermissions(IServerPlugin pServerPlugin)
         {
-            PropertyInfo pi = pServerPlugin.GetType().GetProperty("PermissionService");
-            FieldInfo fi = pServerPlugin.GetType().GetField("PermissionService");
+            PropertyFieldInfo pfi = new PropertyFieldInfo(pServerPlugin.GetType(), "PermissionService");
 
-            if (!(pi != null && Injection.HasInjectAttribute(pi)) &&
-                !(fi != null && Injection.HasInjectAttribute(fi)))
+            if (pfi == null || !pfi.HasInjectAttribute())
                 return;
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod("GetDefaultPermissions");
@@ -71,8 +71,7 @@ namespace Asphalt.Service
 
             JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "permissions.json"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
 
-            pi?.SetValue(pServerPlugin, storage);
-            fi?.SetValue(pServerPlugin, storage);
+            pfi.SetValue(pServerPlugin, storage);
         }
 
         private static void Inject(IServerPlugin pServerPlugin, Func<PropertyFieldInfo, Dictionary<string, object>, object> pFactory, PropertyFieldInfo pfi)
@@ -120,6 +119,11 @@ namespace Asphalt.Service
         public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(IServerPlugin pServerPlugin, Type pType)
         {
             return pServerPlugin.GetType().GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetType().GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
+        }
+
+        public static bool IsAsphaltPlugin(Type pType)
+        {
+            return pType.GetCustomAttribute(typeof(AsphaltPluginAttribute)) != null;
         }
     }
 }
