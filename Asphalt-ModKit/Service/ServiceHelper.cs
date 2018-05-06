@@ -25,6 +25,9 @@ namespace Asphalt.Service
                 return;
 
             MethodInfo mi = pServerPlugin.GetType().GetMethod(pName);
+            if (mi == null)
+                return;
+
             mi.Invoke(pServerPlugin, new object[] { });
         }
 
@@ -38,7 +41,8 @@ namespace Asphalt.Service
             if (!IsAsphaltPlugin(pServerPlugin.GetType()))
                 return;
 
-            InjectPermissions(pServerPlugin);
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
+                InjectPermissions(pServerPlugin, pfi);
 
             foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues, true), pfi);
@@ -50,26 +54,26 @@ namespace Asphalt.Service
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileUserStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
         }
 
-        private static void InjectPermissions(IServerPlugin pServerPlugin)
+        private static void InjectPermissions(IServerPlugin pServerPlugin, PropertyFieldInfo pfi)
         {
-            PropertyFieldInfo pfi = new PropertyFieldInfo(pServerPlugin.GetType(), "PermissionService");
+            const string DefaultPermissionsMethodName = "GetDefaultPermissions";
 
-            if (pfi == null || !pfi.HasInjectAttribute())
+            if (!pfi.HasInjectAttribute())
                 return;
 
-            MethodInfo mi = pServerPlugin.GetType().GetMethod("GetDefaultPermissions");
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(DefaultPermissionsMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method GetDefaultPermission()");
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method {DefaultPermissionsMethodName}()");
 
             object permissionList = mi.Invoke(pServerPlugin, new object[] { });
 
             DefaultPermission[] permissions = permissionList as DefaultPermission[];
 
             if (permissions == null)
-                throw new Exception($"{pServerPlugin.GetType()}.GetDefaultPermission() does not have the corrent return type {nameof(DefaultPermission)}[] ");
+                throw new Exception($"{pServerPlugin.GetType()}.{DefaultPermissionsMethodName}() does not have the corrent return type {nameof(DefaultPermission)}[] ");
 
-            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "permissions.json"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "Permissions"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
 
             pfi.SetValue(pServerPlugin, storage);
         }

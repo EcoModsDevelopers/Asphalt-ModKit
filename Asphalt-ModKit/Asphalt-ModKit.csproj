@@ -57,7 +57,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\..\Eco\Server\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
+      <HintPath>..\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Core.dll</HintPath>

@@ -45,7 +45,7 @@ namespace Asphalt.Storeable.Json
 
         public string GetFilePath(string fileName)
         {
-            return Path.Combine(dir, fileName+".json");
+            return Path.Combine(dir, fileName) + ".json";
         }
     }
 }

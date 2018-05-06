@@ -9,31 +9,26 @@ namespace Asphalt.Storeable.Json
     public class JsonFileStorage : IStorage
     {
         public IDictionary<string, object> DefaultValues { get; protected set; }
-        protected bool saveDefaultValues;
 
         public Dictionary<string, object> Content { get; protected set; }
-        private object path;
-        private string v;
 
         public string FileName { get; protected set; }
+
+        protected bool saveDefaultValues;
 
         public JsonFileStorage(string pFileName, IDictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
         {
             Content = new Dictionary<string, object>();
 
             FileName = pFileName;
+
+            if (string.IsNullOrEmpty(Path.GetExtension(FileName)))
+                FileName += ".json";
+
             DefaultValues = pDefaultValues;
             saveDefaultValues = pSaveDefaultValues;
 
             Reload();
-        }
-
-        public JsonFileStorage(object path, string v)
-        {
-            Content = new Dictionary<string, object>();
-
-            this.path = path;
-            this.v = v;
         }
 
         public virtual void Reload()

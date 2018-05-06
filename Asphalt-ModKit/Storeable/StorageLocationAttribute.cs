@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Asphalt.Storeable
 {
@@ -9,6 +10,9 @@ namespace Asphalt.Storeable
 
         public StorageLocationAttribute(string pStorageLocation)
         {
+            if (!string.IsNullOrEmpty(Path.GetExtension(pStorageLocation)))
+                throw new ArgumentException($"{nameof(pStorageLocation)} should never be a filename with an extension. Please provide only the Location of an Storage (e.g. the filename without extension)");
+
             Location = pStorageLocation;
         }
     }
