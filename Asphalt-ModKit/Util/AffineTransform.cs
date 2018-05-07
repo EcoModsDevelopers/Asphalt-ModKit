@@ -1,11 +1,7 @@
 ﻿using Eco.Shared;
 using Eco.Shared.Math;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asphalt.Util
 {

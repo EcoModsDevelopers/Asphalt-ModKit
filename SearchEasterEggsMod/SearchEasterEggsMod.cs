@@ -7,50 +7,29 @@ using System;
 
 namespace SearchEasterEggsMod
 {
+    [AsphaltPlugin]
     public class SearchEasterEggsMod : IModKitPlugin
     {
         [Inject]
-        public IStorage ConfigStorage { get; set; }
+        [StorageLocation("Config")]
+        [DefaultValues(nameof(GetConfig))]
+        public static IStorage ConfigStorage { get; set; }
 
         [Inject]
-        public IStorageCollection SettingsCollection { get; set; }
+        [StorageLocation("CollectedEggsStorage")]
+        public static IUserStorageCollection CollectedEggsStorage { get; set; }
 
         [Inject]
-        public IPermissionChecker PermissionChecker { get; set; }
-
-        //   public IStorage<EasterEggConfigValues> ConfigStorage2 { get; set; }
-
-        [Inject]
-        [StorageName("customConfig")]
-        public IStorage CustomConfig { get; set; }
-
+        public static IPermissionService PermissionChecker { get; set; }
 
         public SearchEasterEggsMod()
         {
-            // ConfigStorage is null here!
+            // Properties are null here. Do not use contructor if you are using Asphalt
         }
 
         public void OnEnable()
         {
-            // SettingsCollection.setDirectory("dfg");
-
             int maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
-
-            //       ConfigStorage.SetInt("MaximumEggsInWorld", 22);
-
-            //    int? maximumEggsInWorld2 = ConfigStorage.Get<int?>("MaximumEggsInWorld");
-
-            /*
-                            IStorage hStorage = SettingsCollection.GetStorage("hansi");
-
-                            hStorage.GetInt("CollectedEggs");
-
-                            PermissionChecker.CheckPermission(null, "ff");*/
-
-            //   int maximumEggsInWorld2 = ConfigStorage2.GetInt(EasterEggConfigValues.MaximumEggsInWorld);
-
-
-            //   Uri test = ConfigStorage2.Get<Uri>(EasterEggConfigValues.MaximumEggsInWorld);
         }
 
         public KeyDefaultValue[] GetConfig()
@@ -61,9 +40,18 @@ namespace SearchEasterEggsMod
             };
         }
 
+        public DefaultPermission[] GetDefaultPermissions()
+        {
+            return new DefaultPermission[]
+            {
+                new DefaultPermission("easteregg.collect", PermissionGroup.User),
+                new DefaultPermission("easteregg.create", PermissionGroup.User)
+            };
+        }
+
         public string GetStatus()
         {
-            return "";
+            return "Unknown";
         }
     }
 }

@@ -8,35 +8,45 @@ namespace Asphalt.Storeable.Json
 {
     public class JsonFileStorage : IStorage
     {
-        public IStorage DefaultStorage { get; protected set; }
+        public IDictionary<string, object> DefaultValues { get; protected set; }
 
-        protected Dictionary<string, object> mContent = new Dictionary<string, object>();
-        private object path;
-        private string v;
+        public Dictionary<string, object> Content { get; protected set; }
 
         public string FileName { get; protected set; }
 
-        public JsonFileStorage(string pFileName, IStorage pDefaultValues = null)
-        {
-            FileName = pFileName;
-            DefaultStorage = pDefaultValues;
-            Reload();
-        }
+        protected bool saveDefaultValues;
 
-        public JsonFileStorage(object path, string v)
+        public JsonFileStorage(string pFileName, IDictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
         {
-            this.path = path;
-            this.v = v;
+            Content = new Dictionary<string, object>();
+
+            FileName = pFileName;
+
+            if (string.IsNullOrEmpty(Path.GetExtension(FileName)))
+                FileName += ".json";
+
+            DefaultValues = pDefaultValues;
+            saveDefaultValues = pSaveDefaultValues;
+
+            Reload();
         }
 
         public virtual void Reload()
         {
-            this.mContent = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+            if (File.Exists(FileName))
+                this.Content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+
+            if (saveDefaultValues && DefaultValues != null)
+            {
+                Content = MergeWithDefaultValues(Content, DefaultValues);
+                //save the file even if it's empty to show that there are no default values
+                ForceSave();
+            }
         }
 
         public virtual void Save()
         {
-            if (mContent.Count == 0)
+            if (Content.Count == 0)
             {
                 if (File.Exists(FileName))
                     File.Delete(FileName);
@@ -48,7 +58,7 @@ namespace Asphalt.Storeable.Json
 
         public virtual void ForceSave()
         {
-            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.mContent);
+            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.Content);
         }
 
         public virtual string GetString(string key)
@@ -73,45 +83,59 @@ namespace Asphalt.Storeable.Json
 
         public object Get(string key)
         {
-            if (mContent.ContainsKey(key))
-                return mContent[key];
+            if (Content.ContainsKey(key))
+                return Content[key];
 
-            if (DefaultStorage == null)
+            //if saveDefaultValues is set to true the defaultvalues are already contained in the Content
+            if (saveDefaultValues || DefaultValues == null)
                 return null;
 
-            object ret = DefaultStorage.Get(key);
-            if (ret == null)
-                throw new InvalidOperationException($"DefaultStorage does not contain value with key: {key}");
+            if (!DefaultValues.ContainsKey(key))
+                throw new InvalidOperationException($"DefaultValues do not contain value with key: {key}");
 
-            return ret;
+            return DefaultValues[key];
         }
 
         public void Set<K>(string key, K value)
         {
-            mContent.Remove(key);
-            mContent.Add(key, value);
+            Content.Remove(key);
+            Content.Add(key, value);
             Save();
         }
 
         public void Remove(string key)
         {
-            mContent.Remove(key);
+            Content.Remove(key);
+
+            //if it's a default value and saveDefaultValues is set to true just reset the value
+            if (saveDefaultValues && DefaultValues.ContainsKey(key))
+                Content.Add(key, DefaultValues[key]);
+
             Save();
         }
 
-        internal void MergeWithDefaultValues(Dictionary<string, object> pContent)
+        protected Dictionary<string, object> MergeWithDefaultValues(Dictionary<string, object> pContent, IDictionary<string, object> pDefaultValues)
         {
-            foreach (var key in mContent.Keys.ToArray())
+            Dictionary<string, object> tmpDic = pContent;
+
+            foreach (var key in tmpDic.Keys.ToArray())
             {
-                if (!pContent.ContainsKey(key))
-                    mContent.Remove(key);
+                if (!pDefaultValues.ContainsKey(key))
+                    tmpDic.Remove(key);
             }
 
-            foreach (var key in pContent.Keys)
+            foreach (var key in pDefaultValues.Keys)
             {
-                if (!mContent.ContainsKey(key))
-                    mContent.Add(key, pContent[key]);
+                if (!tmpDic.ContainsKey(key))
+                    tmpDic.Add(key, pDefaultValues[key]);
             }
+
+            return tmpDic;
+        }
+
+        public IDictionary<string, object> GetContent()
+        {
+            return Content;
         }
     }
 }

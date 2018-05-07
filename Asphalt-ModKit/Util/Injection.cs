@@ -1,15 +1,12 @@
-﻿using Eco.Shared.Utils;
-using Harmony;
+﻿using Harmony;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Asphalt.Api.Util
 {
     //You can also call this class magic ;)
-    public class Injection
+    public static class Injection
     {
         private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
         private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
@@ -161,16 +158,9 @@ namespace Asphalt.Api.Util
             return false;
         }*/
 
-
         public static MethodInfo FindMethod(Type pType, string pName)
         {
             return pType.GetMethod(pName, NON_PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_INSTANCE) ?? pType.GetMethod(pName, PUBLIC_STATC);
         }
-
-        public static bool HasInjectAttribute(PropertyInfo pPropertyInfo)
-        {
-            return pPropertyInfo.CustomAttributes.Any(c => c.AttributeType == typeof(InjectAttribute));
-        }
-
     }
 }

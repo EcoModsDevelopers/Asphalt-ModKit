@@ -1,14 +1,16 @@
 ﻿using Asphalt.Api.Util;
-using Asphalt.Service;
+using Asphalt.Service.Permissions;
 using Asphalt.Storeable;
 using Asphalt.Storeable.Json;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
-namespace Asphalt.Util
+namespace Asphalt.Service
 {
     public class ServiceHelper
     {
@@ -19,10 +21,14 @@ namespace Asphalt.Util
 
         private static void CallMethod(IServerPlugin pServerPlugin, string pName)
         {
-            MethodInfo pi = pServerPlugin.GetType().GetMethod(pName);
-            if (pi == null)
+            if (!IsAsphaltPlugin(pServerPlugin.GetType()))
                 return;
-            pi.Invoke(pServerPlugin, new object[] { });
+
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(pName);
+            if (mi == null)
+                return;
+
+            mi.Invoke(pServerPlugin, new object[] { });
         }
 
         internal static void InjectValues()
@@ -32,38 +38,79 @@ namespace Asphalt.Util
 
         private static void InjectValues(IServerPlugin pServerPlugin)
         {
-            InjectConfig(pServerPlugin);
-        }
-
-        private static void InjectConfig(IServerPlugin pServerPlugin)
-        {
-            PropertyInfo pi = pServerPlugin.GetType().GetProperty("ConfigStorage");
-
-            if (pi == null || !Injection.HasInjectAttribute(pi))
+            if (!IsAsphaltPlugin(pServerPlugin.GetType()))
                 return;
 
-            //public KeyDefaultValue<string>[] GetConfig()
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
+                InjectPermissions(pServerPlugin, pfi);
 
-            MethodInfo mi = pServerPlugin.GetType().GetMethod("GetConfig");
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
+                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues, true), pfi);
+
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
+                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
+
+            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
+                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileUserStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
+        }
+
+        private static void InjectPermissions(IServerPlugin pServerPlugin, PropertyFieldInfo pfi)
+        {
+            const string DefaultPermissionsMethodName = "GetDefaultPermissions";
+
+            if (!pfi.HasInjectAttribute())
+                return;
+
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(DefaultPermissionsMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method GetConfig()");
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method {DefaultPermissionsMethodName}()");
+
+            object permissionList = mi.Invoke(pServerPlugin, new object[] { });
+
+            DefaultPermission[] permissions = permissionList as DefaultPermission[];
+
+            if (permissions == null)
+                throw new Exception($"{pServerPlugin.GetType()}.{DefaultPermissionsMethodName}() does not have the corrent return type {nameof(DefaultPermission)}[] ");
+
+            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "Permissions"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
+
+            pfi.SetValue(pServerPlugin, storage);
+        }
+
+        private static void Inject(IServerPlugin pServerPlugin, Func<PropertyFieldInfo, Dictionary<string, object>, object> pFactory, PropertyFieldInfo pfi)
+        {
+            if (!pfi.HasInjectAttribute())
+                return;
+
+            Dictionary<string, object> defaultValues = null;
+            if (pfi.HasDefaultValuesAttribute())
+                defaultValues = GetDefaultValues(pServerPlugin, pfi.GetDefaultValuesAttribute().MethodName);
+
+            if (!pfi.HasStorageLocationAttribute())
+                throw new Exception($"No LocationAttribute defined for Storage {pfi.GetName()}");
+
+            pfi.SetValue(pServerPlugin, pFactory.Invoke(pfi, defaultValues));
+        }
+
+        private static Dictionary<string, object> GetDefaultValues(IServerPlugin pServerPlugin, string pMethodName)
+        {
+            MethodInfo mi = pServerPlugin.GetType().GetMethod(pMethodName);
+
+            if (mi == null)
+                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method '{pMethodName}'");
 
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
 
             if (configs == null)
-                throw new Exception($"{pServerPlugin.GetType()}.GetConfig() does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
+                throw new Exception($"{pServerPlugin.GetType()}.{pMethodName} does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
 
-            JsonFileStorage storage = new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "config.json"));
-            storage.MergeWithDefaultValues(configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
-            storage.ForceSave();
-
-            pi.SetValue(pServerPlugin, storage);
+            return configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue);
         }
 
-        private static string GetServerPluginFolder(IServerPlugin pServerPlugin)
+        public static string GetServerPluginFolder(IServerPlugin pServerPlugin)
         {
             string folder = pServerPlugin.ToString();
 
@@ -71,6 +118,16 @@ namespace Asphalt.Util
                 folder = folder.Substring(folder.IndexOf(".") + 1);
 
             return Path.Combine("Mods", folder);
+        }
+
+        public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(IServerPlugin pServerPlugin, Type pType)
+        {
+            return pServerPlugin.GetType().GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetType().GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
+        }
+
+        public static bool IsAsphaltPlugin(Type pType)
+        {
+            return pType.GetCustomAttribute(typeof(AsphaltPluginAttribute)) != null;
         }
     }
 }

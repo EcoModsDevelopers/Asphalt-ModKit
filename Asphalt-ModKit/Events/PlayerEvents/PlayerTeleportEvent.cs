@@ -1,7 +1,6 @@
 ﻿using Asphalt.Events;
 using Eco.Gameplay.Players;
 using Eco.Shared.Math;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {
@@ -29,7 +28,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
             EventManager.CallEvent(ref iEvent);
 
-            return cEvent.IsCancelled();
+            return !cEvent.IsCancelled();
         }
     }
 }

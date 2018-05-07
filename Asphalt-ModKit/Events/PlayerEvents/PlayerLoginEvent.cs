@@ -1,6 +1,5 @@
 ﻿using Eco.Gameplay.Players;
 using Eco.Shared.Networking;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

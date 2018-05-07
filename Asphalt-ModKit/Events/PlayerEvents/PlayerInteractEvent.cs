@@ -2,7 +2,6 @@
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Players;
 using Eco.Shared.Items;
-using System;
 
 namespace Asphalt.Api.Event.PlayerEvents
 {

@@ -7,7 +7,6 @@
  * ------------------------------------
  **/
 
-using Eco.Core.Plugins.Interfaces;
 using System.IO;
 
 namespace Asphalt.Api.Util
