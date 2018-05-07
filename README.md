@@ -7,7 +7,9 @@ A universal library for Eco Mod developers.
 3. Copy the contents of the 'Mods' folder into the 'Mods' folder of your server.
 
 ## For Developers
-Check out our wiki: https://github.com/EcoModsDevelopers/Asphalt-ModKit/wiki
+Check out our wiki: 
+https://github.com/EcoModsDevelopers/Asphalt-ModKit/wiki
+
 
 Example plugins:
 
