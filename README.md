@@ -10,5 +10,6 @@ A universal library for Eco Mod developers.
 Check out our wiki: https://github.com/EcoModsDevelopers/Asphalt-ModKit/wiki
 
 Example plugins:
+
 https://github.com/Kronnox/Asphalt-ModKit/tree/master/Asphalt-ModKit-ExamplePlugin
 https://github.com/EcoModsDevelopers/Asphalt-ModKit/tree/master/SearchEasterEggsMod
