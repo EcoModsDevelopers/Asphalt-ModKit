@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Asphalt.Service
 {
@@ -31,14 +32,14 @@ namespace Asphalt.Service
             mi.Invoke(pServerPlugin, new object[] { });
         }
 
-        internal static void InjectValues()
+        public static void InjectValues()
         {
-            Eco.Core.PluginManager.Controller.ForEach(s => InjectValues(s));
+            Parallel.ForEach(typeof(IModKitPlugin).CreatableTypes(), pluginType => InjectValues(pluginType));
         }
 
-        private static void InjectValues(IServerPlugin pServerPlugin)
+        private static void InjectValues(Type pServerPlugin)
         {
-            if (!IsAsphaltPlugin(pServerPlugin.GetType()))
+            if (!IsAsphaltPlugin(pServerPlugin))
                 return;
 
             foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
@@ -54,31 +55,31 @@ namespace Asphalt.Service
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileUserStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
         }
 
-        private static void InjectPermissions(IServerPlugin pServerPlugin, PropertyFieldInfo pfi)
+        private static void InjectPermissions(Type pServerPlugin, PropertyFieldInfo pfi)
         {
             const string DefaultPermissionsMethodName = "GetDefaultPermissions";
 
             if (!pfi.HasInjectAttribute())
                 return;
 
-            MethodInfo mi = pServerPlugin.GetType().GetMethod(DefaultPermissionsMethodName);
+            MethodInfo mi = pServerPlugin.GetMethod(DefaultPermissionsMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method {DefaultPermissionsMethodName}()");
+                throw new Exception($"{pServerPlugin.ToString()} does not implement a public method {DefaultPermissionsMethodName}()");
 
             object permissionList = mi.Invoke(pServerPlugin, new object[] { });
 
             DefaultPermission[] permissions = permissionList as DefaultPermission[];
 
             if (permissions == null)
-                throw new Exception($"{pServerPlugin.GetType()}.{DefaultPermissionsMethodName}() does not have the corrent return type {nameof(DefaultPermission)}[] ");
+                throw new Exception($"{pServerPlugin}.{DefaultPermissionsMethodName}() does not have the corrent return type {nameof(DefaultPermission)}[] ");
 
             JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "Permissions"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
 
-            pfi.SetValue(pServerPlugin, storage);
+            pfi.SetValue(null, storage);
         }
 
-        private static void Inject(IServerPlugin pServerPlugin, Func<PropertyFieldInfo, Dictionary<string, object>, object> pFactory, PropertyFieldInfo pfi)
+        private static void Inject(Type pServerPlugin, Func<PropertyFieldInfo, Dictionary<string, object>, object> pFactory, PropertyFieldInfo pfi)
         {
             if (!pfi.HasInjectAttribute())
                 return;
@@ -90,12 +91,12 @@ namespace Asphalt.Service
             if (!pfi.HasStorageLocationAttribute())
                 throw new Exception($"No LocationAttribute defined for Storage {pfi.GetName()}");
 
-            pfi.SetValue(pServerPlugin, pFactory.Invoke(pfi, defaultValues));
+            pfi.SetValue(null, pFactory.Invoke(pfi, defaultValues));
         }
 
-        private static Dictionary<string, object> GetDefaultValues(IServerPlugin pServerPlugin, string pMethodName)
+        private static Dictionary<string, object> GetDefaultValues(Type pServerPlugin, string pMethodName)
         {
-            MethodInfo mi = pServerPlugin.GetType().GetMethod(pMethodName);
+            MethodInfo mi = pServerPlugin.GetMethod(pMethodName);
 
             if (mi == null)
                 throw new Exception($"{pServerPlugin.GetType()} does not implement a public method '{pMethodName}'");
@@ -110,7 +111,7 @@ namespace Asphalt.Service
             return configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue);
         }
 
-        public static string GetServerPluginFolder(IServerPlugin pServerPlugin)
+        public static string GetServerPluginFolder(Type pServerPlugin)
         {
             string folder = pServerPlugin.ToString();
 
@@ -120,9 +121,9 @@ namespace Asphalt.Service
             return Path.Combine("Mods", folder);
         }
 
-        public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(IServerPlugin pServerPlugin, Type pType)
+        public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(Type pServerPlugin, Type pType)
         {
-            return pServerPlugin.GetType().GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetType().GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
+            return pServerPlugin.GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
         }
 
         public static bool IsAsphaltPlugin(Type pType)

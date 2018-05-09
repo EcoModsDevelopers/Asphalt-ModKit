@@ -18,7 +18,7 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            ServiceHelper.InjectValues();
+            //ServiceHelper.InjectValues();
             ServiceHelper.CallMethod("OnEnable");
         }
     }
