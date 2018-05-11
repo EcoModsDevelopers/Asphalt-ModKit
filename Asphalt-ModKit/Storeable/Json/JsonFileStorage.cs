@@ -108,7 +108,7 @@ namespace Asphalt.Storeable.Json
             Content.Remove(key);
 
             //if it's a default value and saveDefaultValues is set to true just reset the value
-            if (saveDefaultValues && DefaultValues.ContainsKey(key))
+            if (saveDefaultValues && DefaultValues != null && DefaultValues.ContainsKey(key))
                 Content.Add(key, DefaultValues[key]);
 
             Save();
