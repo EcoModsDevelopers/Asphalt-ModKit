@@ -118,6 +118,10 @@ namespace Asphalt.Service
         {
             string folder = pServerPlugin.ToString();
 
+            AsphaltPluginAttribute att = ((AsphaltPluginAttribute)pServerPlugin.GetCustomAttribute(typeof(AsphaltPluginAttribute)));
+            if (IsAsphaltPlugin(pServerPlugin) && att.ModName != null)
+                folder = att.ModName;
+
             if (folder.Contains("."))
                 folder = folder.Substring(folder.IndexOf(".") + 1);
 
