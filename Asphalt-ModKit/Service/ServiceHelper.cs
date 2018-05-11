@@ -101,6 +101,9 @@ namespace Asphalt.Service
             if (mi == null)
                 throw new Exception($"{pServerPlugin.GetType()} does not implement a public method '{pMethodName}'");
 
+            if(!mi.IsStatic)
+                throw new Exception($"{pServerPlugin.GetType()}.{pMethodName}' needs to be static");
+
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
