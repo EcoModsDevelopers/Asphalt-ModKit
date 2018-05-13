@@ -1,4 +1,5 @@
 ﻿using Asphalt.Api.Util;
+using Eco.Core.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,6 +95,18 @@ namespace Asphalt.Storeable.Json
                 throw new InvalidOperationException($"DefaultValues do not contain value with key: {key}");
 
             return DefaultValues[key];
+        }
+
+        public T Get<T>(string key)
+        {
+            try
+            {
+                return (T)Get(key);
+            }
+            catch
+            {
+                return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
+            }
         }
 
         public void Set<K>(string key, K value)
