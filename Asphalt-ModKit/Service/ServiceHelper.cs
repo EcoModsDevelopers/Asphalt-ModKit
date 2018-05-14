@@ -15,6 +15,9 @@ namespace Asphalt.Service
 {
     public class ServiceHelper
     {
+        private static object mLocker = new object();
+        private static bool mInjected = false;
+
         internal static void CallMethod(string pName)
         {
             Eco.Core.PluginManager.Controller.ForEach(s => CallMethod(s, pName));
@@ -34,7 +37,13 @@ namespace Asphalt.Service
 
         public static void InjectValues()
         {
-            Parallel.ForEach(typeof(IModKitPlugin).CreatableTypes(), pluginType => InjectValues(pluginType));
+            lock (mLocker)
+            {
+                if (mInjected)
+                    return;
+                Parallel.ForEach(typeof(IModKitPlugin).CreatableTypes(), pluginType => InjectValues(pluginType));
+                mInjected = true;
+            }
         }
 
         private static void InjectValues(Type pServerPlugin)
@@ -65,7 +74,10 @@ namespace Asphalt.Service
             MethodInfo mi = pServerPlugin.GetMethod(DefaultPermissionsMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.ToString()} does not implement a public method {DefaultPermissionsMethodName}()");
+                throw new Exception($"{pServerPlugin} does not implement a public method {DefaultPermissionsMethodName}()");
+
+            if (!mi.IsStatic)
+                throw new Exception($"{pServerPlugin}.{DefaultPermissionsMethodName}' needs to be static");
 
             object permissionList = mi.Invoke(pServerPlugin, new object[] { });
 
@@ -99,17 +111,17 @@ namespace Asphalt.Service
             MethodInfo mi = pServerPlugin.GetMethod(pMethodName);
 
             if (mi == null)
-                throw new Exception($"{pServerPlugin.GetType()} does not implement a public method '{pMethodName}'");
+                throw new Exception($"{pServerPlugin} does not implement a public method '{pMethodName}'");
 
-            if(!mi.IsStatic)
-                throw new Exception($"{pServerPlugin.GetType()}.{pMethodName}' needs to be static");
+            if (!mi.IsStatic)
+                throw new Exception($"{pServerPlugin}.{pMethodName}' needs to be static");
 
             object configList = mi.Invoke(pServerPlugin, new object[] { });
 
             KeyDefaultValue[] configs = configList as KeyDefaultValue[];
 
             if (configs == null)
-                throw new Exception($"{pServerPlugin.GetType()}.{pMethodName} does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
+                throw new Exception($"{pServerPlugin}.{pMethodName} does not have the corrent return type {nameof(KeyDefaultValue)}[] ");
 
             return configs.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue);
         }

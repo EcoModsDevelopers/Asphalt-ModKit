@@ -24,7 +24,12 @@ namespace SearchEasterEggsMod
 
         public SearchEasterEggsMod()
         {
-            // Properties are null here. Do not use contructor if you are using Asphalt
+            
+        }
+
+        public void OnPreEnable()
+        {
+            
         }
 
         public void OnEnable()
@@ -32,7 +37,7 @@ namespace SearchEasterEggsMod
             int maximumEggsInWorld = ConfigStorage.GetInt("MaximumEggsInWorld");
         }
 
-        public KeyDefaultValue[] GetConfig()
+        public static KeyDefaultValue[] GetConfig()
         {
             return new KeyDefaultValue[]
             {
@@ -40,7 +45,7 @@ namespace SearchEasterEggsMod
             };
         }
 
-        public DefaultPermission[] GetDefaultPermissions()
+        public static DefaultPermission[] GetDefaultPermissions()
         {
             return new DefaultPermission[]
             {
