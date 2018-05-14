@@ -11,6 +11,7 @@ namespace Asphalt.Storeable
         void SetInt(string key, int value);
         void SetString(string key, string value);
         object Get(string key);
+        T Get<T>(string key);
         void Set<K>(string key, K value);
         void Remove(string key);
         IDictionary<string, object> GetContent();
