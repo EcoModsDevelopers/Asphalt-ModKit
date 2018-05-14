@@ -1,4 +1,5 @@
 ﻿using Asphalt.Api.Util;
+using Eco.Core.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -96,6 +97,18 @@ namespace Asphalt.Storeable.Json
             return DefaultValues[key];
         }
 
+        public T Get<T>(string key)
+        {
+            try
+            {
+                return (T)Get(key);
+            }
+            catch
+            {
+                return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
+            }
+        }
+
         public void Set<K>(string key, K value)
         {
             Content.Remove(key);
@@ -108,7 +121,7 @@ namespace Asphalt.Storeable.Json
             Content.Remove(key);
 
             //if it's a default value and saveDefaultValues is set to true just reset the value
-            if (saveDefaultValues && DefaultValues.ContainsKey(key))
+            if (saveDefaultValues && DefaultValues != null && DefaultValues.ContainsKey(key))
                 Content.Add(key, DefaultValues[key]);
 
             Save();
