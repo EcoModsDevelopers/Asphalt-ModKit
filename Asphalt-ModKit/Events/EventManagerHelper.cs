@@ -1,9 +1,12 @@
 ﻿using Asphalt.Api.Event.PlayerEvents;
+using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Api.Util;
+using Asphalt.Events.InventoryEvents;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
+using Eco.Shared.Networking;
 using System;
 
 namespace Asphalt.Events
@@ -14,6 +17,13 @@ namespace Asphalt.Events
         {
             switch (pEventType.Name) //We hope Event names are unique
             {
+                case nameof(InventoryChangeSelectedSlotEvent):
+                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(InventoryChangeSelectedSlotEventHelper), "InvokeOn");
+                    break;
+                case nameof(InventoryMoveItemEvent):
+                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(InventoryMoveItemEventHelper), "InvokeOn");
+                    break;
+
                 case nameof(PlayerBuyEvent):
                     Injection.InstallCreateAtomicAction(typeof(BuyPlayerActionManager), typeof(PlayerBuyEventHelper));
                     break;
@@ -79,6 +89,10 @@ namespace Asphalt.Events
                     break;
                 case nameof(PlayerVoteEvent):
                     Injection.InstallCreateAtomicAction(typeof(VotePlayerActionManager), typeof(PlayerVoteEventHelper));
+                    break;
+
+                case nameof(RpcInvokeEvent):
+                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(RpcInvokeEventHelper), "InvokeOn");
                     break;
 
                 case nameof(WorldPolluteEvent):
