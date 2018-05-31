@@ -1,9 +1,20 @@
 ﻿using Eco.Core.Serialization;
+using Eco.ModKit;
 using Eco.Server;
 using Harmony;
+using System;
 
 namespace Asphalt.Service
 {
+    [HarmonyPatch(typeof(ModContentSync), "RefreshContent")]
+    internal static class InjectPatch
+    {
+        static void Postfix()
+        {
+            ServiceHelper.InjectValues();
+        }
+    }
+
     [HarmonyPatch(typeof(EcoSerializer), "FinishDeserialization")]
     internal static class PreEnablePatch
     {
@@ -18,7 +29,6 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            //ServiceHelper.InjectValues();
             ServiceHelper.CallMethod("OnEnable");
         }
     }

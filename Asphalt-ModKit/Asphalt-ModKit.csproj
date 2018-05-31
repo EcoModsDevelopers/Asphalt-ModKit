@@ -173,6 +173,8 @@
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Injection.cs" />
+    <Compile Include="Util\InvUtils.cs" />
+    <Compile Include="Util\RubbleUtils.cs" />
     <Compile Include="Util\SkillsUtil.cs" />
     <Compile Include="Util\WorldUtils.cs" />
   </ItemGroup>

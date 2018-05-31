@@ -15,7 +15,7 @@ using System.Security.Principal;
 
 namespace Asphalt.Api
 {
-    public class Asphalt : IModKitPlugin, IServerPlugin
+    public class Asphalt : IModKitPlugin
     {
         public static bool IsInitialized { get; protected set; }
 
