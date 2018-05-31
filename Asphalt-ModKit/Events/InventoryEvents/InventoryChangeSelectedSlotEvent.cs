@@ -1,4 +1,6 @@
 ﻿using Asphalt.Api.Event;
+using Eco.Gameplay.Items;
+using Eco.Gameplay.Players;
 
 namespace Asphalt.Events.InventoryEvents
 {
@@ -7,26 +9,28 @@ namespace Asphalt.Events.InventoryEvents
     /// </summary>
     public class InventoryChangeSelectedSlotEvent : IEvent
     {
+        public Player Player { get; protected set; }
+        public int SelectedSlot { get; protected set; }
+        public ItemStack SelectedStack { get; protected set; }
+        public SelectionInventory Inventory { get; protected set; }
 
-        public InventoryChangeSelectedSlotEvent()
+        public InventoryChangeSelectedSlotEvent(int slot, Player player, ItemStack itemStack, SelectionInventory inv)
         {
-            
+            SelectedSlot = slot;
+            Player = player;
+            SelectedStack = itemStack;
+            Inventory = inv;
         }
     }
 
     internal class InventoryChangeSelectedSlotEventHelper
     {
-        public static bool Prefix(ref string methodname, object __result)
+        public static void Prefix(int slot, Player player, SelectionInventory __instance)
         {
-            if (methodname != "SelectIndex")
-                return true;
-
-            InventoryChangeSelectedSlotEvent csse = new InventoryChangeSelectedSlotEvent();
+            InventoryChangeSelectedSlotEvent csse = new InventoryChangeSelectedSlotEvent(slot, player, __instance.SelectedStack, __instance);
             IEvent csseEvent = csse;
 
             EventManager.CallEvent(ref csseEvent);
-
-            return true;
         }
     }
 }

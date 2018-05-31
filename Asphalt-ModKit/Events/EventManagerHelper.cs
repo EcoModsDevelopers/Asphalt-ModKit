@@ -19,7 +19,7 @@ namespace Asphalt.Events
             switch (pEventType.Name) //We hope Event names are unique
             {
                 case nameof(InventoryChangeSelectedSlotEvent):
-                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(InventoryChangeSelectedSlotEventHelper), "InvokeOn");
+                    Injection.InstallWithOriginalHelperNonPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
                     break;
                 case nameof(InventoryMoveItemEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");

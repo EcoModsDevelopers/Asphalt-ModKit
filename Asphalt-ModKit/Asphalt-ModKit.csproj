@@ -59,36 +59,6 @@
     <Reference Include="0Harmony, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Gameplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Gameplay.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.ModKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.ModKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Mods, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Mods.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Shared, Version=0.7.3.3, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Simulation, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Simulation.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Stats, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.Stats.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.World, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\Eco.World.dll</HintPath>
-    </Reference>
-    <Reference Include="EcoServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\EcoServer.exe</HintPath>
-    </Reference>
-    <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.3.3\lib\LiteDB.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -115,6 +85,8 @@
     <Compile Include="Events\EventManager.cs" />
     <Compile Include="Events\EventPriority.cs" />
     <Compile Include="Events\ICancellable.cs" />
+    <Compile Include="Events\InventoryEvents\InventoryChangeSelectedSlotEvent.cs" />
+    <Compile Include="Events\InventoryEvents\InventoryMoveItemEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerEatEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerRunForElectionEvent.cs" />
     <Compile Include="Events\PlayerEvents\PlayerPayTaxEvent.cs" />
@@ -138,7 +110,9 @@
     <Compile Include="Events\PlayerEvents\PlayerSendMessageEvent.cs" />
     <Compile Include="AsphaltExceptions\EventHandlerArgumentException.cs" />
     <Compile Include="Events\PlayerEvents\PlayerUnlearnSkillEvent.cs" />
+    <Compile Include="Events\RpcEvents\RpcInvokeEvent.cs" />
     <Compile Include="Events\WorldEvents\WorldPolluteEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectDestroyedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
@@ -181,6 +155,52 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Core\Eco.Core.csproj">
+      <Project>{be1761ab-69f5-481c-a4bf-9a7251c02596}</Project>
+      <Name>Eco.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Gameplay\Eco.Gameplay.csproj">
+      <Project>{5c980505-2974-4b4b-b56a-2be2422e98aa}</Project>
+      <Name>Eco.Gameplay</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.ModKit\Eco.ModKit.csproj">
+      <Project>{c09e1100-6122-4e22-ba57-4f335c82d3b7}</Project>
+      <Name>Eco.ModKit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Mods\Eco.Mods.csproj">
+      <Project>{7a3fb11d-3a73-4b0c-b991-7326b54ff606}</Project>
+      <Name>Eco.Mods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Plugins\Eco.Plugins.csproj">
+      <Project>{5e8e63d5-9898-4830-9918-8dad0b995bb3}</Project>
+      <Name>Eco.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Server\Eco.Server.csproj">
+      <Project>{72534cef-6417-4905-bdea-3e827114afd8}</Project>
+      <Name>Eco.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Shared\Eco.Shared.csproj">
+      <Project>{510558a8-a88e-473f-b07d-918e696c81e1}</Project>
+      <Name>Eco.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Simulation\Eco.Simulation.csproj">
+      <Project>{7d66ec71-4045-460e-8f16-7f5b64e79939}</Project>
+      <Name>Eco.Simulation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.Stats\Eco.Stats.csproj">
+      <Project>{c945e354-36f5-41cb-b7a1-435ca48ec0d2}</Project>
+      <Name>Eco.Stats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.WorldGenerator\Eco.WorldGenerator.csproj">
+      <Project>{6799b69a-9bb0-4e26-b6c9-6b7c9eec3a03}</Project>
+      <Name>Eco.WorldGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Eco\Server\Eco.World\Eco.World.csproj">
+      <Project>{08bd87d1-b811-4665-b5cd-52e331932fb8}</Project>
+      <Name>Eco.World</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

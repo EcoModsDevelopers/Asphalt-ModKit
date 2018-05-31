@@ -135,6 +135,12 @@ namespace EcoTestEventPlugin
             //evt.SetCancelled(true);
         }
 
-
+        [EventHandler]
+        public void OnInventoryChangeSelectedSlotEvent(InventoryChangeSelectedSlotEvent evt)
+        {
+            Console.Write($"InventoryChangeSelectedSlotEvent: {evt.Player.FriendlyName} changed to slot {evt.SelectedSlot}");
+            if (!evt.SelectedStack.Empty) Console.Write($" with {evt.SelectedStack.Quantity}x {evt.SelectedStack.Item.FriendlyName}");
+            Console.WriteLine("");
+        }
     }
 }
