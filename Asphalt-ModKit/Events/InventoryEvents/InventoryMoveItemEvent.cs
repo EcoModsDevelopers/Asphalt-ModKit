@@ -1,4 +1,10 @@
 ﻿using Asphalt.Api.Event;
+using Eco.Gameplay.Items;
+using Eco.Gameplay.Players;
+using Eco.Shared.Networking;
+using Eco.Shared.Serialization;
+using System;
+using System.Reflection;
 
 namespace Asphalt.Events.InventoryEvents
 {
@@ -7,30 +13,29 @@ namespace Asphalt.Events.InventoryEvents
     /// </summary>
     public class InventoryMoveItemEvent : CancellableEvent
     {
+        public ItemStack SourceStack { get; protected set; }
+        public ItemStack DestinationStack { get; protected set; }
+        public User User { get; protected set; }
 
-        public InventoryMoveItemEvent() : base()
+        public InventoryMoveItemEvent(ItemStack source, ItemStack destination, User user) : base()
         {
-            
+            SourceStack = source;
+            DestinationStack = destination;
+            User = user;
         }
     }
 
     internal class InventoryMoveItemEventHelper
     {
-        public static bool Prefix(ref string methodname, object __result)
+        public static bool Prefix(ItemStack source, ItemStack destination, User user)
         {
-            if (methodname != "MoveItems")
-                return true;
-
-            InventoryMoveItemEvent imie = new InventoryMoveItemEvent();
+            InventoryMoveItemEvent imie = new InventoryMoveItemEvent(source, destination, user);
             IEvent imieEvent = imie;
 
             EventManager.CallEvent(ref imieEvent);
 
             if (imie.IsCancelled())
-            {
-                __result = null;
                 return false;
-            }
 
             return true;
         }

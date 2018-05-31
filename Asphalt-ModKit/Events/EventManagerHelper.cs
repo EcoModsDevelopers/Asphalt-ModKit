@@ -3,6 +3,7 @@ using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Api.Util;
 using Asphalt.Events.InventoryEvents;
 using Eco.Gameplay.Interactions;
+using Eco.Gameplay.Items;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
@@ -21,7 +22,7 @@ namespace Asphalt.Events
                     Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(InventoryChangeSelectedSlotEventHelper), "InvokeOn");
                     break;
                 case nameof(InventoryMoveItemEvent):
-                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(InventoryMoveItemEventHelper), "InvokeOn");
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");
                     break;
 
                 case nameof(PlayerBuyEvent):
@@ -99,6 +100,9 @@ namespace Asphalt.Events
                     Injection.InstallCreateAtomicAction(typeof(PolluteAirPlayerActionManager), typeof(WorldPolluteEventHelper));
                     break;
 
+                case nameof(WorldObjectDestroyedEvent):
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(WorldObject), typeof(WorldObjectDestroyedEventHelper), "Destroy");
+                    break;
                 case nameof(WorldObjectEnabledChangedEvent):
                     Injection.InstallWithOriginalHelperNonPublicInstance(typeof(WorldObject), typeof(WorldObjectEnabledChangedEventHelper), "set_Enabled");
                     break;
