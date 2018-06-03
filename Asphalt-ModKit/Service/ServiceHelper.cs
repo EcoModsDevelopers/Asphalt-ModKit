@@ -41,7 +41,7 @@ namespace Asphalt.Service
             {
                 if (mInjected)
                     return;
-                Parallel.ForEach(typeof(IModKitPlugin).CreatableTypes(), pluginType => InjectValues(pluginType));
+                typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
                 mInjected = true;
             }
         }
