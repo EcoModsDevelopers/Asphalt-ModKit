@@ -41,8 +41,8 @@ namespace Asphalt.Service
             {
                 if (mInjected)
                     return;
-                typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
                 mInjected = true;
+                typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
             }
         }
 
