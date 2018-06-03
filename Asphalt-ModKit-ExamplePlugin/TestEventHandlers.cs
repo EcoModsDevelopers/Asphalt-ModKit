@@ -1,6 +1,8 @@
 ﻿using Asphalt.Api.Event;
 using Asphalt.Api.Event.PlayerEvents;
+using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Events;
+using Asphalt.Events.InventoryEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +80,11 @@ namespace EcoTestEventPlugin
             // evt.SetCancelled(true);
         }
 
+        [EventHandler]
+        public void OnWorldObjectDestroyed(WorldObjectDestroyedEvent evt)
+        {
+            Console.WriteLine("Destroyed"+evt.WorldObject.ToString());
+        }
 
         [EventHandler]
         public void OnWorldObjectEnabled(WorldObjectEnabledChangedEvent evt)
@@ -116,8 +123,24 @@ namespace EcoTestEventPlugin
             Console.WriteLine(evt.FoodItem);
         }
 
+        [EventHandler]
+        public void OnInventoryMoveItemEvent(InventoryMoveItemEvent evt)
+        {
+            Console.Write($"RpcInvokeEvent: ");
+            if (evt.User != null) Console.Write($"{evt.User.Name}");
+            Console.Write($" moved from {evt.SourceStack.Quantity}x {evt.SourceStack.Item.FriendlyName}");
+            if (!evt.DestinationStack.Empty) Console.Write($" to {evt.DestinationStack.Quantity}x {evt.DestinationStack.Item.FriendlyName}");
+            Console.WriteLine("");
 
+            //evt.SetCancelled(true);
+        }
 
-
+        [EventHandler]
+        public void OnInventoryChangeSelectedSlotEvent(InventoryChangeSelectedSlotEvent evt)
+        {
+            Console.Write($"InventoryChangeSelectedSlotEvent: {evt.Player.FriendlyName} changed to slot {evt.SelectedSlot}");
+            if (!evt.SelectedStack.Empty) Console.Write($" with {evt.SelectedStack.Quantity}x {evt.SelectedStack.Item.FriendlyName}");
+            Console.WriteLine("");
+        }
     }
 }
