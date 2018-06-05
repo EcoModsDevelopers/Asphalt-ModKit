@@ -1,5 +1,7 @@
 ﻿using Asphalt.Api.Event;
+using Eco.Gameplay.Components;
 using Eco.Gameplay.Items;
+using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Shared.Networking;
 using Eco.Shared.Serialization;
@@ -14,9 +16,10 @@ namespace Asphalt.Events.WorldObjectEvent
     public class WorldObjectChangeTextEvent : IEvent
     {
         public Player Player { get; protected set; }
+        public WorldObject WorldObject { get; protected set; }
         public string Text { get; protected set; }
 
-        public WorldObjectChangeTextEvent(ref Player player, string text) : base()
+        public WorldObjectChangeTextEvent(Player player, WorldObject obj, string text) : base()
         {
             Player = player;
             Text = text;
@@ -25,9 +28,9 @@ namespace Asphalt.Events.WorldObjectEvent
 
     internal class WorldObjectChangeTextEventHelper
     {
-        public static bool Prefix(ref Player player, string text)
+        public static bool Prefix(ref Player player, string text, ref CustomTextComponent __instance)
         {
-            WorldObjectChangeTextEvent imie = new WorldObjectChangeTextEvent(ref player, text);
+            WorldObjectChangeTextEvent imie = new WorldObjectChangeTextEvent(player, __instance.Parent, text);
             IEvent imieEvent = imie;
 
             EventManager.CallEvent(ref imieEvent);
