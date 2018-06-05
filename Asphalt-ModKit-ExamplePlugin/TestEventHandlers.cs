@@ -2,6 +2,7 @@
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Events;
+using Asphalt.Events.BlockEvents;
 using Asphalt.Events.InventoryEvents;
 using System;
 using System.Collections.Generic;
@@ -141,6 +142,13 @@ namespace EcoTestEventPlugin
             Console.Write($"InventoryChangeSelectedSlotEvent: {evt.Player.FriendlyName} changed to slot {evt.SelectedSlot}");
             if (!evt.SelectedStack.Empty) Console.Write($" with {evt.SelectedStack.Quantity}x {evt.SelectedStack.Item.FriendlyName}");
             Console.WriteLine("");
+        }
+
+        [EventHandler]
+        public void OnSignChangeEvent(SignChangeEvent evt)
+        {
+            Console.WriteLine($"SignChangeEvent: {evt.Player.FriendlyName} set text to {evt.Text}");
+            evt.Text = "Teeeest";
         }
     }
 }

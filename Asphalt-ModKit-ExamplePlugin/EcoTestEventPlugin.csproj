@@ -49,31 +49,31 @@
     <Compile Include="TestEventHandlers.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="E:\Eco\Server\Eco.Core\Eco.Core.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.Core\Eco.Core.csproj">
       <Project>{be1761ab-69f5-481c-a4bf-9a7251c02596}</Project>
       <Name>Eco.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\Eco\Server\Eco.Gameplay\Eco.Gameplay.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.Gameplay\Eco.Gameplay.csproj">
       <Project>{5c980505-2974-4b4b-b56a-2be2422e98aa}</Project>
       <Name>Eco.Gameplay</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\Eco\Server\Eco.Shared\Eco.Shared.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.Shared\Eco.Shared.csproj">
       <Project>{510558a8-a88e-473f-b07d-918e696c81e1}</Project>
       <Name>Eco.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\Eco\Server\Eco.Simulation\Eco.Simulation.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.Simulation\Eco.Simulation.csproj">
       <Project>{7D66EC71-4045-460E-8F16-7F5B64E79939}</Project>
       <Name>Eco.Simulation</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\Eco\Server\Eco.Stats\Eco.Stats.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.Stats\Eco.Stats.csproj">
       <Project>{C945E354-36F5-41CB-B7A1-435CA48EC0D2}</Project>
       <Name>Eco.Stats</Name>
     </ProjectReference>
-    <ProjectReference Include="E:\Eco\Server\Eco.World\Eco.World.csproj">
+    <ProjectReference Include="..\..\Eco\Server\Eco.World\Eco.World.csproj">
       <Project>{08BD87D1-B811-4665-B5CD-52E331932FB8}</Project>
       <Name>Eco.World</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\GitHub\Asphalt-ModKit\Asphalt-ModKit\Asphalt-ModKit.csproj">
+    <ProjectReference Include="..\Asphalt-ModKit\Asphalt-ModKit.csproj">
       <Project>{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}</Project>
       <Name>Asphalt-ModKit</Name>
     </ProjectReference>

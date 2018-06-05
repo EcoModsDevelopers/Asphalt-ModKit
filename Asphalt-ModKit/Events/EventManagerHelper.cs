@@ -2,6 +2,8 @@
 using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Api.Util;
 using Asphalt.Events.InventoryEvents;
+using Asphalt.Events.WorldObjectEvent;
+using Eco.Gameplay.Components;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Objects;
@@ -18,12 +20,17 @@ namespace Asphalt.Events
         {
             switch (pEventType.Name) //We hope Event names are unique
             {
+
+                // Inventory Events
+
                 case nameof(InventoryChangeSelectedSlotEvent):
                     Injection.InstallWithOriginalHelperNonPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
                     break;
                 case nameof(InventoryMoveItemEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");
                     break;
+
+                // Player Events
 
                 case nameof(PlayerBuyEvent):
                     Injection.InstallCreateAtomicAction(typeof(BuyPlayerActionManager), typeof(PlayerBuyEventHelper));
@@ -92,14 +99,23 @@ namespace Asphalt.Events
                     Injection.InstallCreateAtomicAction(typeof(VotePlayerActionManager), typeof(PlayerVoteEventHelper));
                     break;
 
+                // RPC Events
+                
                 case nameof(RpcInvokeEvent):
                     Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(RpcInvokeEventHelper), "InvokeOn");
                     break;
+
+                // World Events
 
                 case nameof(WorldPolluteEvent):
                     Injection.InstallCreateAtomicAction(typeof(PolluteAirPlayerActionManager), typeof(WorldPolluteEventHelper));
                     break;
 
+                // WorldObject Events
+
+                case nameof(WorldObjectChangeTextEvent):
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof((WorldObjectChangeTextEventHelper), "SetText");
+                    break;
                 case nameof(WorldObjectDestroyedEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(WorldObject), typeof(WorldObjectDestroyedEventHelper), "Destroy");
                     break;

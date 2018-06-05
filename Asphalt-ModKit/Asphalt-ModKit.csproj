@@ -56,8 +56,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Harmony.Snapshot.1.1.0\lib\net46\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony">
+      <HintPath>C:\Users\Administartor\Downloads\EcoServer_v0.7.4.6-beta\Mods\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -77,6 +77,7 @@
     <Compile Include="AsphaltExceptions\ServiceReloadException.cs" />
     <Compile Include="AsphaltExceptions\TimeoutException.cs" />
     <Compile Include="AsphaltPluginAttribute.cs" />
+    <Compile Include="Events\BlockEvents\SignChangeEvent.cs" />
     <Compile Include="Events\CancellableEvent.cs" />
     <Compile Include="Events\EventManagerHelper.cs" />
     <Compile Include="Events\IEvent.cs" />
