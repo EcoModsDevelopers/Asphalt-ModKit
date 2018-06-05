@@ -15,7 +15,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Vector3i Position { get; set; }
 
-        public PlayerPickUpEvent(Player pPlayer, BlockItem pPickedUpItem, Vector3i pPosition) : base()
+        public PlayerPickUpEvent(ref Player pPlayer, ref BlockItem pPickedUpItem, ref Vector3i pPosition) : base()
         {
             this.Player = pPlayer;
             this.PickedUpItem = pPickedUpItem;
@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPickUpEventHelper
     {
-        public static bool Prefix(Player player, BlockItem pickedUpItem, Vector3i position, ref IAtomicAction __result)
+        public static bool Prefix(ref Player player, ref BlockItem pickedUpItem, ref Vector3i position, ref IAtomicAction __result)
         {
-            PlayerPickUpEvent cEvent = new PlayerPickUpEvent(player, pickedUpItem, position);
+            PlayerPickUpEvent cEvent = new PlayerPickUpEvent(ref player, ref pickedUpItem, ref position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

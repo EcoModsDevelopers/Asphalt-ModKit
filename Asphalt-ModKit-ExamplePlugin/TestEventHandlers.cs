@@ -2,8 +2,8 @@
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Events;
-using Asphalt.Events.BlockEvents;
 using Asphalt.Events.InventoryEvents;
+using Asphalt.Events.WorldObjectEvent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,6 +125,13 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
+        public void OnPlayerSendMessageEvent(PlayerSendMessageEvent evt)
+        {
+            Console.WriteLine($"{evt.User.Name} sent message '{evt.Message}'");
+            evt.Message.Text = "Test";
+        }
+
+        [EventHandler]
         public void OnInventoryMoveItemEvent(InventoryMoveItemEvent evt)
         {
             Console.Write($"RpcInvokeEvent: ");
@@ -145,10 +152,9 @@ namespace EcoTestEventPlugin
         }
 
         [EventHandler]
-        public void OnSignChangeEvent(SignChangeEvent evt)
+        public void OnSignChangeEvent(WorldObjectChangeTextEvent evt)
         {
             Console.WriteLine($"SignChangeEvent: {evt.Player.FriendlyName} set text to {evt.Text}");
-            evt.Text = "Teeeest";
         }
     }
 }

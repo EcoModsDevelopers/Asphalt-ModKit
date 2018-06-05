@@ -114,7 +114,7 @@ namespace Asphalt.Events
                 // WorldObject Events
 
                 case nameof(WorldObjectChangeTextEvent):
-                    Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof((WorldObjectChangeTextEventHelper), "SetText");
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof(WorldObjectChangeTextEventHelper), "SetText");
                     break;
                 case nameof(WorldObjectDestroyedEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(WorldObject), typeof(WorldObjectDestroyedEventHelper), "Destroy");

@@ -15,7 +15,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Item Item { get; set; }
 
-        public PlayerBuyEvent(User pUser, StoreComponent pStore, Item pItem) : base()
+        public PlayerBuyEvent(ref User pUser, ref StoreComponent pStore, ref Item pItem) : base()
         {
             this.User = pUser;
             this.Store = pStore;
@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerBuyEventHelper
     {
-        public static bool Prefix(User user, StoreComponent store, Item item, ref IAtomicAction __result)
+        public static bool Prefix(ref User user, ref StoreComponent store, ref Item item, ref IAtomicAction __result)
         {
-            PlayerBuyEvent cEvent = new PlayerBuyEvent(user, store, item);
+            PlayerBuyEvent cEvent = new PlayerBuyEvent(ref user, ref store, ref item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

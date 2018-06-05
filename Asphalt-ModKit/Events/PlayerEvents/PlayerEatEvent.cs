@@ -12,7 +12,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Stomach Stomach { get; protected set; }  //protected because we can't change it
 
-        public PlayerEatEvent(Player pPlayer, FoodItem pFoodIten, Stomach pStomach) : base()
+        public PlayerEatEvent(ref Player pPlayer, ref FoodItem pFoodIten, ref Stomach pStomach) : base()
         {
             this.Player = pPlayer;
             this.FoodItem = pFoodIten;
@@ -22,9 +22,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerEatEventHelper
     {
-        public static bool Prefix(Player player, FoodItem food, Stomach __instance)
+        public static bool Prefix(ref Player player, ref FoodItem food, ref Stomach __instance)
         {
-            PlayerEatEvent cEvent = new PlayerEatEvent(player, food, __instance);
+            PlayerEatEvent cEvent = new PlayerEatEvent(ref player, ref food, ref __instance);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

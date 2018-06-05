@@ -13,7 +13,7 @@ namespace Asphalt.Events.WorldObjectEvent
     /// </summary>
     public class WorldObjectChangeTextEvent : IEvent
     {
-        public Player Player { get; set; }
+        public Player Player { get; protected set; }
         public string Text { get; protected set; }
 
         public WorldObjectChangeTextEvent(ref Player player, string text) : base()
@@ -23,7 +23,7 @@ namespace Asphalt.Events.WorldObjectEvent
         }
     }
 
-    internal class WorldObjectChangeTextEventEventHelper
+    internal class WorldObjectChangeTextEventHelper
     {
         public static bool Prefix(ref Player player, string text)
         {
