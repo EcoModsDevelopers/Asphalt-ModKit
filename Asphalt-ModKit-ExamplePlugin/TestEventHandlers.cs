@@ -4,6 +4,9 @@ using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Events;
 using Asphalt.Events.InventoryEvents;
 using Asphalt.Events.WorldObjectEvent;
+using Eco.Core.Plugins;
+using Eco.Gameplay.Objects;
+using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,6 +158,15 @@ namespace EcoTestEventPlugin
         public void OnSignChangeEvent(WorldObjectChangeTextEvent evt)
         {
             Console.WriteLine($"SignChangeEvent: {evt.Player.FriendlyName} set text to {evt.Text}");
+        }
+
+        [EventHandler]
+        public void OnSpawnRubbleEvent(RubbleSpawnEvent evt)
+        {
+            Console.WriteLine($"SpawnRubbleEvent: spawned {evt.RubbleObject.GetType().ToString()} at {evt.RubbleObject.Position.ToString()}");
+            //if (evt.RubbleObject.IsBreakable)
+            //    evt.RubbleObject.Breakup();
+            //evt.SetCancelled(true);
         }
     }
 }
