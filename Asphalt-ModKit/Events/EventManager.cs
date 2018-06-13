@@ -61,7 +61,9 @@ namespace Asphalt.Api.Event
                         catch (Exception e)
                         {
                             Log.WriteError(e.ToStringPretty());
+#if DEBUG
                             throw;
+#endif
                         }
 
                         handlers.Add(parameterType, new List<EventHandlerData>());
@@ -103,6 +105,9 @@ namespace Asphalt.Api.Event
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
+#if DEBUG
+                    throw;
+#endif
                 }
             }
         }
