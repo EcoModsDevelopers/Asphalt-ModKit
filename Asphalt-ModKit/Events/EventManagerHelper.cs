@@ -116,6 +116,10 @@ namespace Asphalt.Events
                 case nameof(RubbleSpawnEvent):
                     Injection.InstallWithOriginalHelperPublicStatic(typeof(EcoObjectManager), typeof(RubbleSpawnEventHelper), "Add");
                     break;
+                case nameof(TreeFellEvent):
+                    //TODO
+                    //Injection.InstallWithOriginalHelperPublicInstance(typeof(TreeEntity), typeof(TreeFellEventHelper), "FellTree");
+                    break;
 
                 case nameof(WorldObjectChangeTextEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof(WorldObjectChangeTextEventHelper), "SetText");

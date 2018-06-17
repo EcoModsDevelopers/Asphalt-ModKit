@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Asphalt.Storeable.Json
 {
@@ -99,14 +101,47 @@ namespace Asphalt.Storeable.Json
 
         public T Get<T>(string key)
         {
-            try
-            {
-                return (T)Get(key);
-            }
-            catch
-            {
+            try {
+                var obj = Get(key);
+
+                if(obj is T)
+                    return (T)Get(key);
+
                 return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+#if DEBUG
+                throw e;
+#endif
+            }
+        }
+
+        private Task TimeoutSyncMethod(Action<CancellationToken> syncAction, TimeSpan timeout)
+        {
+            var cts = new CancellationTokenSource();
+
+            var inner = Task.Run(() => syncAction(cts.Token), cts.Token);
+            var delay = Task.Delay(timeout, cts.Token);
+
+            var timeoutTask = Task.WhenAny(inner, delay).ContinueWith(t =>
+            {
+                try
+                {
+                    if (!inner.IsCompleted)
+                    {
+                        cts.Cancel();
+                        throw new TimeoutException("Timeout waiting for method after " + timeout);
+                    }
+                }
+                finally
+                {
+                    cts.Dispose();
+                }
+            }, cts.Token);
+
+            return timeoutTask;
         }
 
         public void Set<K>(string key, K value)

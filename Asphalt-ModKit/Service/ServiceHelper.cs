@@ -2,6 +2,7 @@
 using Asphalt.Service.Permissions;
 using Asphalt.Storeable;
 using Asphalt.Storeable.Json;
+using Asphalt.Util;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
 using System;
@@ -51,16 +52,16 @@ namespace Asphalt.Service
             if (!IsAsphaltPlugin(pServerPlugin))
                 return;
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
                 InjectPermissions(pServerPlugin, pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues, true), pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
                 Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileUserStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
         }
 
@@ -138,11 +139,6 @@ namespace Asphalt.Service
                 folder = folder.Substring(folder.IndexOf(".") + 1);
 
             return Path.Combine("Mods", folder);
-        }
-
-        public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(Type pServerPlugin, Type pType)
-        {
-            return pServerPlugin.GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
         }
 
         public static bool IsAsphaltPlugin(Type pType)
