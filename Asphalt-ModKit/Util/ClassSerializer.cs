@@ -25,7 +25,7 @@ namespace Asphalt.Api.Util
 
         public static void Serialize(string fileName, T clazz)
         {
-            string content = SerializationUtils.SerializeRawJsonIndented(clazz);
+            string content = SerializationUtils.SerializeJson(clazz);
             FileUtil.WriteToFile(fileName, content);
         }
     }
