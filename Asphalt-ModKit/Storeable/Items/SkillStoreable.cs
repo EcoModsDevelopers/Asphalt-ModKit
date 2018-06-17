@@ -38,7 +38,7 @@ namespace Asphalt.Storeable.Items
         }
     }
 
-    public abstract class SkillLevelStoreable
+    public class SkillLevelStoreable
     {
         public int SkillPointCost { get; set; }
 

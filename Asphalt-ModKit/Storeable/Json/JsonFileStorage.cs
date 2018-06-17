@@ -104,10 +104,13 @@ namespace Asphalt.Storeable.Json
             try {
                 var obj = Get(key);
 
+                if (obj == null)
+                    return default(T);
+
                 if(obj is T)
                     return (T)Get(key);
 
-                return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
+                return SerializationUtils.DeserializeJson<T>(obj.ToString());
             }
             catch (Exception e)
             {
@@ -116,32 +119,6 @@ namespace Asphalt.Storeable.Json
                 throw e;
 #endif
             }
-        }
-
-        private Task TimeoutSyncMethod(Action<CancellationToken> syncAction, TimeSpan timeout)
-        {
-            var cts = new CancellationTokenSource();
-
-            var inner = Task.Run(() => syncAction(cts.Token), cts.Token);
-            var delay = Task.Delay(timeout, cts.Token);
-
-            var timeoutTask = Task.WhenAny(inner, delay).ContinueWith(t =>
-            {
-                try
-                {
-                    if (!inner.IsCompleted)
-                    {
-                        cts.Cancel();
-                        throw new TimeoutException("Timeout waiting for method after " + timeout);
-                    }
-                }
-                finally
-                {
-                    cts.Dispose();
-                }
-            }, cts.Token);
-
-            return timeoutTask;
         }
 
         public void Set<K>(string key, K value)
