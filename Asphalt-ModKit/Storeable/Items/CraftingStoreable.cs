@@ -13,6 +13,10 @@ namespace Asphalt.Storeable.Items
         public float craftMinutesTime;
         public CraftIngredients[] ingredients;
 
+        public CraftingStoreable()
+        {
+        }
+
         public CraftingStoreable(bool _enable, string _table, float _craftMinutesTime, CraftIngredients[] _craftCost)
         {
             enable = _enable;
@@ -26,6 +30,10 @@ namespace Asphalt.Storeable.Items
     {
         public string item;
         public float quantity;
+
+        public CraftIngredients()
+        {
+        }
 
         public CraftIngredients(string ingredient, float cost)
         {

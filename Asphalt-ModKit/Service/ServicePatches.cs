@@ -1,6 +1,7 @@
 ﻿using Eco.Core.Serialization;
 using Eco.ModKit;
 using Eco.Server;
+using Eco.Shared.Utils;
 using Harmony;
 using System;
 
@@ -11,7 +12,15 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            ServiceHelper.InjectValues();
+            try
+            {
+                ServiceHelper.InjectValues();
+            }
+            catch (Exception e)
+            {
+                Log.WriteError(e.ToString());
+                throw;
+            }
         }
     }
 
@@ -20,7 +29,15 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            ServiceHelper.CallMethod("OnPreEnable");
+            try
+            {
+                ServiceHelper.CallMethod("OnPreEnable");
+            }
+            catch (Exception e)
+            {
+                Log.WriteError(e.ToString());
+                throw;
+            }
         }
     }
 
@@ -29,7 +46,15 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            ServiceHelper.CallMethod("OnEnable");
+            try
+            {
+                ServiceHelper.CallMethod("OnEnable");
+            }
+            catch (Exception e)
+            {
+                Log.WriteError(e.ToString());
+                throw;
+            }
         }
     }
 
@@ -38,7 +63,15 @@ namespace Asphalt.Service
     {
         static void Postfix()
         {
-            ServiceHelper.CallMethod("OnPostEnable");
+            try
+            {
+                ServiceHelper.CallMethod("OnPostEnable");
+            }
+            catch (Exception e)
+            {
+                Log.WriteError(e.ToString());
+                throw;
+            }
         }
     }
 }

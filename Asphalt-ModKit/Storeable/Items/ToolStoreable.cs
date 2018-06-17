@@ -13,6 +13,10 @@ namespace Asphalt.Storeable.Items
         public CraftIngredients repair;
         public CraftingStoreable craft;
 
+        public ToolStoreable()
+        {
+        }
+
         public ToolStoreable(float _durability, float _calories, CraftIngredients _repair, CraftingStoreable _craft)
         {
             durability = _durability;

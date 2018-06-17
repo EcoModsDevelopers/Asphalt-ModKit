@@ -12,6 +12,10 @@ namespace Asphalt.Storeable.Items
     {
         public SkillLevelStoreable[] Levels;
 
+        public SkillStoreable()
+        {
+        }
+
         public SkillStoreable(SkillLevelStoreable[] levels)
         {
             Levels = levels;
@@ -40,6 +44,10 @@ namespace Asphalt.Storeable.Items
 
     public class SkillLevelStoreable
     {
+        public SkillLevelStoreable()
+        {
+        }
+
         public int SkillPointCost { get; set; }
 
         public SkillLevelStoreable(int skillPointCost)
