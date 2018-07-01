@@ -3,7 +3,7 @@ node {
 		checkout scm
 
 	stage 'Build'
-		powershell "CreateVersionFile.ps1"
+		powershell ".\\CreateVersionFile.ps1"
 	    bat "nuget restore"
 		bat "\"${tool 'MSBuild'}\" Asphalt-ModKit.sln /p:Configuration=Release /p:Platform=x64 /p:ProductVersion=<version"
 
@@ -13,8 +13,6 @@ node {
 		bat "7z a Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip Mods/"
 		archiveArtifacts 'Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip'
 		
-		bat "nuget pack -Version <version"
-		 
-		
+		powershell ".\\CreateNugetPackage.ps1"				
 		cleanWs()
 }

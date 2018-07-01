@@ -17,4 +17,8 @@
       <dependency id="EcoServer" version="0.7.3.3" />
     </dependencies>
   </metadata>
+  <files>
+     <file src="bin\x64\Release\Asphalt-ModKit.dll" target="lib" />
+     <file src="bin\x64\Release\Asphalt-ModKit.pdb" target="lib" />
+   </files>
 </package>
