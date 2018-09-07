@@ -94,14 +94,11 @@ namespace Asphalt.Utils
                     {
                         continue;
                     }
-                    if (obj.AuthorizedToInteract(user))
+                    if (obj.TryPickup(user.Player, user.Inventory).IsSuccess)
                     {
-                        if (obj.TryPickup(user.Inventory).IsSuccess)
-                        {
-                            count++;
-                            if (count >= qty)
-                                break;
-                        }
+                        count++;
+                        if (count >= qty)
+                            break;
                     }
                 }
             }

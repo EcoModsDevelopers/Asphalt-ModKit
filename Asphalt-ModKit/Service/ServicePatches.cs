@@ -1,6 +1,6 @@
-﻿using Eco.Core.Serialization;
+﻿using Eco.Core;
+using Eco.Core.Serialization;
 using Eco.ModKit;
-using Eco.Server;
 using Harmony;
 using System;
 

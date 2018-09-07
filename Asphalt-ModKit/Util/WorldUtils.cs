@@ -7,6 +7,7 @@
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
+using Eco.Gameplay.Property;
 using Eco.Shared.Items;
 using Eco.Shared.Math;
 using Eco.Simulation.Settings;
@@ -148,7 +149,7 @@ namespace Asphalt.Util
                                 info.Method = InteractionMethod.Right;
                                 info.BlockPosition = positionAbove;
                                 InteractionContext context = info.MakeContext(user.Player);
-                                if (context.Authed())
+                                if (PropertyManager.GetPlot(context.BlockPosition.Value.XZ).IsAuthorized(user))
                                 {
                                     blockLists.Add(blockAbove as T);
                                 }
@@ -187,7 +188,7 @@ namespace Asphalt.Util
                                 info.Method = InteractionMethod.Right;
                                 info.BlockPosition = positionAbove;
                                 InteractionContext context = info.MakeContext(user.Player);
-                                if (context.Authed())
+                                if (PropertyManager.GetPlot(context.BlockPosition.Value.XZ).IsAuthorized(user))
                                 {
                                     blockLists.Add(positionAbove);
                                 }
