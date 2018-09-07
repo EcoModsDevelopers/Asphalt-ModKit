@@ -23,7 +23,7 @@ namespace Asphalt.Service
             ServiceHelper.CallMethod("OnPreEnable");
         }
     }
-
+    /*
     [HarmonyPatch(typeof(PluginManager), "InitializePlugins")]
     internal static class EnablePatch
     {
@@ -32,7 +32,7 @@ namespace Asphalt.Service
             ServiceHelper.CallMethod("OnEnable");
         }
     }
-
+    */
     [HarmonyPatch(typeof(DataStore), "Unlock")]
     internal static class PostEnablePatch
     {
