@@ -12,7 +12,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     {
         public InteractionContext Context { get; set; }
 
-        public PlayerInteractEvent(InteractionContext pContext) : base()
+        public PlayerInteractEvent(ref InteractionContext pContext) : base()
         {
             this.Context = pContext;
         }
@@ -20,9 +20,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal static class PlayerInteractEventHelper
     {
-        public static void Postfix(this InteractionInfo info, Player player, InteractionContext __result)
+        public static void Postfix(this InteractionInfo info, ref InteractionContext __result)
         {
-            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(__result);
+            PlayerInteractEvent playerInteractEvent = new PlayerInteractEvent(ref __result);
             IEvent playerInteractIEvent = playerInteractEvent;
 
             EventManager.CallEvent(ref playerInteractIEvent);

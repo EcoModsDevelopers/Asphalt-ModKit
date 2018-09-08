@@ -9,7 +9,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     {
         public User User { get; set; }
 
-        public PlayerProposeVoteEvent(User pUser) : base()
+        public PlayerProposeVoteEvent(ref User pUser) : base()
         {
             this.User = pUser;
         }
@@ -17,9 +17,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerProposeVoteEventHelper
     {
-        public static bool Prefix(User user, ref IAtomicAction __result)
+        public static bool Prefix(ref User user, ref IAtomicAction __result)
         {
-            PlayerProposeVoteEvent cEvent = new PlayerProposeVoteEvent(user);
+            PlayerProposeVoteEvent cEvent = new PlayerProposeVoteEvent(ref user);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

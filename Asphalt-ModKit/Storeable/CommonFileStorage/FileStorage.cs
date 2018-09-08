@@ -1,5 +1,6 @@
 ﻿using Asphalt.Api.Util;
 using Eco.Core.Serialization;
+using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +8,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Asphalt.Storeable.Json
+namespace Asphalt.Storeable.CommonFileStorage
 {
-    public class JsonFileStorage : IStorage
+    public class FileStorage : IStorage
     {
         public IDictionary<string, object> DefaultValues { get; protected set; }
 
@@ -17,19 +18,22 @@ namespace Asphalt.Storeable.Json
 
         public string FileName { get; protected set; }
 
-        protected bool saveDefaultValues;
+        protected bool mSaveDefaultValues;
 
-        public JsonFileStorage(string pFileName, IDictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
+        protected IFileStorageSerializer mSerializer;
+
+        public FileStorage(IFileStorageSerializer pSerializer, string pFileName, IDictionary<string, object> pDefaultValues = null, bool pSaveDefaultValues = false)
         {
             Content = new Dictionary<string, object>();
 
             FileName = pFileName;
+            mSerializer = pSerializer;
 
             if (string.IsNullOrEmpty(Path.GetExtension(FileName)))
-                FileName += ".json";
+                FileName += mSerializer.GetFileExtension();
 
             DefaultValues = pDefaultValues;
-            saveDefaultValues = pSaveDefaultValues;
+            mSaveDefaultValues = pSaveDefaultValues;
 
             Reload();
         }
@@ -37,9 +41,9 @@ namespace Asphalt.Storeable.Json
         public virtual void Reload()
         {
             if (File.Exists(FileName))
-                this.Content = ClassSerializer<Dictionary<string, object>>.Deserialize(FileName);
+                this.Content = mSerializer.Deserialize(FileUtil.ReadFromFile(FileName)) ?? new Dictionary<string, object>();
 
-            if (saveDefaultValues && DefaultValues != null)
+            if (mSaveDefaultValues && DefaultValues != null)
             {
                 Content = MergeWithDefaultValues(Content, DefaultValues);
                 //save the file even if it's empty to show that there are no default values
@@ -61,7 +65,7 @@ namespace Asphalt.Storeable.Json
 
         public virtual void ForceSave()
         {
-            ClassSerializer<Dictionary<string, object>>.Serialize(FileName, this.Content);
+            FileUtil.WriteToFile(FileName, mSerializer.Serialize(this.Content));
         }
 
         public virtual string GetString(string key)
@@ -90,7 +94,7 @@ namespace Asphalt.Storeable.Json
                 return Content[key];
 
             //if saveDefaultValues is set to true the defaultvalues are already contained in the Content
-            if (saveDefaultValues || DefaultValues == null)
+            if (mSaveDefaultValues || DefaultValues == null)
                 return null;
 
             if (!DefaultValues.ContainsKey(key))
@@ -101,23 +105,19 @@ namespace Asphalt.Storeable.Json
 
         public T Get<T>(string key)
         {
-            try {
+            try
+            {
                 var obj = Get(key);
 
-                if (obj == null)
-                    return default(T);
-
-                if(obj is T)
+                if (obj is T)
                     return (T)Get(key);
 
-                return SerializationUtils.DeserializeJson<T>(obj.ToString());
+                return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
-#if DEBUG
-                throw e;
-#endif
+                Log.WriteError(e.ToString());
+                throw;
             }
         }
 
@@ -133,7 +133,7 @@ namespace Asphalt.Storeable.Json
             Content.Remove(key);
 
             //if it's a default value and saveDefaultValues is set to true just reset the value
-            if (saveDefaultValues && DefaultValues != null && DefaultValues.ContainsKey(key))
+            if (mSaveDefaultValues && DefaultValues != null && DefaultValues.ContainsKey(key))
                 Content.Add(key, DefaultValues[key]);
 
             Save();

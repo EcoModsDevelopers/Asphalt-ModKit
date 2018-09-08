@@ -15,7 +15,7 @@ namespace Asphalt.Api.Event.PlayerEvents
         public AirPollutionComponent Component { get; set; }
         public float Value { get; set; }
 
-        public WorldPolluteEvent(User pUser, AirPollutionComponent pAirPollutionComponent, float pValue) : base()
+        public WorldPolluteEvent(ref User pUser, ref AirPollutionComponent pAirPollutionComponent, ref float pValue) : base()
         {
             User = pUser;
             Component = pAirPollutionComponent;
@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldPolluteEventHelper
     {
-        public static bool Prefix(User user, AirPollutionComponent obj, float value, ref IAtomicAction __result)
+        public static bool Prefix(ref User user, ref AirPollutionComponent obj, ref float value, ref IAtomicAction __result)
         {
-            WorldPolluteEvent wpe = new WorldPolluteEvent(user, obj, value);
+            WorldPolluteEvent wpe = new WorldPolluteEvent(ref user, ref obj, ref value);
             IEvent wpeEvent = wpe;
 
             EventManager.CallEvent(ref wpeEvent);

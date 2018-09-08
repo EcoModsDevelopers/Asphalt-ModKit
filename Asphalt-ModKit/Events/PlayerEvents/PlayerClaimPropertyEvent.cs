@@ -15,7 +15,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Vector3i Position { get; set; }
 
-        public PlayerClaimPropertyEvent(Player pPlayer, Vector3i pPosition) : base()
+        public PlayerClaimPropertyEvent(ref Player pPlayer, ref Vector3i pPosition) : base()
         {
             this.Player = pPlayer;
             this.Position = pPosition;
@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerClaimPropertyEventHelper
     {
-        public static bool Prefix(Player player, Vector3i position, ref IAtomicAction __result)
+        public static bool Prefix(ref Player player, ref Vector3i position, ref IAtomicAction __result)
         {
-            PlayerClaimPropertyEvent cEvent = new PlayerClaimPropertyEvent(player, position);
+            PlayerClaimPropertyEvent cEvent = new PlayerClaimPropertyEvent(ref player, ref position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

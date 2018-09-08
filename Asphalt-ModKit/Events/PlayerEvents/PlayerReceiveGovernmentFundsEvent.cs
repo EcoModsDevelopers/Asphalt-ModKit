@@ -8,13 +8,13 @@ namespace Asphalt.Api.Event.PlayerEvents
 {
     public class PlayerReceiveGovernmentFundsEvent : CancellableEvent
     {
-        public User User { get; protected set; }
+        public User User { get; set; }
 
         public Currency Currency { get; set; }
 
         public float Amount { get; set; }
 
-        public PlayerReceiveGovernmentFundsEvent(User pUser, Currency pCurrency, float pAmount) : base()
+        public PlayerReceiveGovernmentFundsEvent(ref User pUser, ref Currency pCurrency, ref float pAmount) : base()
         {
             this.User = pUser;
             this.Currency = pCurrency;
@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerReceiveGovernmentFundsEventHelper
     {
-        public static bool Prefix(User user, Currency currency, float amount, ref IAtomicAction __result)
+        public static bool Prefix(ref User user, ref Currency currency, ref float amount, ref IAtomicAction __result)
         {
-            PlayerReceiveGovernmentFundsEvent cEvent = new PlayerReceiveGovernmentFundsEvent(user, currency, amount);
+            PlayerReceiveGovernmentFundsEvent cEvent = new PlayerReceiveGovernmentFundsEvent(ref user, ref currency, ref amount);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
