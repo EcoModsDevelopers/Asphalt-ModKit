@@ -8,9 +8,9 @@ namespace Asphalt.Api.Util
     //You can also call this class magic ;)
     public static class Injection
     {
-        private const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
-        private const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
-        private const BindingFlags NON_PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.NonPublic;
+        public const BindingFlags PUBLIC_STATC = BindingFlags.Static | BindingFlags.Public;
+        public const BindingFlags PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.Public;
+        public const BindingFlags NON_PUBLIC_INSTANCE = BindingFlags.Instance | BindingFlags.NonPublic;
 
         public static void InstallCreateAtomicAction(Type pTypeToReplace, Type pHelperType)
         {
@@ -22,7 +22,6 @@ namespace Asphalt.Api.Util
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_STATC),
                     pHelperType
-                 //            pHelperType.GetMethod(pMethodName + "_original", PUBLIC_STATC)
                  );
         }
 
@@ -31,7 +30,6 @@ namespace Asphalt.Api.Util
             Install(
                     pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE),
                     pHelperType
-                 //                pHelperType.GetMethod(pMethodName + "_original", PUBLIC_INSTANCE)
                  );
         }
 
@@ -40,12 +38,14 @@ namespace Asphalt.Api.Util
             Install(
                     pTypeToReplace.GetMethod(pMethodName, NON_PUBLIC_INSTANCE),
                     pHelperType
-                 //               pHelperType.GetMethod(pMethodName + "_original", NON_PUBLIC_INSTANCE)
                  );
         }
 
         public static void Install(MethodInfo pMethodToReplace, Type pHelperType)
         {
+            if (pMethodToReplace == null)
+                throw new ArgumentNullException(nameof(pMethodToReplace));
+
             Asphalt.Harmony.Patch(pMethodToReplace, new HarmonyMethod(FindMethod(pHelperType, "Prefix")), new HarmonyMethod(FindMethod(pHelperType, "Postfix")));
 
             /*

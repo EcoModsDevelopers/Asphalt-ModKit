@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asphalt-ModKit", "Asphalt-ModKit\Asphalt-ModKit.csproj", "{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTestEventPlugin", "Asphalt-ModKit-ExamplePlugin\EcoTestEventPlugin.csproj", "{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}.Release|x64.ActiveCfg = Release|x64
 		{BBEA3DFA-52E0-448D-832F-C7BF96E3F3E8}.Release|x64.Build.0 = Release|x64
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5B1B3A5-DA9F-48C4-8B17-F9C9A0079611}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

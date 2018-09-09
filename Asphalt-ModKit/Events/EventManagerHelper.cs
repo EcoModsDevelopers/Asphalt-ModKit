@@ -11,6 +11,7 @@ using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Networking;
 using System;
+using System.Linq;
 
 namespace Asphalt.Events
 {
@@ -24,7 +25,7 @@ namespace Asphalt.Events
                 // Inventory Events
 
                 case nameof(InventoryChangeSelectedSlotEvent):
-                    Injection.InstallWithOriginalHelperNonPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
                     break;
                 case nameof(InventoryMoveItemEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");
@@ -100,9 +101,8 @@ namespace Asphalt.Events
                     break;
 
                 // RPC Events
-                
                 case nameof(RpcInvokeEvent):
-                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(RpcInvokeEventHelper), "InvokeOn");
+                    Injection.Install(typeof(RPCManager).GetMethods(Injection.PUBLIC_STATC).First(mi => mi.Name == "InvokeOn" && mi.GetParameters().Length == 5), typeof(RpcInvokeEventHelper));
                     break;
 
                 // World Events

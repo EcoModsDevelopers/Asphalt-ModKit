@@ -42,7 +42,7 @@ namespace Asphalt.Service
         }
     }
   
-    [HarmonyPatch(typeof(PluginManager), "InitializePlugins")]
+    [HarmonyPatch(typeof(Eco.Server.PluginManager), "InitializePlugins")]
     internal static class EnablePatch
     {
         static void Postfix()

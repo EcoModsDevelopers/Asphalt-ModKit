@@ -25,7 +25,7 @@ namespace Asphalt.Events.InventoryEvents
 
     internal class InventoryChangeSelectedSlotEventHelper
     {
-        public static void Prefix(int slot, Player player, SelectionInventory __instance)
+        public static void Prefix(Player player, int slot, SelectionInventory __instance)
         {
             InventoryChangeSelectedSlotEvent csse = new InventoryChangeSelectedSlotEvent(slot, player, __instance.SelectedStack, __instance);
             IEvent csseEvent = csse;
