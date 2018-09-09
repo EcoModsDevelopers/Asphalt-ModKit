@@ -22,14 +22,7 @@ namespace Asphalt.Utils
         /// </summary>
         public static void PickUpRubble(User user, int range = 10, int qty = 20)
         {
-            try
-            {
-                VerifyCarry(user.Inventory.Carried, user, range, qty);
-            }
-            catch(Exception)
-            {
-
-            }
+            VerifyCarry(user.Inventory.Carried, user, range, qty);
         }
 
         /// <summary>
@@ -94,14 +87,11 @@ namespace Asphalt.Utils
                     {
                         continue;
                     }
-                    if (obj.AuthorizedToInteract(user))
+                    if (obj.TryPickup(user.Player, user.Inventory).IsSuccess)
                     {
-                        if (obj.TryPickup(user.Inventory).IsSuccess)
-                        {
-                            count++;
-                            if (count >= qty)
-                                break;
-                        }
+                        count++;
+                        if (count >= qty)
+                            break;
                     }
                 }
             }

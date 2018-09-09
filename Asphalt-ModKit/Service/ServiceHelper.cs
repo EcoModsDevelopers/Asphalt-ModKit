@@ -1,7 +1,6 @@
-﻿using Asphalt.Api.Util;
-using Asphalt.Service.Permissions;
+﻿using Asphalt.Service.Permissions;
 using Asphalt.Storeable;
-using Asphalt.Storeable.Json;
+using Asphalt.Util;
 using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
 using System;
@@ -42,7 +41,16 @@ namespace Asphalt.Service
                 if (mInjected)
                     return;
                 mInjected = true;
-                typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
+
+                try //can be removed in the future, after 7.5 is out, because ServicePatches has already try catch
+                {
+                    typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
+                }
+                catch (Exception e)
+                {
+                    Log.WriteError(e.ToString());
+                    throw;
+                }
             }
         }
 
@@ -51,17 +59,17 @@ namespace Asphalt.Service
             if (!IsAsphaltPlugin(pServerPlugin))
                 return;
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
                 InjectPermissions(pServerPlugin, pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
-                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues, true), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
+                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IStorage)), pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
-                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
+                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IStorageCollection)), pfi);
 
-            foreach (PropertyFieldInfo pfi in GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
-                Inject(pServerPlugin, (l_pfi, defaultValues) => new JsonFileUserStorageCollection(Path.Combine(GetServerPluginFolder(pServerPlugin), l_pfi.GetStorageLocationAttribute().Location), defaultValues), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
+                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IUserStorageCollection)), pfi);
         }
 
         private static void InjectPermissions(Type pServerPlugin, PropertyFieldInfo pfi)
@@ -86,8 +94,7 @@ namespace Asphalt.Service
             if (permissions == null)
                 throw new Exception($"{pServerPlugin}.{DefaultPermissionsMethodName}() does not have the corrent return type {nameof(DefaultPermission)}[] ");
 
-            JsonFilePermissionStorage storage = new JsonFilePermissionStorage(Path.Combine(GetServerPluginFolder(pServerPlugin), "Permissions"), permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
-
+            var storage = StorageFactory.GetStorageFactory(pServerPlugin, typeof(IPermissionService)).Invoke(pfi, permissions.ToDictionaryNonNullKeys(k => k.Key, k => (object)k.DefaultValue));
             pfi.SetValue(null, storage);
         }
 
@@ -138,11 +145,6 @@ namespace Asphalt.Service
                 folder = folder.Substring(folder.IndexOf(".") + 1);
 
             return Path.Combine("Mods", folder);
-        }
-
-        public static IEnumerable<PropertyFieldInfo> GetPropertyFieldInfos(Type pServerPlugin, Type pType)
-        {
-            return pServerPlugin.GetProperties().Where(x => x.PropertyType == pType).Select(x => new PropertyFieldInfo(x)).Concat(pServerPlugin.GetFields().Where(x => x.FieldType == pType).Select(x => new PropertyFieldInfo(x)));
         }
 
         public static bool IsAsphaltPlugin(Type pType)

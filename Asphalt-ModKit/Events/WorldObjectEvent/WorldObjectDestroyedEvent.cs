@@ -7,7 +7,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     {
         public WorldObject WorldObject { get; set; }
 
-        public WorldObjectDestroyedEvent(WorldObject pWorldObject) : base()
+        public WorldObjectDestroyedEvent(ref WorldObject pWorldObject) : base()
         {
             WorldObject = pWorldObject;
         }
@@ -15,9 +15,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldObjectDestroyedEventHelper
     {
-        public static bool Prefix(WorldObject __instance, ref bool __state)
+        public static bool Prefix(ref WorldObject __instance, ref bool __state)
         {
-            WorldObjectDestroyedEvent dEvent = new WorldObjectDestroyedEvent(__instance);
+            WorldObjectDestroyedEvent dEvent = new WorldObjectDestroyedEvent(ref __instance);
             IEvent iEvent = dEvent;
 
             EventManager.CallEvent(ref iEvent);

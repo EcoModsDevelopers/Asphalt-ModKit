@@ -2,6 +2,8 @@
 using Asphalt.Api.Event.RpcEvents;
 using Asphalt.Api.Util;
 using Asphalt.Events.InventoryEvents;
+using Asphalt.Events.WorldObjectEvent;
+using Eco.Gameplay.Components;
 using Eco.Gameplay.Interactions;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Objects;
@@ -9,6 +11,7 @@ using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
 using Eco.Shared.Networking;
 using System;
+using System.Linq;
 
 namespace Asphalt.Events
 {
@@ -18,12 +21,17 @@ namespace Asphalt.Events
         {
             switch (pEventType.Name) //We hope Event names are unique
             {
+
+                // Inventory Events
+
                 case nameof(InventoryChangeSelectedSlotEvent):
-                    Injection.InstallWithOriginalHelperNonPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
                     break;
                 case nameof(InventoryMoveItemEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");
                     break;
+
+                // Player Events
 
                 case nameof(PlayerBuyEvent):
                     Injection.InstallCreateAtomicAction(typeof(BuyPlayerActionManager), typeof(PlayerBuyEventHelper));
@@ -92,14 +100,30 @@ namespace Asphalt.Events
                     Injection.InstallCreateAtomicAction(typeof(VotePlayerActionManager), typeof(PlayerVoteEventHelper));
                     break;
 
+                // RPC Events
                 case nameof(RpcInvokeEvent):
-                    Injection.InstallWithOriginalHelperPublicStatic(typeof(RPCManager), typeof(RpcInvokeEventHelper), "InvokeOn");
+                    Injection.Install(typeof(RPCManager).GetMethods(Injection.PUBLIC_STATC).First(mi => mi.Name == "InvokeOn" && mi.GetParameters().Length == 5), typeof(RpcInvokeEventHelper));
                     break;
+
+                // World Events
 
                 case nameof(WorldPolluteEvent):
                     Injection.InstallCreateAtomicAction(typeof(PolluteAirPlayerActionManager), typeof(WorldPolluteEventHelper));
                     break;
 
+                // WorldObject Events
+
+                case nameof(RubbleSpawnEvent):
+                    Injection.InstallWithOriginalHelperPublicStatic(typeof(EcoObjectManager), typeof(RubbleSpawnEventHelper), "Add");
+                    break;
+                case nameof(TreeFellEvent):
+                    //TODO
+                    //Injection.InstallWithOriginalHelperPublicInstance(typeof(TreeEntity), typeof(TreeFellEventHelper), "FellTree");
+                    break;
+
+                case nameof(WorldObjectChangeTextEvent):
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof(WorldObjectChangeTextEventHelper), "SetText");
+                    break;
                 case nameof(WorldObjectDestroyedEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(WorldObject), typeof(WorldObjectDestroyedEventHelper), "Destroy");
                     break;

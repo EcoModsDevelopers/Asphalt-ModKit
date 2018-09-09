@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Asphalt.Storeable.Json
 {
@@ -99,13 +101,23 @@ namespace Asphalt.Storeable.Json
 
         public T Get<T>(string key)
         {
-            try
-            {
-                return (T)Get(key);
+            try {
+                var obj = Get(key);
+
+                if (obj == null)
+                    return default(T);
+
+                if(obj is T)
+                    return (T)Get(key);
+
+                return SerializationUtils.DeserializeJson<T>(obj.ToString());
             }
-            catch
+            catch (Exception e)
             {
-                return SerializationUtils.DeserializeJson<T>(Get(key).ToString());
+                Console.WriteLine(e.ToString());
+#if DEBUG
+                throw e;
+#endif
             }
         }
 

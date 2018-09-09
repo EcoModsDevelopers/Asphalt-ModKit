@@ -9,7 +9,7 @@ namespace Asphalt.Api.Event.PlayerEvents
     {
         public Player Player { get; set; }
 
-        public PlayerCompleteContractEvent(Player pPlayer) : base()
+        public PlayerCompleteContractEvent(ref Player pPlayer) : base()
         {
             this.Player = pPlayer;
         }
@@ -17,9 +17,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCompleteContractEventHelper
     {
-        public static bool Prefix(Player player, ref IAtomicAction __result)
+        public static bool Prefix(ref Player player, ref IAtomicAction __result)
         {
-            PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(player);
+            PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(ref player);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

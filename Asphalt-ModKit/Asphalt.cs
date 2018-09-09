@@ -1,15 +1,7 @@
-﻿/** 
-* ------------------------------------
-* Copyright (c) 2018 [Kronox]
-* See LICENSE file in the project root for full license information.
-* ------------------------------------
-* Created by Kronox on March 29, 2018
-* ------------------------------------
-**/
-
-using Eco.Core.Plugins.Interfaces;
+﻿using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
 using Harmony;
+using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -23,16 +15,14 @@ namespace Asphalt.Api
 
         static Asphalt()
         {
-            if (!IsAdministrator)
-                Log.WriteError("If Asphalt is not working, try running Eco as Administrator!");
-
             Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
             Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
 
             IsInitialized = true;
-        }
 
-        public static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+            if (File.Exists("dumpdlls.txt"))
+                DllDumper.DumpDlls();
+        }
 
         public string GetStatus()
         {

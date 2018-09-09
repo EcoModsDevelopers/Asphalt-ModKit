@@ -12,15 +12,15 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerCraftEvent : CancellableEvent
     {
-        public Player Player { get; set; }
+        public User User { get; set; }
 
         public CraftingComponent Table { get; set; }
 
         public Item Item { get; set; }
 
-        public PlayerCraftEvent(Player pPlayer, CraftingComponent pTable, Item pItem) : base()
+        public PlayerCraftEvent(ref User pUser, ref CraftingComponent pTable, ref Item pItem) : base()
         {
-            this.Player = pPlayer;
+            this.User = pUser;
             this.Table = pTable;
             this.Item = pItem;
         }
@@ -28,9 +28,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCraftEventHelper
     {
-        public static bool Prefix(Player player, CraftingComponent table, Item item, ref IAtomicAction __result)
+        public static bool Prefix(ref User user, ref CraftingComponent table, ref Item item, ref IAtomicAction __result)
         {
-            PlayerCraftEvent cEvent = new PlayerCraftEvent(player, table, item);
+            PlayerCraftEvent cEvent = new PlayerCraftEvent(ref user, ref table, ref item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
