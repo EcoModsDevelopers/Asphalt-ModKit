@@ -4,6 +4,7 @@
  * Created by Kirthos 04/29/2018
  */
 
+using Eco.Gameplay.Auth;
 using Eco.Gameplay.Items;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
@@ -32,7 +33,7 @@ namespace Asphalt.Utils
         {
             Type firstItemGet = null;
             Type itemType = null;
-            int count = user.Inventory.Carried.Stacks.First<ItemStack>().Quantity;
+            var count = user.Inventory?.Carried?.Stacks?.FirstOrDefault()?.Quantity;
             if (count >= qty)
                 return;
             foreach (RubbleObject obj in NetObjectManager.GetObjectsOfType<T>())
@@ -87,11 +88,14 @@ namespace Asphalt.Utils
                     {
                         continue;
                     }
-                    if (obj.TryPickup(user.Player, user.Inventory).IsSuccess)
+                    if (AuthManager.IsAuthorized(obj.Position.XZi, user))
                     {
-                        count++;
-                        if (count >= qty)
-                            break;
+                        if (obj.TryPickup(user.Player, user.Inventory).IsSuccess)
+                        {
+                            count++;
+                            if (count >= qty)
+                                break;
+                        }
                     }
                 }
             }
