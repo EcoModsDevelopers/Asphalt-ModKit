@@ -14,6 +14,6 @@ node {
 		archiveArtifacts 'Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip'
 		
 		powershell ".\\CreateNugetPackage.ps1"
-		archiveArtifacts '*.nupkg'		
+		archiveArtifacts '*.nupkg'
 		cleanWs()
 }
