@@ -1,6 +1,7 @@
 ﻿using Eco.Core.Plugins.Interfaces;
 using Eco.Shared.Utils;
 using Harmony;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Security.Principal;
@@ -15,13 +16,25 @@ namespace Asphalt.Api
 
         static Asphalt()
         {
-            Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
-            Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
+            try
+            {
+                Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
+                Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
 
-            IsInitialized = true;
+                IsInitialized = true;
 
-            if (File.Exists("dumpdlls.txt"))
-                DllDumper.DumpDlls();
+                if (File.Exists("dumpdlls.txt"))
+                    DllDumper.DumpDlls();
+            }
+            catch (ReflectionTypeLoadException typeLoadException)
+            {
+                if (typeLoadException.LoaderExceptions != null)
+                    foreach (Exception le in typeLoadException.LoaderExceptions)
+                    {
+                        Log.WriteErrorLine(le.ToStringPretty());
+                    }
+                throw;
+            }
         }
 
         public string GetStatus()
