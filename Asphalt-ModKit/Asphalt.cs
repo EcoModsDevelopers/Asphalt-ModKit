@@ -3,6 +3,7 @@ using Eco.Shared.Utils;
 using Harmony;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -18,6 +19,8 @@ namespace Asphalt.Api
         {
             try
             {
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
                 Harmony = HarmonyInstance.Create("com.eco.mods.asphalt");
                 Harmony.PatchAll(Assembly.GetExecutingAssembly());  //Patch injections for default Services onEnable etc.
 
@@ -34,6 +37,30 @@ namespace Asphalt.Api
                         Log.WriteErrorLine(le.ToStringPretty());
                     }
                 throw;
+            }
+        }
+
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.Contains(".resources"))
+                return null;
+
+            // check for assemblies already loaded
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            if (assembly != null)
+                return assembly;
+
+            string filename = args.Name.Split(',')[0] + ".dll".ToLower();
+
+            string asmFile = Path.Combine("Mods", filename);
+
+            try
+            {
+                return Assembly.LoadFrom(asmFile);
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
