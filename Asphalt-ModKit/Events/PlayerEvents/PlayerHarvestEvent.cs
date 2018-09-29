@@ -12,7 +12,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Organism Target { get; set; }
 
-        public PlayerHarvestEvent(Player pPlayer, Organism pTarget) : base()
+        public PlayerHarvestEvent(ref Player pPlayer, ref Organism pTarget) : base()
         {
             this.Player = pPlayer;
             this.Target = pTarget;
@@ -21,9 +21,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerHarvestEventHelper
     {
-        public static bool Prefix(Player player, Organism target, ref IAtomicAction __result)
+        public static bool Prefix(ref Player player, ref Organism target, ref IAtomicAction __result)
         {
-            PlayerHarvestEvent cEvent = new PlayerHarvestEvent(player, target);
+            PlayerHarvestEvent cEvent = new PlayerHarvestEvent(ref player, ref target);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

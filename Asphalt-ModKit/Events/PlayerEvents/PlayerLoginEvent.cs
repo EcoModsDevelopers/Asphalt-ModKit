@@ -8,9 +8,9 @@ namespace Asphalt.Api.Event.PlayerEvents
     /// </summary>
     public class PlayerLoginEvent : IEvent
     {
-        public Player Player { get; set; }
+        public Player Player { get; protected set; }
 
-        public INetClient Client { get; set; }
+        public INetClient Client { get; protected set; }
 
         public PlayerLoginEvent(Player pPlayer, INetClient pClient) : base()
         {

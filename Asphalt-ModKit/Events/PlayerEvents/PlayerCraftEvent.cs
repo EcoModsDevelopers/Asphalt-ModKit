@@ -18,7 +18,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 
         public Item Item { get; set; }
 
-        public PlayerCraftEvent(Player pPlayer, CraftingComponent pTable, Item pItem) : base()
+        public PlayerCraftEvent(ref Player pPlayer, ref CraftingComponent pTable, ref Item pItem) : base()
         {
             this.Player = pPlayer;
             this.Table = pTable;
@@ -28,9 +28,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCraftEventHelper
     {
-        public static bool Prefix(Player player, CraftingComponent table, Item item, ref IAtomicAction __result)
+        public static bool Prefix(ref Player player, ref CraftingComponent table, ref Item item, ref IAtomicAction __result)
         {
-            PlayerCraftEvent cEvent = new PlayerCraftEvent(player, table, item);
+            PlayerCraftEvent cEvent = new PlayerCraftEvent(ref player, ref table, ref item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

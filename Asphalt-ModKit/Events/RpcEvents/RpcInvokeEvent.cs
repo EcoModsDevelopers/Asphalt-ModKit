@@ -13,8 +13,8 @@ namespace Asphalt.Api.Event.RpcEvents
     /// </summary>
     public class RpcInvokeEvent : CancellableEvent
     {
-        public string Methodname { get; set; }
-        public BSONObject Bson { get; set; }
+        public string Methodname { get; protected set; }
+        public BSONObject Bson { get; protected set; }
 
         public RpcInvokeEvent(string methodname, BSONObject bson) : base()
         {

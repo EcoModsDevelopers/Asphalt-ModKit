@@ -4,7 +4,7 @@ namespace Asphalt.Api.Event.PlayerEvents
 {
     public class WorldObjectNameChangedEvent : IEvent
     {
-        public WorldObject WorldObject { get; set; }
+        public WorldObject WorldObject { get; protected set; }
 
         public WorldObjectNameChangedEvent(WorldObject pWorldObject) : base()
         {
