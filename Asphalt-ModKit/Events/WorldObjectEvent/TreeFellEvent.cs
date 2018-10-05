@@ -36,7 +36,10 @@ namespace Asphalt.Events.WorldObjectEvent
             EventManager.CallEvent(ref tfeEvent);
 
             if (tfe.IsCancelled())
+            {
+                __instance.RPC("UpdateHP", __instance.Species.TreeHealth);
                 return false;
+            }
 
             return true;
         }
