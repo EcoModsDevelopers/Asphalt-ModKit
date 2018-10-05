@@ -113,6 +113,7 @@
     <Compile Include="Chat\PageableList\IPageableList.cs" />
     <Compile Include="Chat\PageableList\PageableList.cs" />
     <Compile Include="DllDumper.cs" />
+    <Compile Include="Events\WorldObjectEvent\TreeChopEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\TreeFellEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\RubbleSpawnEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectChangeTextEvent.cs" />
