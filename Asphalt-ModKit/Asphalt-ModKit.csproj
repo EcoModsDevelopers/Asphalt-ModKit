@@ -155,6 +155,7 @@
     <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectPickupEvent.cs" />
     <Compile Include="InjectAttribute.cs" />
     <Compile Include="Service\IDisableable.cs" />
     <Compile Include="Service\IReloadable.cs" />
