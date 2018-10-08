@@ -119,6 +119,9 @@ namespace Asphalt.Events
                 case nameof(TreeFellEvent):
                     Injection.InstallWithOriginalHelperNonPublicInstance(typeof(TreeEntity), typeof(TreeFellEventHelper), "FellTree");
                     break;
+                case nameof(TreeChopEvent):
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(TreeEntity), typeof(TreeChopEventHelper), "TryApplyDamage");
+                    break;
 
                 case nameof(WorldObjectChangeTextEvent):
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(CustomTextComponent), typeof(WorldObjectChangeTextEventHelper), "SetText");
