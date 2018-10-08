@@ -12,9 +12,9 @@
     <copyright>MIT</copyright>
     <tags>Asphalt Modkit</tags>
     <dependencies>
-      <dependency id="Harmony.Snapshot" version="1.1.0" />
+      <dependency id="EcoServer" version="0.7.7.1"  />
+      <dependency id="Lib.Harmony" version="1.2.0.1" />
       <dependency id="SharpYaml" version="1.6.3.1" />
-      <dependency id="EcoServer" version="0.7.3.3" />
     </dependencies>
   </metadata>
   <files>

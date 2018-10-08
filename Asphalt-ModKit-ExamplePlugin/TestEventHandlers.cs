@@ -1,17 +1,9 @@
 ﻿using Asphalt.Api.Event;
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Event.RpcEvents;
-using Asphalt.Events;
 using Asphalt.Events.InventoryEvents;
 using Asphalt.Events.WorldObjectEvent;
-using Eco.Core.Plugins;
-using Eco.Gameplay.Objects;
-using Eco.Shared.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EcoTestEventPlugin
 {

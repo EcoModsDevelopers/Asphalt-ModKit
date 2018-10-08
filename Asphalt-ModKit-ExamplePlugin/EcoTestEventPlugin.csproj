@@ -35,34 +35,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Core.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Core.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Gameplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Gameplay.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Gameplay.dll</HintPath>
     </Reference>
     <Reference Include="Eco.ModKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.ModKit.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.ModKit.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Mods, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Mods.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Mods.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Shared.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Simulation, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Simulation.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Simulation.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Stats, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.Stats.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Stats.dll</HintPath>
     </Reference>
     <Reference Include="Eco.World, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\Eco.World.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.World.dll</HintPath>
     </Reference>
     <Reference Include="EcoServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\EcoServer.exe</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\EcoServer.exe</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.7.1\lib\LiteDB.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.7.2\lib\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
