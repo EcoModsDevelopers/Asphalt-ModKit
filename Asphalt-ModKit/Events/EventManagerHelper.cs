@@ -138,6 +138,9 @@ namespace Asphalt.Events
                 case nameof(WorldObjectOperatingChangedEvent):
                     Injection.InstallWithOriginalHelperNonPublicInstance(typeof(WorldObject), typeof(WorldObjectOperatingChangedEventHelper), "set_Operating");
                     break;
+                case nameof(WorldObjectPickupEvent):
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(WorldObject), typeof(WorldObjectPickupEventHelper), "TryPickUp");
+                    break;
             }
         }
     }
