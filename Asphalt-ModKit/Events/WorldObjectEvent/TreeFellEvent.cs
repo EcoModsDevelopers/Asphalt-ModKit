@@ -30,13 +30,16 @@ namespace Asphalt.Events.WorldObjectEvent
     {
         public static bool Prefix(ref TreeEntity __instance, ref INetObject killer)
         {
-            TreeFellEvent tfe = new TreeFellEvent(ref __instance, ref killer);
-            IEvent tfeEvent = tfe;
+            var tfe = new TreeFellEvent(ref __instance, ref killer);
+            var tfeEvent = (IEvent)tfe;
 
             EventManager.CallEvent(ref tfeEvent);
 
             if (tfe.IsCancelled())
+            {
+                __instance.RPC("UpdateHP", __instance.Species.TreeHealth);
                 return false;
+            }
 
             return true;
         }
