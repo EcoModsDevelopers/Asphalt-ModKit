@@ -42,20 +42,23 @@ namespace Asphalt.Api
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (args.Name.Contains(".resources"))
-                return null;
-
-            // check for assemblies already loaded
-            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
-            if (assembly != null)
-                return assembly;
-
-            string filename = args.Name.Split(',')[0] + ".dll".ToLower();
-
-            string asmFile = Path.Combine("Mods", filename);
-
             try
             {
+                if (args.Name.Contains(".resources"))
+                    return null;
+
+                // check for assemblies already loaded
+                Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+                if (assembly != null)
+                    return assembly;
+
+                string filename = args.Name.Split(',')[0] + ".dll".ToLower();
+
+                string asmFile = Path.Combine("Mods", filename);
+
+                if (!File.Exists(asmFile))
+                    return null;
+
                 return Assembly.LoadFrom(asmFile);
             }
             catch (Exception)
