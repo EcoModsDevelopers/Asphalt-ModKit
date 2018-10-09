@@ -113,6 +113,7 @@
     <Compile Include="Chat\PageableList\IPageableList.cs" />
     <Compile Include="Chat\PageableList\PageableList.cs" />
     <Compile Include="DllDumper.cs" />
+    <Compile Include="Events\WorldObjectEvent\TreeChopEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\TreeFellEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\RubbleSpawnEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectChangeTextEvent.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Events\WorldObjectEvent\WorldObjectEnabledChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectNameChangedEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\WorldObjectOperatingChangedEvent.cs" />
+    <Compile Include="Events\WorldObjectEvent\WorldObjectPickupEvent.cs" />
     <Compile Include="InjectAttribute.cs" />
     <Compile Include="Service\IDisableable.cs" />
     <Compile Include="Service\IReloadable.cs" />
