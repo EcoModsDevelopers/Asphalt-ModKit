@@ -37,8 +37,8 @@
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net45\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Asphalt-ModKit, Version=0.5.0.2, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Asphalt-ModKit.0.5.0.2\lib\Asphalt-ModKit.dll</HintPath>
+    <Reference Include="Asphalt-ModKit, Version=0.5.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Asphalt-ModKit.0.5.1\lib\Asphalt-ModKit.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Core.dll</HintPath>
