@@ -109,6 +109,9 @@ namespace Asphalt.Storeable.CommonFileStorage
             {
                 var obj = Get(key);
 
+                if (obj == null)
+                    return default(T);
+
                 if (obj is T)
                     return (T)Get(key);
 
