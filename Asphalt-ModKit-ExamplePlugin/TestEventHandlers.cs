@@ -19,21 +19,21 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnPlayerInteract(PlayerInteractEvent evt)
         {
-            evt.SetCancelled(true);
             Console.WriteLine(evt.Context.CarriedItem);
-            Console.WriteLine(evt.Context.Player.FriendlyName);
+            Console.WriteLine(evt.Context.Player.DisplayName);
+            // evt.SetCancelled(true);
         }
 
         [EventHandler]
         public void OnPlayerJoin(PlayerLoginEvent evt)
         {
-            Console.WriteLine("Hello " + evt.Player.FriendlyName);
+            Console.WriteLine("Hello " + evt.Player.DisplayName);
         }
 
         [EventHandler]
         public void OnPlayerTeleport(PlayerTeleportEvent evt)
         {
-            Console.WriteLine("Teleport " + evt.Player.FriendlyName);
+            Console.WriteLine("Teleport " + evt.Player.DisplayName);
             Console.WriteLine(evt.Position);
             //evt.SetCancelled(true);
         }
@@ -47,7 +47,7 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnPlayerCraft(PlayerCraftEvent evt)
         {
-            Console.WriteLine("Craft " + evt.User.Player.FriendlyName);
+            Console.WriteLine("Craft " + evt.User.Player.DisplayName);
             Console.WriteLine(evt.Table);
             // evt.SetCancelled(true);
         }
@@ -55,23 +55,23 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnPlayerGainSkill(PlayerGainSkillEvent evt)
         {
-            Console.WriteLine("GainSkill " + evt.Player.FriendlyName);
-            Console.WriteLine(evt.Skill.FriendlyName);
+            Console.WriteLine("GainSkill " + evt.Player.DisplayName);
+            Console.WriteLine(evt.Skill.DisplayName);
             // evt.SetCancelled(true);
         }
 
         [EventHandler]
         public void OnPlayerUnlearnSkill(PlayerUnlearnSkillEvent evt)
         {
-            Console.WriteLine("UnlearnSkill " + evt.Player.FriendlyName);
-            Console.WriteLine(evt.Skill.FriendlyName);
+            Console.WriteLine("UnlearnSkill " + evt.Player.DisplayName);
+            Console.WriteLine(evt.Skill.DisplayName);
             // evt.SetCancelled(true);
         }
 
         [EventHandler]
         public void OnPlayerClaimProperty(PlayerClaimPropertyEvent evt)
         {
-            Console.WriteLine("ClaimProperty " + evt.User.Player.FriendlyName);
+            Console.WriteLine("ClaimProperty " + evt.User.Player.DisplayName);
             Console.WriteLine(evt.Position);
             // evt.SetCancelled(true);
         }
@@ -131,8 +131,8 @@ namespace EcoTestEventPlugin
         {
             Console.Write($"InventoryMoveItemEvent: ");
             if (evt.User != null) Console.Write($"{evt.User.Name}");
-            Console.Write($" moved from {evt.SourceStack.Quantity}x {evt.SourceStack.Item.FriendlyName}");
-            if (!evt.DestinationStack.Empty) Console.Write($" to {evt.DestinationStack.Quantity}x {evt.DestinationStack.Item.FriendlyName}");
+            Console.Write($" moved from {evt.SourceStack.Quantity}x {evt.SourceStack.Item.DisplayName}");
+            if (!evt.DestinationStack.Empty) Console.Write($" to {evt.DestinationStack.Quantity}x {evt.DestinationStack.Item.DisplayName}");
             Console.WriteLine("");
 
             //evt.SetCancelled(true);
@@ -142,8 +142,8 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnInventoryChangeSelectedSlotEvent(InventoryChangeSelectedSlotEvent evt)
         {
-            Console.Write($"InventoryChangeSelectedSlotEvent: {evt.Player.FriendlyName} changed to slot {evt.SelectedSlot}");
-            if (!evt.SelectedStack.Empty) Console.Write($" with {evt.SelectedStack.Quantity}x {evt.SelectedStack.Item.FriendlyName}");
+            Console.Write($"InventoryChangeSelectedSlotEvent: {evt.Player.DisplayName} changed to slot {evt.SelectedSlot}");
+            if (!evt.SelectedStack.Empty) Console.Write($" with {evt.SelectedStack.Quantity}x {evt.SelectedStack.Item.DisplayName}");
             Console.WriteLine("");
         }
 
@@ -151,7 +151,7 @@ namespace EcoTestEventPlugin
         [EventHandler]
         public void OnSignChangeEvent(WorldObjectChangeTextEvent evt)
         {
-            Console.WriteLine($"SignChangeEvent: {evt.Player.FriendlyName} set text to {evt.Text}");
+            Console.WriteLine($"SignChangeEvent: {evt.Player.DisplayName} set text to {evt.Text}");
         }
 
         [EventHandler]

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace Asphalt.Utils
 {
-    public class InvUtils
+    public static class InvUtils
     {
         /// <summary>
         /// Move items from a worldObjetc iwht a inventory to a world object with a inventory

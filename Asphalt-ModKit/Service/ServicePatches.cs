@@ -8,10 +8,10 @@ using System;
 
 namespace Asphalt.Service
 {
-    [HarmonyPatch(typeof(ModContentSync), "RefreshContent")]
+    [HarmonyPatch(typeof(ModDataSync), "InitMods")]
     internal static class InjectPatch
     {
-        static void Postfix()
+        static void Prefix()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace Asphalt.Service
             }
         }
     }
-  
+
     [HarmonyPatch(typeof(Eco.Server.PluginManager), "InitializePlugins")]
     internal static class EnablePatch
     {
@@ -58,11 +58,11 @@ namespace Asphalt.Service
             }
         }
     }
-    
-    [HarmonyPatch(typeof(DataStore), "Unlock")]
+
+    [HarmonyPatch(typeof(Eco.Server.PluginManager), "StartPlugins")]
     internal static class PostEnablePatch
     {
-        static void Postfix()
+        static void Prefix()
         {
             try
             {

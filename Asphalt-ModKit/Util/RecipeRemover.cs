@@ -10,20 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-/*
- * Copyright (c) 2018 [Kirthos]
- * 
- * Created by Kirthos 09/29/2018
- */
-
 namespace Asphalt.Utils
 {
-    public class RecipeRemover
+    public static class RecipeRemover
     {
         public static void RemoveRecipe(Type targetRecipeType)
         {
-            Console.Write("Removing" + string.Concat(targetRecipeType.ToString().Split('.').Last().Select(x => Char.IsUpper(x) ? " " + x : x.ToString())));
-
             // Get all the existing recipe
             Dictionary<Type, Recipe[]> staticRecipes = (Dictionary<Type, Recipe[]>)typeof(CraftingComponent).GetFields(BindingFlags.Static | BindingFlags.NonPublic).First(x => x.Name.Contains("staticRecipes")).GetValue(Activator.CreateInstance(typeof(CraftingComponent)));
 
@@ -37,7 +29,6 @@ namespace Asphalt.Utils
             {
                 Type targetTable = CraftingComponent.TablesForRecipe(targetRecipeType).First();
 
-                Console.WriteLine(" from" + string.Concat(targetTable.ToString().Split('.').Last().Select(x => Char.IsUpper(x) ? " " + x : x.ToString())));
                 Recipe targetRecipe = null;
                 Recipe[] recipes;
 
@@ -76,7 +67,7 @@ namespace Asphalt.Utils
                 int? recipeUnlockLevel = RequiresSkillAttribute.Cache.Get(targetRecipeType).FirstOrDefault()?.Level;
 
                 // If there is a require skill
-                if (skillType != null)
+                if (skillType != null && skillUnlocksTooltips.ContainsKey(skillType))
                 {
                     // Get the list of unlock for the skill for the unlock level
                     List<LocString> unlocks = skillUnlocksTooltips[skillType][recipeUnlockLevel.Value];
@@ -86,7 +77,7 @@ namespace Asphalt.Utils
                     {
                         if (unlocks[i] == new LocString(Text.Indent(targetRecipe.UILink())))
                         {
-                            // remove the loc string from the lsit
+                            // remove the loc string from the list
                             unlocks.RemoveAt(i);
                             break;
                         }

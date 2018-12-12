@@ -41,16 +41,8 @@ namespace Asphalt.Service
                 if (mInjected)
                     return;
                 mInjected = true;
-
-                try //can be removed in the future, after 7.5 is out, because ServicePatches has already try catch
-                {
-                    typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
-                }
-                catch (Exception e)
-                {
-                    Log.WriteError(e.ToString());
-                    throw;
-                }
+                
+                typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
             }
         }
 

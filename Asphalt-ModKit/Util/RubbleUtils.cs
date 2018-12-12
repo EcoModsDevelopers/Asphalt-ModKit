@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace Asphalt.Utils
 {
-    public class RubbleUtils
+    public static class RubbleUtils
     {
         /// <summary>
         /// Verify what carry the user and take the rubble the player carry or the nearest rubble if player hand is empty

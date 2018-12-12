@@ -34,35 +34,44 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net45\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Asphalt-ModKit, Version=0.5.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Asphalt-ModKit.0.5.1\lib\Asphalt-ModKit.dll</HintPath>
+    </Reference>
     <Reference Include="Eco.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Core.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Core.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Gameplay, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Gameplay.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Gameplay.dll</HintPath>
     </Reference>
     <Reference Include="Eco.ModKit, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.ModKit.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.ModKit.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Mods, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Mods.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Mods.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Shared.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Simulation, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Simulation.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Simulation.dll</HintPath>
     </Reference>
     <Reference Include="Eco.Stats, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.Stats.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.Stats.dll</HintPath>
     </Reference>
     <Reference Include="Eco.World, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\Eco.World.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\Eco.World.dll</HintPath>
     </Reference>
     <Reference Include="EcoServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\EcoServer.exe</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\EcoServer.exe</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\EcoServer.0.7.7.2\lib\LiteDB.dll</HintPath>
+      <HintPath>..\packages\EcoServer.0.7.8.5\lib\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpYaml, Version=1.6.3.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpYaml.1.6.3.1\lib\net45\SharpYaml.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,12 +91,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Asphalt-ModKit\Asphalt-ModKit.csproj">
-      <Project>{bbea3dfa-52e0-448d-832f-c7bf96e3f3e8}</Project>
-      <Name>Asphalt-ModKit</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
