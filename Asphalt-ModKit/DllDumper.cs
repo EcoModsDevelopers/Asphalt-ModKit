@@ -22,6 +22,7 @@ namespace Asphalt
             "Eco.Simulation.dll",
             "Eco.World.dll",
             "Eco.Stats.dll",
+            "Eco.Plugins.dll",
             "LiteDB.dll"
         };
 
