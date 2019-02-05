@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class WorldPolluteEventHelper
     {
-        public static bool Prefix(ref User user, ref AirPollutionComponent obj, ref float value, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref AirPollutionComponent obj, ref float value, ref IAtomicAction __result)
         {
-            WorldPolluteEvent wpe = new WorldPolluteEvent(ref user, ref obj, ref value);
+            WorldPolluteEvent wpe = new WorldPolluteEvent(ref actor, ref obj, ref value);
             IEvent wpeEvent = wpe;
 
             EventManager.CallEvent(ref wpeEvent);

@@ -44,7 +44,7 @@ namespace Asphalt.Api.Event.PlayerEvents
                     __result.Player.SendCorrection(info);
 
                 //remove exp, because eco will add it
-                __result.Player.User.XP -= DifficultySettings.Obj.Config.SkillPointsPerAction * (__result.Player.User.SkillRate / DifficultySettings.BaselineSkillpoints);
+                __result.Player.User.UseXP(DifficultySettings.Obj.Config.ExperiencePerAction * (__result.Player.User.SkillRate / DifficultySettings.BaselineSkillpoints));
 
                 //remove activity, because eco will add it
                 WorldLayerManager.GetLayer(LayerNames.PlayerActivity)?.FuncAtWorldPos(__result.Player.Position.XZi, (pos, val) => val = Math.Max(0, val - 0.001f));

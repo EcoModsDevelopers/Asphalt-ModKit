@@ -1,6 +1,7 @@
 ﻿using Asphalt.Api.Util;
 using Asphalt.Service.Permissions;
 using Eco.Gameplay.Players;
+using Eco.Shared.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace Asphalt.Storeable.CommonFileStorage
             if (HasPermission(user, permission))
                 return true;
 
-            user.Player.SendTemporaryErrorAlreadyLocalized($"You don't have the permission to do this! <color=#595959>Permission needed: {permission}</color>");
+            user.Player.SendTemporaryError(new LocString($"You don't have the permission to do this! <color=#595959>Permission needed: {permission}</color>"));
             return false;
         }
 

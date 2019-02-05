@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerReceiveGovernmentFundsEventHelper
     {
-        public static bool Prefix(ref User user, ref Currency currency, ref float amount, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref Currency currency, ref float amount, ref IAtomicAction __result)
         {
-            PlayerReceiveGovernmentFundsEvent cEvent = new PlayerReceiveGovernmentFundsEvent(ref user, ref currency, ref amount);
+            PlayerReceiveGovernmentFundsEvent cEvent = new PlayerReceiveGovernmentFundsEvent(ref actor, ref currency, ref amount);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPayTaxEventHelper
     {
-        public static bool Prefix(ref User user, ref Currency currency, ref float amount, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref Currency currency, ref float amount, ref IAtomicAction __result)
         {
-            PlayerPayTaxEvent cEvent = new PlayerPayTaxEvent(ref user, ref currency, ref amount);
+            PlayerPayTaxEvent cEvent = new PlayerPayTaxEvent(ref actor, ref currency, ref amount);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

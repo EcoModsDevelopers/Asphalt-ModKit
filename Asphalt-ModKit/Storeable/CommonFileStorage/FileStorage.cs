@@ -1,5 +1,6 @@
 ﻿using Asphalt.Api.Util;
 using Eco.Core.Serialization;
+using Eco.Shared.Localization;
 using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
@@ -119,7 +120,7 @@ namespace Asphalt.Storeable.CommonFileStorage
             }
             catch (Exception e)
             {
-                Log.WriteError(e.ToString());
+                Log.WriteError(new LocString(e.ToStringPretty()));
                 throw;
             }
         }

@@ -102,7 +102,7 @@ namespace Asphalt.Events
 
                 // RPC Events
                 case nameof(RpcInvokeEvent):
-                    Injection.Install(typeof(RPCManager).GetMethods(Injection.PUBLIC_STATC).First(mi => mi.Name == "InvokeOn" && mi.GetParameters().Length == 5), typeof(RpcInvokeEventHelper));
+                    Injection.Install(typeof(RPCManager).GetMethods(Injection.PUBLIC_STATC).First(mi => mi.Name == "InvokeOn" && mi.GetParameters().Length == 4), typeof(RpcInvokeEventHelper));
                     break;
 
                 // World Events

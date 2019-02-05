@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerUnlearnSkillEventHelper
     {
-        public static bool Prefix(ref Player player, ref Skill skill, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref Skill skill, ref IAtomicAction __result)
         {
-            PlayerUnlearnSkillEvent cEvent = new PlayerUnlearnSkillEvent(ref player, ref skill);
+            PlayerUnlearnSkillEvent cEvent = new PlayerUnlearnSkillEvent(ref actor, ref skill);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

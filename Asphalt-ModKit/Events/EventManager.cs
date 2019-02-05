@@ -9,6 +9,7 @@
 
 using Asphalt.AsphaltExceptions;
 using Asphalt.Events;
+using Eco.Shared.Localization;
 using Eco.Shared.Utils;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace Asphalt.Api.Event
                         }
                         catch (Exception e)
                         {
-                            Log.WriteError(e.ToStringPretty());
+                            Log.WriteError(new LocString(e.ToStringPretty()));
 #if DEBUG
                             throw;
 #endif

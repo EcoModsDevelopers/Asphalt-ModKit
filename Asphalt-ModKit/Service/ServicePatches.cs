@@ -2,6 +2,7 @@ using Eco.Core;
 using Eco.Core.Serialization;
 using Eco.ModKit;
 using Eco.Server;
+using Eco.Shared.Localization;
 using Eco.Shared.Utils;
 using Harmony;
 using System;
@@ -19,7 +20,7 @@ namespace Asphalt.Service
             }
             catch (Exception e)
             {
-                Log.WriteError(e.ToString());
+                Log.WriteError(new LocString(e.ToString()));
                 throw;
             }
         }
@@ -36,7 +37,7 @@ namespace Asphalt.Service
             }
             catch (Exception e)
             {
-                Log.WriteError(e.ToString());
+                Log.WriteError(new LocString(e.ToString()));
                 throw;
             }
         }
@@ -53,7 +54,7 @@ namespace Asphalt.Service
             }
             catch (Exception e)
             {
-                Log.WriteError(e.ToString());
+                Log.WriteError(new LocString(e.ToString()));
                 throw;
             }
         }
@@ -70,7 +71,7 @@ namespace Asphalt.Service
             }
             catch (Exception e)
             {
-                Log.WriteError(e.ToString());
+                Log.WriteError(new LocString(e.ToString()));
                 throw;
             }
         }

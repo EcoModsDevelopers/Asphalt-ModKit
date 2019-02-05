@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerSendMessageEventHelper
     {
-        public static bool Prefix(ref User user, ref ChatMessage message, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref ChatMessage message, ref IAtomicAction __result)
         {
-            PlayerSendMessageEvent cEvent = new PlayerSendMessageEvent(ref user, ref message);
+            PlayerSendMessageEvent cEvent = new PlayerSendMessageEvent(ref actor, ref message);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

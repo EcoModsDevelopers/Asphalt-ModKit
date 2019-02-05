@@ -58,7 +58,7 @@ namespace Asphalt.Utils
                 // After removing the recipe we need to update the skill unlock
 
                 // Get all the skillunlock tooltips
-                Dictionary<Type, Dictionary<int, List<LocString>>> skillUnlocksTooltips = (Dictionary<Type, Dictionary<int, List<LocString>>>)typeof(Skill).GetFields(BindingFlags.Static | BindingFlags.NonPublic).First(x => x.Name.Contains("skillUnlocksTooltips")).GetValue(Activator.CreateInstance(typeof(ResearchEfficiencySkill)));
+                Dictionary<Type, Dictionary<int, List<LocString>>> skillUnlocksTooltips = (Dictionary<Type, Dictionary<int, List<LocString>>>)typeof(Skill).GetFields(BindingFlags.Static | BindingFlags.NonPublic).First(x => x.Name.Contains("skillUnlocksTooltips")).GetValue(null);
 
                 // Get the skill that unlock the recipe
                 Type skillType = RequiresSkillAttribute.Cache.Get(targetRecipeType).FirstOrDefault()?.SkillItem.Type;
