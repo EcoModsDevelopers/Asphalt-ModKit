@@ -198,12 +198,14 @@
     <Compile Include="Storeable\Yaml\YamlSerializationHelper.cs" />
     <Compile Include="Util\AffineTransform.cs" />
     <Compile Include="Service\ServiceHelper.cs" />
+    <Compile Include="Util\AsphaltLog.cs" />
     <Compile Include="Util\BlockUtils.cs" />
     <Compile Include="Util\DirectionUtils.cs" />
     <Compile Include="Util\FileUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Injection.cs" />
     <Compile Include="Util\InvUtils.cs" />
+    <Compile Include="Util\PlayerExtensions.cs" />
     <Compile Include="Util\RecipeRemover.cs" />
     <Compile Include="Util\ReflectionUtil.cs" />
     <Compile Include="Util\RubbleUtils.cs" />
@@ -217,7 +219,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /r "$(TargetPath)" "D:\tmp\EcoPC_v0.7.8.6-beta\Eco_Data\Server\Mods\"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
