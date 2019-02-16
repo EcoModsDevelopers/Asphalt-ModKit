@@ -98,9 +98,6 @@
     <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\EcoServer.0.8.0-81cf65ac\lib\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="SharpYaml, Version=1.6.3.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpYaml.1.6.3.1\lib\net45\SharpYaml.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -179,7 +176,6 @@
     <Compile Include="Service\PropertyFieldInfo.cs" />
     <Compile Include="Service\ServicePatches.cs" />
     <Compile Include="Storeable\CommonFileStorage\IFileStorageSerializer.cs" />
-    <Compile Include="Storeable\GenericStoreable.cs" />
     <Compile Include="Storeable\IStorageCollection.cs" />
     <Compile Include="Storeable\Items\CraftingStoreable.cs" />
     <Compile Include="Storeable\Items\ToolStoreable.cs" />
@@ -194,8 +190,6 @@
     <Compile Include="Storeable\Json\JsonFileStorageSerializer.cs" />
     <Compile Include="Storeable\StorageLocationAttribute.cs" />
     <Compile Include="Storeable\StorageFactory.cs" />
-    <Compile Include="Storeable\Yaml\YamlFileStorageSerializer.cs" />
-    <Compile Include="Storeable\Yaml\YamlSerializationHelper.cs" />
     <Compile Include="Util\AffineTransform.cs" />
     <Compile Include="Service\ServiceHelper.cs" />
     <Compile Include="Util\AsphaltLog.cs" />
