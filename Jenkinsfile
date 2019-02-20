@@ -9,7 +9,6 @@ node {
 
 	stage 'Archive'
 		bat "for /R packages %%a in (0Harmony.dll) do xcopy /Y \"%%a\" Mods || call (exit /b 0)"
-		bat "for /R packages %%a in (\"net45\\SharpYaml.dll\") do xcopy /Y \"%%a\" Mods || call (exit /b 0)"
 		bat "7z a Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip Mods/"
 		archiveArtifacts 'Asphalt-ModKit-Snapshot-${BUILD_NUMBER}.zip'
 		
