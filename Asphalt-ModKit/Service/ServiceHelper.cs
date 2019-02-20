@@ -22,6 +22,11 @@ namespace Asphalt.Service
             Eco.Core.PluginManager.Controller.ForEach(s => CallMethod(s, pName));
         }
 
+        internal static void CallStaticMethod(string pName)
+        {
+            typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => CallStaticMethod(pluginType, pName));
+        }
+
         private static void CallMethod(IServerPlugin pServerPlugin, string pName)
         {
             if (!IsAsphaltPlugin(pServerPlugin.GetType()))
@@ -34,6 +39,18 @@ namespace Asphalt.Service
             mi.Invoke(pServerPlugin, new object[] { });
         }
 
+        private static void CallStaticMethod(Type pServerPluginType, string pName)
+        {
+            if (!IsAsphaltPlugin(pServerPluginType))
+                return;
+
+            MethodInfo mi = pServerPluginType.GetMethod(pName, BindingFlags.Static | BindingFlags.Public);
+            if (mi == null)
+                return;
+
+            mi.Invoke(null, new object[] { });
+        }
+
         public static void InjectValues()
         {
             lock (mLocker)
@@ -41,27 +58,28 @@ namespace Asphalt.Service
                 if (mInjected)
                     return;
                 mInjected = true;
-                
+
                 typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
             }
         }
-
-        private static void InjectValues(Type pServerPlugin)
+        private static void InjectValues(Type pServerPluginType)
         {
-            if (!IsAsphaltPlugin(pServerPlugin))
+            if (!IsAsphaltPlugin(pServerPluginType))
                 return;
 
-            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IPermissionService)))
-                InjectPermissions(pServerPlugin, pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IPermissionService)))
+                InjectPermissions(pServerPluginType, pfi);
 
-            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorage)))
-                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IStorage)), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IStorage)))
+                Inject(pServerPluginType, StorageFactory.GetStorageFactory(pServerPluginType, typeof(IStorage)), pfi);
 
-            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IStorageCollection)))
-                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IStorageCollection)), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IStorageCollection)))
+                Inject(pServerPluginType, StorageFactory.GetStorageFactory(pServerPluginType, typeof(IStorageCollection)), pfi);
 
-            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPlugin, typeof(IUserStorageCollection)))
-                Inject(pServerPlugin, StorageFactory.GetStorageFactory(pServerPlugin, typeof(IUserStorageCollection)), pfi);
+            foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IUserStorageCollection)))
+                Inject(pServerPluginType, StorageFactory.GetStorageFactory(pServerPluginType, typeof(IUserStorageCollection)), pfi);
+
+            CallStaticMethod(pServerPluginType, "OnInjected");
         }
 
         private static void InjectPermissions(Type pServerPlugin, PropertyFieldInfo pfi)

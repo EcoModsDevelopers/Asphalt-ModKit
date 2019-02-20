@@ -10,6 +10,7 @@ using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Shared.Items;
 using Eco.Shared.Math;
+using Eco.Simulation;
 using Eco.Simulation.Settings;
 using Eco.Simulation.Types;
 using Eco.World;
@@ -31,7 +32,7 @@ namespace Asphalt.Util
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PlantSpecies GetPlantSpecies(Type pBlockType)
         {
-            return EcoDef.Obj.Species.OfType<PlantSpecies>().First(ps => ps.BlockType.Type == pBlockType);
+            return EcoSim.AllSpecies.OfType<PlantSpecies>().First(ps => ps.BlockType == pBlockType);
         }
 
         public static IEnumerable<Block> GetTopBlocks(Vector3i pPosition, int pRange)
@@ -61,7 +62,7 @@ namespace Asphalt.Util
 
             if (gridStep.x <= 0 || gridStep.y <= 0)
                 throw new ArgumentOutOfRangeException("gridStep", "Argument must contain positive components only.");
-            
+
             // Loop bounds for X dimension:
             int i1 = (int)Math.Ceiling((pCircleCenter.x - pGridCenter.x - pRadius) / gridStep.x);
             int i2 = (int)Math.Floor((pCircleCenter.x - pGridCenter.x + pRadius) / gridStep.x);

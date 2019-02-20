@@ -24,9 +24,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerGainSkillEventHelper
     {
-        public static bool Prefix(ref Player player, ref Skill skill, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref Skill skill, ref IAtomicAction __result)
         {
-            PlayerGainSkillEvent cEvent = new PlayerGainSkillEvent(ref player, ref skill);
+            PlayerGainSkillEvent cEvent = new PlayerGainSkillEvent(ref actor, ref skill);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

@@ -21,9 +21,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerHarvestEventHelper
     {
-        public static bool Prefix(ref Player player, ref Organism target, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref Organism target, ref IAtomicAction __result)
         {
-            PlayerHarvestEvent cEvent = new PlayerHarvestEvent(ref player, ref target);
+            PlayerHarvestEvent cEvent = new PlayerHarvestEvent(ref actor, ref target);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

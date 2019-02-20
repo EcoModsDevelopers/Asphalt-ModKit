@@ -17,9 +17,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerGetElectedEventHelper
     {
-        public static bool Prefix(ref User user, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref IAtomicAction __result)
         {
-            PlayerGetElectedEvent cEvent = new PlayerGetElectedEvent(ref user);
+            PlayerGetElectedEvent cEvent = new PlayerGetElectedEvent(ref actor);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

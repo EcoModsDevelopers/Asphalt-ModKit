@@ -1,4 +1,5 @@
 ﻿using Eco.Core.Plugins.Interfaces;
+using Eco.Shared.Localization;
 using Eco.Shared.Utils;
 using Harmony;
 using System;
@@ -34,7 +35,7 @@ namespace Asphalt.Api
                 if (typeLoadException.LoaderExceptions != null)
                     foreach (Exception le in typeLoadException.LoaderExceptions)
                     {
-                        Log.WriteErrorLine(le.ToStringPretty());
+                        Log.WriteErrorLine(new LocString(le.ToStringPretty()));
                     }
                 throw;
             }

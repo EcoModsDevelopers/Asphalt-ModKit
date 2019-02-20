@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Asphalt
@@ -22,6 +23,10 @@ namespace Asphalt
             "Eco.Simulation.dll",
             "Eco.World.dll",
             "Eco.Stats.dll",
+            "Eco.Plugins.dll",
+            "Eco.Stats.dll",
+            "Eco.Webserver.dll",
+            "Eco.Worldgenerator.dll",
             "LiteDB.dll"
         };
 
@@ -50,6 +55,10 @@ namespace Asphalt
 
             File.Delete(Path.Combine(destDir, "EcoServer.exe"));
             File.Copy(entryAssembly.Location, Path.Combine(destDir, "EcoServer.exe"));
+
+
+            Console.WriteLine("Dlls extracted!");
+            Thread.Sleep(500);
         }
     }
 }

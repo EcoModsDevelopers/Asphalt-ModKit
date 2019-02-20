@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPlaceEventHelper
     {
-        public static bool Prefix(ref Player player, ref BlockItem placedItem, ref Vector3i position, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref BlockItem placedItem, ref Vector3i position, ref IAtomicAction __result)
         {
-            PlayerPlaceEvent cEvent = new PlayerPlaceEvent(ref player, ref placedItem, ref position);
+            PlayerPlaceEvent cEvent = new PlayerPlaceEvent(ref actor, ref placedItem, ref position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

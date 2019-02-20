@@ -28,9 +28,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerClaimPropertyEventHelper
     {
-        public static bool Prefix(ref Guid authId, ref User user, ref Vector2i position, ref IAtomicAction __result)
+        public static bool Prefix(ref Guid authId, ref User actor, ref Vector2i position, ref IAtomicAction __result)
         {
-            PlayerClaimPropertyEvent cEvent = new PlayerClaimPropertyEvent(ref authId, ref user, ref position);
+            PlayerClaimPropertyEvent cEvent = new PlayerClaimPropertyEvent(ref authId, ref actor, ref position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

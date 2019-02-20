@@ -25,9 +25,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerPickUpEventHelper
     {
-        public static bool Prefix(ref Player player, ref BlockItem pickedUpItem, ref Vector3i position, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref BlockItem pickedUpItem, ref Vector3i position, ref IAtomicAction __result)
         {
-            PlayerPickUpEvent cEvent = new PlayerPickUpEvent(ref player, ref pickedUpItem, ref position);
+            PlayerPickUpEvent cEvent = new PlayerPickUpEvent(ref actor, ref pickedUpItem, ref position);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);

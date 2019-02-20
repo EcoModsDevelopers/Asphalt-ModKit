@@ -28,9 +28,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerSellEventHelper
     {
-        public static bool Prefix(ref User user, ref StoreComponent store, ref Item item, ref IAtomicAction __result)
+        public static bool Prefix(ref User actor, ref StoreComponent store, ref Item item, ref IAtomicAction __result)
         {
-            PlayerSellEvent cEvent = new PlayerSellEvent(ref user, ref store, ref item);
+            PlayerSellEvent cEvent = new PlayerSellEvent(ref actor, ref store, ref item);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
