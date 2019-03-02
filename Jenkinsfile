@@ -5,7 +5,7 @@ node {
 	stage 'Build'
 		powershell ".\\CreateVersionFile.ps1"
 		bat "nuget restore"
-		bat "\"${tool 'MSBuild'}\" Asphalt-ModKit.sln /p:Configuration=Release /p:Platform=\"Any CPU\" /p:ProductVersion=<Version"
+		bat "\"${tool 'MSBuild'}\" Asphalt-ModKit.sln /p:Configuration=Release /p:Platform=\"AnyCPU\" /p:ProductVersion=<Version"
 
 	stage 'Archive'
 		bat "for /R packages %%a in (0Harmony.dll) do xcopy /Y \"%%a\" Mods || call (exit /b 0)"
