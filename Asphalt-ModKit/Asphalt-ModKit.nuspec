@@ -12,7 +12,7 @@
     <copyright>MIT</copyright>
     <tags>Asphalt Modkit</tags>
     <dependencies>
-      <dependency id="EcoServer" version="0.7.7.1"  />
+      <dependency id="EcoServer" version="0.8.0.2"  />
       <dependency id="Lib.Harmony" version="1.2.0.1" />
     </dependencies>
   </metadata>
