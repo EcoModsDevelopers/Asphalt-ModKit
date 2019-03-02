@@ -14,11 +14,10 @@
     <dependencies>
       <dependency id="EcoServer" version="0.7.7.1"  />
       <dependency id="Lib.Harmony" version="1.2.0.1" />
-      <dependency id="SharpYaml" version="1.6.3.1" />
     </dependencies>
   </metadata>
   <files>
-     <file src="bin\x64\Release\Asphalt-ModKit.dll" target="lib" />
-     <file src="bin\x64\Release\Asphalt-ModKit.pdb" target="lib" />
+     <file src="bin\Release\Asphalt-ModKit.dll" target="lib" />
+     <file src="bin\Release\Asphalt-ModKit.pdb" target="lib" />
    </files>
 </package>
