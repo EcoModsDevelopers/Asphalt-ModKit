@@ -1,3 +1,5 @@
+using Asphalt.Api.Event;
+using Asphalt.Events.Console;
 using Eco.Core;
 using Eco.Core.Serialization;
 using Eco.ModKit;
@@ -6,6 +8,7 @@ using Eco.Shared.Localization;
 using Eco.Shared.Utils;
 using Harmony;
 using System;
+using System.Reflection;
 
 namespace Asphalt.Service
 {
@@ -73,6 +76,36 @@ namespace Asphalt.Service
             {
                 Log.WriteError(new LocString(e.ToString()));
                 throw;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ShutdownHooks), "AddShutdownHook")]
+    internal static class ConsoleCommandPatch
+    {
+        static void Postfix()
+        {
+            try
+            {
+                var line = string.Empty;
+                while (line != "exit" && line != "stop")
+                {
+                    line = Console.ReadLine() ?? string.Empty;
+                    line = line.Trim();
+
+                    IEvent evt = new ConsoleInputEvent(line);
+                    EventManager.CallEvent(ref evt);
+                }
+
+                //call Stop()
+                Type startupType = Assembly.GetEntryAssembly().GetType("Eco.Server.Startup");
+                var mi = startupType.GetMethod("Stop", BindingFlags.Static | BindingFlags.NonPublic);
+                mi.Invoke(null, new object[] { });
+            }
+            catch (Exception e)
+            {
+                Log.WriteLine(Localizer.DoStr("Caught an exception checking for console input, console input disabled. (probably safe to ignore)"));
+                Log.WriteLine(Localizer.DoStr(e.Message));
             }
         }
     }

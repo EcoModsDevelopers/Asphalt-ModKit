@@ -1,6 +1,7 @@
 ﻿using Asphalt.Api.Event;
 using Asphalt.Api.Event.PlayerEvents;
 using Asphalt.Api.Event.RpcEvents;
+using Asphalt.Events.Console;
 using Asphalt.Events.InventoryEvents;
 using Asphalt.Events.WorldObjectEvent;
 using System;
@@ -167,6 +168,12 @@ namespace EcoTestEventPlugin
         public void OnSpawnRubbleEvent(RpcInvokeEvent evt)
         {
             Console.WriteLine($"rpc received {evt.Methodname}");
+        }
+
+        [EventHandler]
+        public void OnConsoleInput(ConsoleInputEvent evt)
+        {
+            Console.WriteLine("Console Input: " + evt.Text);
         }
     }
 }
