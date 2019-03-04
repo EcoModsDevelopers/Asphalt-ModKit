@@ -119,7 +119,7 @@
     <Compile Include="Chat\PageableList\IPageableList.cs" />
     <Compile Include="Chat\PageableList\PageableList.cs" />
     <Compile Include="DllDumper.cs" />
-    <Compile Include="Events\Console\ConsoleLineInputEvent.cs" />
+    <Compile Include="Events\Console\ConsoleInputEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\TreeChopEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\TreeFellEvent.cs" />
     <Compile Include="Events\WorldObjectEvent\RubbleSpawnEvent.cs" />
@@ -214,7 +214,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y /r "$(TargetPath)" "$(SolutionDir)Mods\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /y /r "$(TargetPath)" "$(SolutionDir)Mods\"
+xcopy /y /r "$(TargetPath)" "C:\work\current\Mods\"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

@@ -10,11 +10,11 @@ namespace Asphalt.Events.Console
     /// <summary>
     /// Called when a line was written to the server console
     /// </summary>
-    public class ConsoleLineInputEvent : IEvent
+    public class ConsoleInputEvent : IEvent
     {
         public string Text { get; protected set; }
 
-        public ConsoleLineInputEvent(string pText)
+        public ConsoleInputEvent(string pText)
         {
             Text = pText;
         }

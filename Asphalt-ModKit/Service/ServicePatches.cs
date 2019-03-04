@@ -93,7 +93,7 @@ namespace Asphalt.Service
                     line = Console.ReadLine() ?? string.Empty;
                     line = line.Trim();
 
-                    IEvent evt = new ConsoleLineInputEvent(line);
+                    IEvent evt = new ConsoleInputEvent(line);
                     EventManager.CallEvent(ref evt);
                 }
 
