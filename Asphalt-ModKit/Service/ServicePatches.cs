@@ -109,6 +109,4 @@ namespace Asphalt.Service
             }
         }
     }
-
-
 }
