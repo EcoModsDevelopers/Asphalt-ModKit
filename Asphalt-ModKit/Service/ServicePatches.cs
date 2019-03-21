@@ -19,7 +19,9 @@ namespace Asphalt.Service
         {
             try
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 ServiceHelper.InjectValues();
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             catch (Exception e)
             {
