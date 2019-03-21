@@ -51,6 +51,7 @@ namespace Asphalt.Service
             mi.Invoke(null, new object[] { });
         }
 
+        [Obsolete("Please do not use this method! You don't need to call this anymore.")]
         public static void InjectValues()
         {
             lock (mLocker)
@@ -62,10 +63,13 @@ namespace Asphalt.Service
                 typeof(IModKitPlugin).CreatableTypes().ForEach(pluginType => InjectValues(pluginType));
             }
         }
+
         private static void InjectValues(Type pServerPluginType)
         {
             if (!IsAsphaltPlugin(pServerPluginType))
                 return;
+
+            CallStaticMethod(pServerPluginType, "OnPreInject");
 
             foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IPermissionService)))
                 InjectPermissions(pServerPluginType, pfi);
@@ -79,7 +83,7 @@ namespace Asphalt.Service
             foreach (PropertyFieldInfo pfi in ReflectionUtil.GetPropertyFieldInfos(pServerPluginType, typeof(IUserStorageCollection)))
                 Inject(pServerPluginType, StorageFactory.GetStorageFactory(pServerPluginType, typeof(IUserStorageCollection)), pfi);
 
-            CallStaticMethod(pServerPluginType, "OnInjected");
+            CallStaticMethod(pServerPluginType, "OnInject");
         }
 
         private static void InjectPermissions(Type pServerPlugin, PropertyFieldInfo pfi)
