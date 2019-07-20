@@ -1,4 +1,5 @@
-﻿using Eco.ModKit;
+﻿using Eco.Core.Plugins;
+using Eco.ModKit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +33,16 @@ namespace Asphalt
 
         public static void DumpDlls()
         {
+            var configs = new PluginConfig<ModKitConfig>("ModKit");
+
+            if (!configs.Config.PreserveGeneratedModsAssembly)
+            {
+                configs.Config.PreserveGeneratedModsAssembly = true;
+                configs.Save();
+
+                throw new Exception("PreserveGeneratedModsAssembly was false, please restart!");
+            }
+
             Assembly entryAssembly = Assembly.GetEntryAssembly();
 
             string destDir = Path.Combine(Path.GetDirectoryName(entryAssembly.Location), "extracted");
@@ -51,7 +62,9 @@ namespace Asphalt
             }
 
             File.Delete(Path.Combine(destDir, "Eco.Mods.dll"));
-            File.Copy(Path.Combine(Path.GetTempPath(), "Eco.Mods.dll"), Path.Combine(destDir, "Eco.Mods.dll"));
+
+            //SLG is using Directory.GetCurrentDirectory() here, so we use it, too
+            File.Copy(Path.Combine(Directory.GetCurrentDirectory(), "Eco.Mods.dll"), Path.Combine(destDir, "Eco.Mods.dll"));
 
             File.Delete(Path.Combine(destDir, "EcoServer.exe"));
             File.Copy(entryAssembly.Location, Path.Combine(destDir, "EcoServer.exe"));

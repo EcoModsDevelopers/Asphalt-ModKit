@@ -133,7 +133,7 @@ namespace Asphalt.Utils
             }
         }
 
-        public static void BreakBigRubble(Vector3i blockPosition, int percent)
+        public static void BreakBigRubble(Vector3i blockPosition, int percent, Player pPlayer)
         {
             Random rng = new Random();
             if (rng.Next(100) < percent)
@@ -146,7 +146,7 @@ namespace Asphalt.Utils
                     }
                     if (Vector3.Distance(blockPosition, obj.Position) < 1)
                     {
-                        obj.Breakup();
+                        obj.Breakup(pPlayer);
                     }
                 }
             }
