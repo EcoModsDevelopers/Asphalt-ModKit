@@ -25,9 +25,25 @@ namespace Asphalt.Events.InventoryEvents
         }
     }
 
-    internal class InventoryMoveItemEventHelper
+    internal class InventoryMoveItemEventHelper1
     {
         public static bool Prefix(ItemStack source, ItemStack destination, User user)
+        {
+            InventoryMoveItemEvent imie = new InventoryMoveItemEvent(source, destination, user);
+            IEvent imieEvent = imie;
+
+            EventManager.CallEvent(ref imieEvent);
+
+            if (imie.IsCancelled())
+                return false;
+
+            return true;
+        }
+    }
+
+    internal class InventoryMoveItemEventHelper2
+    {
+        public static bool Prefix(ItemStack source, ItemStack destination, int requestedQuantity, User user)
         {
             InventoryMoveItemEvent imie = new InventoryMoveItemEvent(source, destination, user);
             IEvent imieEvent = imie;

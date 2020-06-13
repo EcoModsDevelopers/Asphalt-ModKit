@@ -33,6 +33,14 @@ namespace Asphalt.Api.Util
                  );
         }
 
+        public static void InstallWithOriginalHelperPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName, Type[] parameterSignature)
+        {
+            Install(
+                    pTypeToReplace.GetMethod(pMethodName, PUBLIC_INSTANCE, null, parameterSignature, null),
+                    pHelperType
+                 );
+        }
+
         public static void InstallWithOriginalHelperNonPublicInstance(Type pTypeToReplace, Type pHelperType, string pMethodName)
         {
             Install(

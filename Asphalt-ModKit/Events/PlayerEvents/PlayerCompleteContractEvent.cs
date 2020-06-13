@@ -17,9 +17,9 @@ namespace Asphalt.Api.Event.PlayerEvents
 
     internal class PlayerCompleteContractEventHelper
     {
-        public static bool Prefix(ref Player player, ref IAtomicAction __result)
+        public static bool Prefix(ref Player actor, ref IAtomicAction __result)
         {
-            PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(ref player);
+            PlayerCompleteContractEvent cEvent = new PlayerCompleteContractEvent(ref actor);
             IEvent iEvent = cEvent;
 
             EventManager.CallEvent(ref iEvent);
