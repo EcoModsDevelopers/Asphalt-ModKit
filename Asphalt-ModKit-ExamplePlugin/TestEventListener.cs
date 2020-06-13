@@ -12,7 +12,7 @@ using System.Text;
 
 namespace EcoTestEventPlugin
 {
-    public class TestEventHandlers
+    public class TestEventListener
     {
 
         // Inventory Events
