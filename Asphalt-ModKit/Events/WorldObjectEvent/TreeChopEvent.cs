@@ -37,7 +37,7 @@ namespace Asphalt.Events.WorldObjectEvent
 
             EventManager.CallEvent(ref tceEvent);
 
-            return tce.IsCancelled();
+            return !tce.IsCancelled();
         }
     }
 }

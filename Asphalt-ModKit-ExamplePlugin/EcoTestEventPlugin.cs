@@ -25,7 +25,7 @@ namespace EcoTestEventPlugin
 
         public string GetStatus()
         {
-            return "";
+            return "Test Asphalt Events and stuff";
         }
 
         public override string ToString()

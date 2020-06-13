@@ -9,6 +9,7 @@ using Eco.Gameplay.Items;
 using Eco.Gameplay.Objects;
 using Eco.Gameplay.Players;
 using Eco.Gameplay.Stats.ConcretePlayerActions;
+using Eco.Shared.Math;
 using Eco.Shared.Networking;
 using System;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace Asphalt.Events
                     Injection.InstallWithOriginalHelperPublicInstance(typeof(SelectionInventory), typeof(InventoryChangeSelectedSlotEventHelper), "SelectIndex");
                     break;
                 case nameof(InventoryMoveItemEvent):
-                    Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper), "MoveStacks");
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper1), "MoveStacks", new Type[] { typeof(ItemStack), typeof(ItemStack), typeof(User) });
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(InventoryChangeSet), typeof(InventoryMoveItemEventHelper2), "MoveStacks", new Type[] { typeof(ItemStack), typeof(ItemStack), typeof(int), typeof(User) });
                     break;
 
                 // Player Events
@@ -70,7 +72,9 @@ namespace Asphalt.Events
                     Injection.InstallCreateAtomicAction(typeof(PayTaxPlayerActionManager), typeof(PlayerPayTaxEventHelper));
                     break;
                 case nameof(PlayerPickUpEvent):
-                    Injection.InstallCreateAtomicAction(typeof(PickUpPlayerActionManager), typeof(PlayerPickUpEventHelper));
+                    //Injection.InstallCreateAtomicAction(typeof(PickUpPlayerActionManager), typeof(PlayerPickUpEventHelper));
+                    Injection.InstallWithOriginalHelperPublicInstance(typeof(PickUpPlayerActionManager), typeof(PlayerPickUpEventHelper1), "CreateAtomicAction", new Type[] { typeof(User), typeof(Item), typeof(Vector3i) });
+                    //Injection.InstallWithOriginalHelperPublicInstance(typeof(PickUpPlayerActionManager), typeof(PlayerPickUpEventHelper2), "CreateAtomicAction", new Type[] { typeof(User), typeof(Type), typeof(Vector3i) });
                     break;
                 case nameof(PlayerPlaceEvent):
                     Injection.InstallCreateAtomicAction(typeof(PlacePlayerActionManager), typeof(PlayerPlaceEventHelper));
